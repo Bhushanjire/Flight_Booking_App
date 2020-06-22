@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstname": "Ashwini",
+      "lastName": "Jire",
+      "emailId": "ashwinijire@gmail.com",
+      "mobileNo": "9922362512",
+      "gender": "Female",
+      "password": "123456"
+    },
+    {
+      "firstName": "Geek",
+      "lastName": "Works",
+      "emailId": "geekworks2017@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "123456",
+      "id": 2
+    }
+  ],
+  "fligthSchedule" : [{
+      "id" : 1
+
+  }]
+}
