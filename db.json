@@ -1,4 +1,36 @@
 {
+  "City": [
+    {
+      "id": 1,
+      "name": "Pune",
+      "state": "Maharashtra",
+      "country": "India"
+    },
+    {
+      "id": 2,
+      "name": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India"
+    },
+    {
+      "id": 3,
+      "name": "Nagpur",
+      "state": "Maharashtra",
+      "country": "India"
+    },
+    {
+      "id": 4,
+      "name": "Delhi",
+      "state": "Maharashtra",
+      "country": "India"
+    },
+    {
+      "id": 5,
+      "name": "Nashik",
+      "state": "Maharashtra",
+      "country": "India"
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -7,7 +39,8 @@
       "emailId": "ashwinijire@gmail.com",
       "mobileNo": "9922362512",
       "gender": "Female",
-      "password": "123456"
+      "password": "123456",
+      "token": ""
     },
     {
       "firstName": "Geek",
@@ -16,11 +49,73 @@
       "mobileNo": "9763075620",
       "gender": "Male",
       "password": "123456",
+      "token": "",
       "id": 2
+    },
+    {
+      "firstName": "Test",
+      "lastName": "User",
+      "emailId": "test@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "456789",
+      "token": "",
+      "id": 3
+    },
+    {
+      "firstName": "Test",
+      "lastName": "User",
+      "emailId": "test@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "12345",
+      "id": 4
     }
   ],
-  "fligthSchedule" : [{
-      "id" : 1
-
-  }]
+  "FligthList": [
+    {
+      "id": 1,
+      "flightNumber": "Ind123",
+      "flightName": "Indigo Gold",
+      "flightcompanyName": "Indigo",
+      "flightTotalSeat": 200
+    },
+    {
+      "id": 2,
+      "flightNumber": "King123",
+      "flightName": "Kingfisher Premium",
+      "flightcompanyName": "Kingfisher",
+      "flightTotalSeat": 250
+    }
+  ],
+  "FlightSchedule": [
+    {
+      "id": 1,
+      "flightId": 1,
+      "fromCityId": 1,
+      "toCityId": 2,
+      "price": "5530",
+      "bookingSeats": 10,
+      "scheduleDate": "2020-06-25",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
+    }
+  ],
+  "FlightBooking": [
+    {
+      "id": 1,
+      "flightId": 1,
+      "userId": 1,
+      "seactNumbers": [
+        1,
+        2
+      ],
+      "passengersName": [
+        "Bhushan Jire",
+        "Ashwini Jire"
+      ],
+      "totalPrice": "10000"
+    }
+  ]
 }

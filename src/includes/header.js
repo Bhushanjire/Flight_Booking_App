@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import "../includes/header.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Link, NavLink } from "react-router-dom";
+import Auth from "../Services/Auth";
 
 const Header = () => {
+  console.log("Auth.authenticated()", Auth.authenticated());
+
+  let LoginUser = "Welcome , Bhushan Jire";
+
   return (
     <div className="header pt-4 mb-5">
       <div className="row">
@@ -13,13 +18,30 @@ const Header = () => {
         </div>
         <div className="col-md-4 text-right">
           <div className="pr-5">
-            <span className="mr-3">Welcome ,Bhushan Jire</span>
-            <NavLink  exact to="/login" className='mr-2'>
-              Login
-            </NavLink>/
-            <NavLink  exact to="/sign-in" className='ml-2'>
-              Sign In
-            </NavLink>
+            <span className="mr-3">
+              {Auth.authenticated() &&  LoginUser }
+            </span>
+            {!Auth.authenticated() && (
+              <NavLink exact to="/login" className="mr-2">
+                Login
+              </NavLink> 
+            )}
+            {
+              !Auth.authenticated() && <span>/</span>
+            }
+
+            {!Auth.authenticated() && (
+              <NavLink exact to="/sign-up" className="ml-2">
+                Sign Up
+              </NavLink>
+            )}
+
+            {Auth.authenticated() && (
+              <a href="#" type="button" onClick={Auth.logout}>
+                Logout
+              </a>
+              // <NavLink exact to="/sign-up" className="ml-2">logout</NavLink>
+            )}
           </div>
         </div>
       </div>

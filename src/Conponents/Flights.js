@@ -1,4 +1,5 @@
 import React from "react";
+
 const Flights = (props) => {
   console.log("flightData", props.flightData);
 

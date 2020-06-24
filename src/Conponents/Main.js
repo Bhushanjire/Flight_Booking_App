@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import Flights from "./Conponents/Flights";
+import Flights from "./Flights";
+// import "./Css/SelectSearch.css";
+// import SelectSearch from "react-select-search";
 
 const Main = () => {
   const [flight, setFlight] = useState({
@@ -9,7 +11,12 @@ const Main = () => {
     travelDate: "",
   });
 
-  let flightData={};
+  // const options = [
+  //   { name: "Swedish", value: "sv" },
+  //   { name: "English", value: "en" },
+  // ];
+
+  let flightData = {};
 
   const onInputChange = (event) => {
     setFlight({ ...flight, [event.target.name]: event.target.value });
@@ -18,10 +25,10 @@ const Main = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("submitHandler", flight);
-    flightData = flight
+    flightData = flight;
   };
 
-  const {fromCity, toCity, travelDate} = flight;
+  const { fromCity, toCity, travelDate } = flight;
   return (
     <div className="container">
       <form onSubmit={(e) => submitHandler(e)}>
@@ -36,6 +43,13 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={fromCity}
             />
+            {/* <SelectSearch
+              options={options}
+              search={true}
+              name="fromCity"
+              placeholder="Choose city"
+              value={fromCity}
+            /> */}
           </div>
           <div className="col-md-3">
             <input
@@ -68,7 +82,7 @@ const Main = () => {
       </form>
       <div className="row mt-3">
         <div className="col-md-12">
-          <Flights  flightData={flightData}/>
+          <Flights flightData={flightData} />
         </div>
       </div>
     </div>

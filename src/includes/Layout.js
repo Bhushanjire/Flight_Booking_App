@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import Header from "../includes/header";
-import LeftMenu from "../includes/leftMenu";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.css";
 
-import Main from "../Main";
+import Header from "../includes/header";
+import Main from "../Conponents/Main";
 import Filter from "../Conponents/Filter";
 
 export default class Layout extends Component {
