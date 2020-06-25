@@ -91,9 +91,25 @@
   "FlightSchedule": [
     {
       "id": 1,
-      "flightId": 1,
-      "fromCityId": 1,
-      "toCityId": 2,
+      "flightId": {
+        "id": 1,
+        "flightNumber": "Ind123",
+        "flightName": "Indigo Gold",
+        "flightcompanyName": "Indigo",
+        "flightTotalSeat": 200
+      },
+      "fromCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "toCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
       "price": "5530",
       "bookingSeats": 10,
       "scheduleDate": "2020-06-25",
@@ -107,14 +123,8 @@
       "id": 1,
       "flightId": 1,
       "userId": 1,
-      "seactNumbers": [
-        1,
-        2
-      ],
-      "passengersName": [
-        "Bhushan Jire",
-        "Ashwini Jire"
-      ],
+      "seactNumbers": [1, 2],
+      "passengersName": ["Bhushan Jire", "Ashwini Jire"],
       "totalPrice": "10000"
     }
   ]

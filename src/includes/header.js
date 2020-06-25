@@ -5,9 +5,10 @@ import { Link, NavLink } from "react-router-dom";
 import Auth from "../Services/Auth";
 
 const Header = () => {
-  console.log("Auth.authenticated()", Auth.authenticated());
 
-  let LoginUser = "Welcome , Bhushan Jire";
+  const {firstName,lastName} = JSON.parse(localStorage.getItem('react-user'))
+
+  let LoginUser = "Welcome ,"+firstName+" "+lastName;
 
   return (
     <div className="header pt-4 mb-5">

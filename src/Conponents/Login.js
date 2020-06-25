@@ -6,42 +6,44 @@ import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 
-const validate = values => {
-  const errors = {}
-  if (!values.emailId) {
-    errors.emailId = 'Required'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailId)) {
-    errors.emailId = 'Invalid email address'
-  }
-  if (!values.emailId) {
-    errors.emailId = 'Email is required'
-  } else if (values.emailId.length < 2) {
-    errors.emailId = 'Minimum be 2 characters or more'
-  }
-  return errors;
-}
+// const validate = (values) => {
+//   const errors = {};
+//   if (!values.emailId) {
+//     errors.emailId = "Required";
+//   } else if (
+//     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailId)
+//   ) {
+//     errors.emailId = "Invalid email address";
+//   }
+//   if (!values.password) {
+//     errors.password = "Email is required";
+//   } else if (values.password.length < 2) {
+//     errors.password = "Minimum be 6 characters or more";
+//   }
+//   return errors;
+// };
 
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning },
-}) => (
-  <div>
-    <label className="control-label">{label}</label>
-    <div>
-      <input
-        {...input}
-        placeholder={label}
-        type={type}
-        className="form-control"
-      />
-      {touched &&
-        ((error && <span className="text-danger">{error}</span>) ||
-          (warning && <span>{warning}</span>))}
-    </div>
-  </div>
-);
+// const renderField = ({
+//   input,
+//   label,
+//   type,
+//   meta: { touched, error, warning },
+// }) => (
+//   <div>
+//     <label className="control-label">{label}</label>
+//     <div>
+//       <input
+//         {...input}
+//         placeholder={label}
+//         type={type}
+//         className="form-control"
+//       />
+//       {touched &&
+//         ((error && <span className="text-danger">{error}</span>) ||
+//           (warning && <span>{warning}</span>))}
+//     </div>
+//   </div>
+// );
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
@@ -60,25 +62,51 @@ let Login = (props) => {
 
   const [isValid, setIsValid] = useState(null);
 
-  useEffect(() => {
-    console.log("Is valid", isValid);
+  const [error, setError] = useState({
+    emailRequired: false,
+    passwordRequired: false,
+    isValidEmail: false,
   });
+
+  useEffect(() => {
+    // console.log("loginData.emailId", loginData.emailId);
+    // console.log("loginData.password", loginData.password);
+    // setErrorMessages()
+    if (loginData.emailId) {
+      console.log("if");
+    } else {
+      console.log("else");
+    }
+  }, [loginData.emailId, loginData.password]);
 
   const onInputChange = (event) => {
     setLogin({ ...loginData, [event.target.name]: event.target.value });
   };
 
   const submitHandler = (e) => {
-    console.log("submitHandler", e);
-    
     e.preventDefault();
-    Auth.login(loginData).then((res) => {
-      if (res) {
-        history.push("/");
-        setIsValid({ isValid: false });
-      } else {
-        setIsValid({ isValid: true });
-      }
+    setErrorMessages();
+    if (loginData && loginData.emailId && loginData.password && !error.isValidEmail) {
+      Auth.login(loginData).then((res) => {
+        if (res) {
+          history.push("/");
+          setIsValid({ isValid: false });
+        } else {
+          setIsValid({ isValid: true });
+        }
+      });
+    } else {
+      console.log("Record not found");
+    }
+  };
+
+  const setErrorMessages = () => {
+    setError({
+      emailRequired: loginData.emailId ? false : true,
+      passwordRequired: loginData.password ? false : true,
+      isValidEmail:
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(loginData.emailId) &&
+        loginData.emailId,
     });
   };
 
@@ -94,30 +122,45 @@ let Login = (props) => {
                 </center>
                 <form onSubmit={(e) => submitHandler(e)}>
                   <div className="form-group">
-                    {/* <label>Email ID:</label> */}
-                    {/* <input
+                    <input
                       type="text"
                       className="form-control"
                       placeholder="Enter email ID"
                       name="emailId"
                       value={emailId}
                       onChange={(e) => onInputChange(e)}
-                      required
+                    />
+                    {error.emailRequired && (
+                      <div className="text-danger">Email is required</div>
+                    )}
+                    {error.isValidEmail && (
+                      <div className="text-danger">Email is not valid</div>
+                    )}
+                    {/* <Field
+                      name="emailId"
+                      component={renderField}
+                      label="Email ID"
+                      type="text"
                     /> */}
-                    <Field name="emailId" component={renderField} label="Email ID" type="text"/>
                   </div>
                   <div className="form-group">
-                    {/* <label>Password:</label> */}
-                    {/* <input
+                    <input
                       type="password"
                       className="form-control"
                       placeholder="Enter password"
                       name="password"
                       value={password}
                       onChange={(e) => onInputChange(e)}
-                      required
+                    />
+                    {error.passwordRequired && (
+                      <div className="text-danger">Password is required</div>
+                    )}
+                    {/* <Field
+                      name="password"
+                      component={renderField}
+                      label="Password"
+                      type="password"
                     /> */}
-                    <Field name="password" component={renderField} label="Password" type="password"/>
                   </div>
                   {isValid && (
                     <div className="alert alert-danger" role="alert">
@@ -126,7 +169,11 @@ let Login = (props) => {
                   )}
                   <div className="form-group">
                     <center>
-                      <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        disabled={pristine || submitting}
+                      >
                         Login
                       </button>
                       &nbsp;&nbsp;
@@ -153,8 +200,8 @@ let Login = (props) => {
     </React.Fragment>
   );
 };
-Login = reduxForm({
-  form: 'contact',
-  validate,
-})(Login);
+// Login = reduxForm({
+//   form: "login",
+//   validate,
+// })(Login);
 export default Login;

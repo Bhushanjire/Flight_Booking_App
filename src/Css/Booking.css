@@ -1,0 +1,13 @@
+.booking-details {
+  height: 100vh;
+  margin: 25px;
+}
+
+.seat {
+  width: 5%;
+  height: 30px;
+  background-color: green;
+  border-radius: 10px 10px 0px 0px;
+  cursor: pointer;
+  color: white;
+}

@@ -38,12 +38,12 @@ const SignIn = () => {
         <div className="row">
           <div className="col-md-12">
             <div className="login-block">
-              <div class="card">
-                <div class="card-body">
+              <div className="card">
+                <div className="card-body">
                   <center>
-                    <h3>Sign In</h3>
+                    <h3>Sign Up</h3>
                   </center>
-                  <div class="form-group">
+                  <div className="form-group">
                     {/* <label>First Name:</label> */}
                     <input
                       type="text"
@@ -54,7 +54,7 @@ const SignIn = () => {
                       value={firstName}
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     {/* <label>Last Name:</label> */}
                     <input
                       type="text"
@@ -65,18 +65,18 @@ const SignIn = () => {
                       value={lastName}
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     {/* <label>Email ID:</label> */}
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter your email ID"
+                      placeholder="Enter email ID"
                       name="emailId"
                       onChange={(e) => onInputChange(e)}
                       value={emailId}
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     {/* <label>Mobile No:</label> */}
                     <input
                       type="text"
@@ -88,7 +88,7 @@ const SignIn = () => {
                     />
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     {/* <label>Gender:</label> */}
 
                     <select
@@ -116,7 +116,7 @@ const SignIn = () => {
                   <div className="form-group">
                     <center>
                       <button type="submit" className="btn btn-primary">
-                        Sign In
+                        Sign Up
                       </button>
                       &nbsp;&nbsp;
                       <NavLink exact to="/" className="ml-2">
