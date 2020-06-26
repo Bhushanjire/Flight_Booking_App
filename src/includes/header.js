@@ -5,31 +5,44 @@ import { Link, NavLink } from "react-router-dom";
 import Auth from "../Services/Auth";
 
 const Header = () => {
+  const { firstName, lastName } = JSON.parse(
+    localStorage.getItem("react-user")
+  );
 
-  const {firstName,lastName} = JSON.parse(localStorage.getItem('react-user'))
-
-  let LoginUser = "Welcome ,"+firstName+" "+lastName;
+  let LoginUser = "Welcome ," + firstName + " " + lastName;
 
   return (
     <div className="header pt-4 mb-5">
       <div className="row">
-        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <span className="ml-1">
+            {
+              // <NavLink exact to="/" className="mr-2">
+              //   Home
+              // </NavLink>
+            }
+            {/* Home */}
+          </span>
+          &nbsp;&nbsp;
+          <span>
+            {/* <NavLink exact to="/login" className="mr-2">
+                My Bookings
+              </NavLink> */}
+            {/* My Booking */}
+          </span>
+        </div>
         <div className="col-md-4 text-center">
           <h3>Book Your Flight</h3>
         </div>
         <div className="col-md-4 text-right">
           <div className="pr-5">
-            <span className="mr-3">
-              {Auth.authenticated() &&  LoginUser }
-            </span>
+            <span className="mr-3">{Auth.authenticated() && LoginUser}</span>
             {!Auth.authenticated() && (
               <NavLink exact to="/login" className="mr-2">
                 Login
-              </NavLink> 
+              </NavLink>
             )}
-            {
-              !Auth.authenticated() && <span>/</span>
-            }
+            {!Auth.authenticated() && <span>/</span>}
 
             {!Auth.authenticated() && (
               <NavLink exact to="/sign-up" className="ml-2">

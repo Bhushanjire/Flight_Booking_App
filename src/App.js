@@ -4,6 +4,7 @@ import Login from "./Conponents/Login";
 import SignUp from "./Conponents/SignUp";
 import NotFound from "./Conponents/NotFound";
 import Booking from "./Conponents/Booking";
+import MyBooking from "./Conponents/MyBooking";
 
 import {
   BrowserRouter as Router,
@@ -20,6 +21,8 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/booking/:id/:noOfPerson" component={Booking} />
+        <Route exact path="/my-booking" component={MyBooking} />
+
         <Route component={NotFound} />
       </Switch>
     </Router>

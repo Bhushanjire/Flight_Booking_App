@@ -171,6 +171,16 @@
       },
       "totalPrice": 11060,
       "id": 3
+    },
+    {
+      "flightSchuleId": "1",
+      "userId": 2,
+      "seactNumbers": [],
+      "passengersName": {
+        "Passanger1": ""
+      },
+      "totalPrice": 11060,
+      "id": 4
     }
   ]
 }
