@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/" component={Layout} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/booking/:id" component={Booking} />
+        <Route exact path="/booking/:id/:noOfPerson" component={Booking} />
         <Route component={NotFound} />
       </Switch>
     </Router>

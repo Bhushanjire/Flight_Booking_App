@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 const Flights = (props) => {
   console.log("Flight component", props.flightData);
-  let { fromCity, toCity, travelDate } = props.flightData;
+  let { fromCity, toCity, travelDate,noOfPerson } = props.flightData;
 
   return (
     <React.Fragment>
@@ -23,7 +23,7 @@ const Flights = (props) => {
             <th scope="col">Arrival</th>
             <th scope="col">Duration</th>
             <th scope="col">Available Seats</th>
-            <th scope="col">Price/Person</th>
+            <th scope="col">Price</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -37,11 +37,11 @@ const Flights = (props) => {
               <td>{row.duration}</td>
               <td>
                 {parseInt(row.flightId.flightTotalSeat) -
-                  parseInt(row.bookingSeats)}
+                  parseInt(row.bookingSeats.length)}
               </td>
-              <td>Rs. {row.price}</td>
+              <td>Rs. {(row.price*noOfPerson)}</td>
               <td>
-                <NavLink exact to={'/booking/'+row.id} className="ml-2">
+                <NavLink exact to={'/booking/'+row.id+'/'+noOfPerson} className="ml-2">
                   <button type="button" className="btn btn-primary">
                     Continue
                   </button>

@@ -3,7 +3,7 @@ const Flight = {
   getList(paramData, callback) {
     return axios
       .get(
-        `http://localhost:3003/flightSchedule?fromCityId.name=${paramData.fromCity}&toCityId.name${paramData.toCity}&scheduleDate=${paramData.travelDate}`
+        `http://localhost:3003/flightSchedule?fromCityId.name=${paramData.fromCity}&toCityId.name=${paramData.toCity}&scheduleDate=${paramData.travelDate}`
       )
       .then((responce) => {
         console.log("Schedule List");
@@ -31,6 +31,27 @@ const Flight = {
       })
       .catch((error) => {
         console.log("Error in getFlightScheduleById", error);
+      });
+  },
+  updateFlightSchedule(id, data, callback) {
+    return axios
+      .put(`http://localhost:3003/flightSchedule/${id}`, data)
+      .then((responce) => {
+        callback(responce);
+      })
+      .catch((error) => {
+        console.log("Error in updateFlightSchedule", error);
+        callback(error);
+      });
+  },
+  addNewBooking(data, callback) {
+    return axios
+      .post(`http://localhost:3003/FlightBooking`, data)
+      .then((responce) => {
+        callback(responce);
+      })
+      .catch((error) => {
+        callback(error);
       });
   },
 };

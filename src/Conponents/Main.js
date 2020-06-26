@@ -11,6 +11,7 @@ const Main = () => {
     fromCity: "",
     toCity: "",
     travelDate: "",
+    noOfPerson : ""
   });
 
   const [flightList, setFlightList] = useState([]);
@@ -49,7 +50,7 @@ const Main = () => {
     // setCities(cityResult.data);
   };
 
-  const { fromCity, toCity, travelDate } = flight;
+  const { fromCity, toCity, travelDate,noOfPerson } = flight;
   return (
     <div className="container">
       {/* {flightList} */}
@@ -112,7 +113,7 @@ const Main = () => {
               ))}
             </select>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-2">
             <input
               type="date"
               className="form-control"
@@ -123,7 +124,18 @@ const Main = () => {
               value={travelDate}
             />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-2">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="No Of Person"
+              id="noOfPerson"
+              name="noOfPerson"
+              onChange={(e) => onInputChange(e)}
+              value={noOfPerson}
+            />
+          </div>
+          <div className="col-md-2">
             <button type="submit" className="btn btn-primary">
               Search
             </button>

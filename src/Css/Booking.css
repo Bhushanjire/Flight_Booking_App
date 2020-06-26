@@ -1,13 +1,60 @@
 .booking-details {
   height: 100vh;
-  margin: 25px;
+  margin: 0px;
 }
 
 .seat {
-  width: 5%;
+  width: 150%;
   height: 30px;
-  background-color: green;
   border-radius: 10px 10px 0px 0px;
+  background-color: green;
   cursor: pointer;
   color: white;
+  clear: both;
+  margin: 3px;
+}
+
+.seat-available {
+  background-color: green;
+  width: 20%;
+  height: 30px;
+}
+
+.seat-booked {
+  background-color: gray;
+  width: 30%;
+  height: 30px;
+}
+.seat-selected {
+  background-color: yellow;
+  width: 30%;
+  height: 30px;
+}
+
+.seat-label {
+  margin-left: 120px;
+}
+
+.booking-details-label {
+  font-weight: 600;
+}
+
+.col-size {
+  /* border: solid 1px green; */
+}
+
+.addMargin {
+  margin-right: 15px;
+}
+
+.booked-seats {
+  background-color: gray;
+}
+
+.available-seats {
+  background-color: green;
+}
+
+.selected-seats{
+  background-color: yellow;
 }
