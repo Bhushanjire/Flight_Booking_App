@@ -17,18 +17,19 @@ const Header = () => {
         <div className="col-md-4">
           <span className="ml-1">
             {
-              // <NavLink exact to="/" className="mr-2">
-              //   Home
-              // </NavLink>
+              <NavLink exact to="/" className="mr-2">
+                Home
+              </NavLink>
             }
             {/* Home */}
           </span>
           &nbsp;&nbsp;
           <span>
-            {/* <NavLink exact to="/login" className="mr-2">
+            {
+              <NavLink exact to="/my-booking" className="mr-2">
                 My Bookings
-              </NavLink> */}
-            {/* My Booking */}
+              </NavLink>
+            }
           </span>
         </div>
         <div className="col-md-4 text-center">

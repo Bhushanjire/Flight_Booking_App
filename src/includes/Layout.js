@@ -11,7 +11,7 @@ export default class Layout extends Component {
       <React.Fragment>
         <div className="row">
           <div className="col-md-12">
-            {/* <Header /> */}
+            <Header />
           </div>
         </div>
         <div className="row">

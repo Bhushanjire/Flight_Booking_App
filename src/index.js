@@ -15,7 +15,7 @@ const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.Fragment>
-    <Header/>
+    {/* <Header/> */}
     <App />
   </React.Fragment>,
   document.getElementById("root")

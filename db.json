@@ -115,7 +115,11 @@
         1,
         2,
         80,
-        81
+        81,
+        32,
+        33,
+        44,
+        45
       ],
       "scheduleDate": "2020-06-25",
       "departuteTime": "12.30 pm",
@@ -142,20 +146,6 @@
       "flightSchuleId": "1",
       "userId": 2,
       "seactNumbers": [
-        7,
-        8
-      ],
-      "passengersName": {
-        "Passanger1": "Bhushan jire",
-        "Passanger2": "Ashwini jire"
-      },
-      "totalPrice": 11060,
-      "id": 2
-    },
-    {
-      "flightSchuleId": "1",
-      "userId": 2,
-      "seactNumbers": [
         80,
         81
       ],
@@ -165,6 +155,34 @@
       },
       "totalPrice": 11060,
       "id": 3
+    },
+    {
+      "flightSchuleId": "1",
+      "userId": 2,
+      "seactNumbers": [
+        32,
+        33
+      ],
+      "passengersName": {
+        "Passanger1": "Ajay Devgan",
+        "Passanger2": "Kajal Devgan"
+      },
+      "totalPrice": 11060,
+      "id": 4
+    },
+    {
+      "flightSchuleId": "1",
+      "userId": 2,
+      "seactNumbers": [
+        44,
+        45
+      ],
+      "passengersName": {
+        "Passanger1": "Test Passenger1",
+        "Passanger2": "Test Passenger2"
+      },
+      "totalPrice": 11060,
+      "id": 5
     }
   ]
 }

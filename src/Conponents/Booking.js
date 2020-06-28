@@ -76,7 +76,8 @@ const Booking = () => {
         totalPrice: bookingDetails.price * noOfPerson,
       };
       Flight.addNewBooking(postData, (result) => {
-        history.push("/");
+        // history.push("/");
+        window.location = "/";
       });
     });
   };
@@ -152,7 +153,7 @@ const Booking = () => {
   return (
     <React.Fragment>
       {/* <Header/> */}
-      <div className="row">
+      <div className="row mt-3">
         <div className="col-md-4 booking-details">
           <form onSubmit={(e) => submitHandler(e)}>
             <div className="card ml-2">
