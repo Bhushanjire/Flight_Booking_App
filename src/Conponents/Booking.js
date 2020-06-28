@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import "../Css/Booking.css";
 import Flight from "../Services/Fligth.service";
 import Header from "../includes/header";
@@ -10,7 +10,9 @@ const Booking = () => {
   const { id, noOfPerson } = useParams();
   const items = [];
   const passengers = [];
-  const selectedSeats = [];
+  const tempSelectedSeats = [];
+  const temp = [];
+  const history = useHistory();
   const [passenger, setPassenger] = useState([]);
   const [selectedSeat, setSelectedSeat] = useState([]);
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
@@ -56,27 +58,40 @@ const Booking = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    Flight.updateFlightSchedule(id, bookingDetails, (result) => {
-      console.log("updateFlightSchedule", result);
+    let scheduleData = bookingDetails;
+
+    scheduleData.bookingSeats = bookingDetails.bookingSeats.concat(
+      selectedSeat
+    );
+
+    console.log("Updated scheduleData", scheduleData);
+    Flight.updateFlightSchedule(id, scheduleData, (result) => {
+      console.log("Flight Schedule Updated", result);
+
       let postData = {
         flightSchuleId: id,
         userId: loginUser.id,
-        seactNumbers: selectedSeats,
+        seactNumbers: selectedSeat,
         passengersName: passenger,
         totalPrice: bookingDetails.price * noOfPerson,
       };
       Flight.addNewBooking(postData, (result) => {
-        console.log("Add booking", result);
+        history.push("/");
       });
     });
   };
 
   const selectSeat = (e, seatNo) => {
-    if (selectedSeats.length <= noOfPerson) {
-      selectedSeats.push(seatNo);
-      bookingDetails.bookingSeats.push(seatNo);
+    if (selectedSeat.length < noOfPerson) {
+      if (selectedSeat.includes(seatNo)) {
+        setSelectedSeat(selectedSeat.filter((item) => item != seatNo));
+      } else {
+        setSelectedSeat([...selectedSeat, seatNo]);
+      }
     } else {
-      console.log("else");
+      if (selectedSeat.includes(seatNo)) {
+        setSelectedSeat(selectedSeat.filter((item) => item != seatNo));
+      }
     }
   };
 
@@ -85,26 +100,23 @@ const Booking = () => {
     if (i % 3 == 0) {
       addDiv = true;
     }
-
+    let addEvent = true;
     let isSeatBA = "background-color";
 
     if (bookingDetails.bookingSeats.includes(i)) {
       isSeatBA = "booked-seats";
+      addEvent = false;
     }
-
-    let selected = [31, 67, 90, 100, 101];
-
-    if (selected.includes(i)) {
+    if (selectedSeat.includes(i)) {
       isSeatBA = "selected-seats";
     }
-
     items.push(
       <React.Fragment>
         <div className="col-md-1 col-size" key={i + 2}>
           <div
             className={"seat text-center pt-1 " + isSeatBA}
             key={i}
-            onClick={(e) => selectSeat(e, i)}
+            onClick={addEvent ? (e) => selectSeat(e, i) : null}
           >
             {i}
           </div>
@@ -212,8 +224,9 @@ const Booking = () => {
             <div className="col-md-2 seat-booked text-center pt-1">Booked</div>
             <div className="col-md-2"></div>
 
-            <div className="col-md-2 seat-selected text-center pt-1">Selected</div>
-
+            <div className="col-md-2 seat-selected text-center pt-1">
+              Selected
+            </div>
           </div>
 
           <div className="row mb-2">{items}</div>

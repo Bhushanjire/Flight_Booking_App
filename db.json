@@ -114,17 +114,8 @@
       "bookingSeats": [
         1,
         2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        15,
-        56,
-        78,
-        90,
-        25,
-        26
+        80,
+        81
       ],
       "scheduleDate": "2020-06-25",
       "departuteTime": "12.30 pm",
@@ -150,7 +141,10 @@
     {
       "flightSchuleId": "1",
       "userId": 2,
-      "seactNumbers": [],
+      "seactNumbers": [
+        7,
+        8
+      ],
       "passengersName": {
         "Passanger1": "Bhushan jire",
         "Passanger2": "Ashwini jire"
@@ -162,8 +156,8 @@
       "flightSchuleId": "1",
       "userId": 2,
       "seactNumbers": [
-        25,
-        26
+        80,
+        81
       ],
       "passengersName": {
         "Passanger1": "Bhushan jire",
@@ -171,16 +165,6 @@
       },
       "totalPrice": 11060,
       "id": 3
-    },
-    {
-      "flightSchuleId": "1",
-      "userId": 2,
-      "seactNumbers": [],
-      "passengersName": {
-        "Passanger1": ""
-      },
-      "totalPrice": 11060,
-      "id": 4
     }
   ]
 }

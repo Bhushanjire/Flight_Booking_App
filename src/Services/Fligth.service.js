@@ -3,7 +3,7 @@ const Flight = {
   getList(paramData, callback) {
     return axios
       .get(
-        `http://localhost:3003/flightSchedule?fromCityId.name=${paramData.fromCity}&toCityId.name=${paramData.toCity}&scheduleDate=${paramData.travelDate}`
+        `http://localhost:3003/FlightSchedule?fromCityId.name=${paramData.fromCity}&toCityId.name=${paramData.toCity}&scheduleDate=${paramData.travelDate}`
       )
       .then((responce) => {
         console.log("Schedule List");
@@ -25,7 +25,7 @@ const Flight = {
   },
   getFlightScheduleById(id, callback) {
     return axios
-      .get(`http://localhost:3003/flightSchedule/${id}`)
+      .get(`http://localhost:3003/FlightSchedule/${id}`)
       .then((responce) => {
         callback(responce);
       })
@@ -35,7 +35,7 @@ const Flight = {
   },
   updateFlightSchedule(id, data, callback) {
     return axios
-      .put(`http://localhost:3003/flightSchedule/${id}`, data)
+      .put(`http://localhost:3003/FlightSchedule/${id}`, data)
       .then((responce) => {
         callback(responce);
       })
