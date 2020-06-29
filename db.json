@@ -75,14 +75,28 @@
   "FligthList": [
     {
       "id": 1,
-      "flightNumber": "Ind123",
+      "flightNumber": "1",
       "flightName": "Indigo Gold",
       "flightcompanyName": "Indigo",
       "flightTotalSeat": 200
     },
     {
       "id": 2,
-      "flightNumber": "King123",
+      "flightNumber": "2",
+      "flightName": "Indigo Premium",
+      "flightcompanyName": "Indigo",
+      "flightTotalSeat": 100
+    },
+    {
+      "id": 3,
+      "flightNumber": "3",
+      "flightName": "Kingfisher Gold",
+      "flightcompanyName": "Kingfisher",
+      "flightTotalSeat": 250
+    },
+    {
+      "id": 4,
+      "flightNumber": "4",
       "flightName": "Kingfisher Premium",
       "flightcompanyName": "Kingfisher",
       "flightTotalSeat": 250
@@ -119,9 +133,123 @@
         32,
         33,
         44,
-        45
+        45,
+        35,
+        36
       ],
-      "scheduleDate": "2020-06-25",
+      "scheduleDate": "2020-06-30",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
+    },
+    {
+      "id": 2,
+      "flightId": {
+        "id": 2,
+        "flightNumber": "King123",
+        "flightName": "Kingfisher Premium",
+        "flightcompanyName": "Kingfisher",
+        "flightTotalSeat": 150
+      },
+      "fromCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "toCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "price": "4500",
+      "bookingSeats": [],
+      "scheduleDate": "2020-06-30",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
+    },
+    {
+      "id": 3,
+      "flightId": {
+        "id": 3,
+        "flightNumber": "3",
+        "flightName": "Kingfisher Gold",
+        "flightcompanyName": "Kingfisher",
+        "flightTotalSeat": 250
+      },
+      "fromCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "toCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "price": "5530",
+      "bookingSeats": [],
+      "scheduleDate": "2020-06-30",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
+    },
+    {
+      "id": 4,
+      "flightId": {
+        "id": 3,
+        "flightNumber": "3",
+        "flightName": "Kingfisher Gold",
+        "flightcompanyName": "Kingfisher",
+        "flightTotalSeat": 250
+      },
+      "toCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "fromCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "price": "5530",
+      "bookingSeats": [],
+      "scheduleDate": "2020-06-30",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
+    },
+    {
+      "id": 5,
+      "flightId": {
+        "id": 1,
+        "flightNumber": "1",
+        "flightName": "Indigo Gold",
+        "flightcompanyName": "Indigo",
+        "flightTotalSeat": 200
+      },
+      "fromCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "toCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "price": "5530",
+      "bookingSeats": [],
+      "scheduleDate": "2020-06-01",
       "departuteTime": "12.30 pm",
       "arrivalTime": "03.30 pm",
       "duration": "3h"
@@ -183,6 +311,20 @@
       },
       "totalPrice": 11060,
       "id": 5
+    },
+    {
+      "flightSchuleId": "1",
+      "userId": 2,
+      "seactNumbers": [
+        35,
+        36
+      ],
+      "passengersName": {
+        "Passanger1": "Test 1",
+        "Passanger2": "Test2"
+      },
+      "totalPrice": 11060,
+      "id": 6
     }
   ]
 }

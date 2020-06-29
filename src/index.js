@@ -5,7 +5,13 @@ import App from "./App";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import { reducer as formReducer } from "redux-form";
-import Header from "./includes/header";
+import Header from "../src/Components/Header";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
+} from "react-router-dom";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -15,8 +21,10 @@ const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.Fragment>
-    {/* <Header/> */}
-    <App />
+    <Router>
+      <Header />
+      <App />
+    </Router>
   </React.Fragment>,
   document.getElementById("root")
 );

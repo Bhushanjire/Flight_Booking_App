@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import "../Css/Booking.css";
 import Flight from "../Services/Fligth.service";
-import Header from "../includes/header";
-import { render } from "@testing-library/react";
-import axios from "axios";
-
+import Auth from "../Services/Auth";
+import {
+  Link,
+  NavLink,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 const Booking = () => {
   const { id, noOfPerson } = useParams();
   const items = [];
@@ -15,6 +19,10 @@ const Booking = () => {
   const history = useHistory();
   const [passenger, setPassenger] = useState([]);
   const [selectedSeat, setSelectedSeat] = useState([]);
+  const [validation, setValidation] = useState({
+    seat: false,
+    passengers: false,
+  });
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
 
   const [bookingDetails, setBookingDetails] = useState({
@@ -47,9 +55,13 @@ const Booking = () => {
   });
 
   const loadSchedule = () => {
-    Flight.getFlightScheduleById(id, (result) => {
-      setBookingDetails(result.data);
-    });
+    Flight.getFlightScheduleById(id)
+      .then((result) => {
+        setBookingDetails(result.data);
+      })
+      .catch((error) => {
+        console.log("Error in getFlightScheduleById", error);
+      });
   };
 
   useEffect(() => {
@@ -60,26 +72,47 @@ const Booking = () => {
     event.preventDefault();
     let scheduleData = bookingDetails;
 
+    if (passenger) {
+      console.log("ifff", passenger);
+    } else {
+      console.log("else", passenger);
+    }
+
+    if (noOfPerson == selectedSeat.length) {
+      setValidation({ ...validation, seat: false });
+    } else {
+      setValidation({
+        seat: true,
+      });
+    }
+
+    return;
+
     scheduleData.bookingSeats = bookingDetails.bookingSeats.concat(
       selectedSeat
     );
 
-    console.log("Updated scheduleData", scheduleData);
-    Flight.updateFlightSchedule(id, scheduleData, (result) => {
-      console.log("Flight Schedule Updated", result);
-
-      let postData = {
-        flightSchuleId: id,
-        userId: loginUser.id,
-        seactNumbers: selectedSeat,
-        passengersName: passenger,
-        totalPrice: bookingDetails.price * noOfPerson,
-      };
-      Flight.addNewBooking(postData, (result) => {
-        // history.push("/");
-        window.location = "/";
+    Flight.updateFlightSchedule(id, scheduleData)
+      .then((result) => {
+        let postData = {
+          flightSchuleId: id,
+          userId: loginUser.id,
+          seactNumbers: selectedSeat,
+          passengersName: passenger,
+          totalPrice: bookingDetails.price * noOfPerson,
+        };
+        Flight.addNewBooking(postData)
+          .then((result) => {
+            history.push("/");
+            // window.location = "/";
+          })
+          .catch((error) => {
+            console.log("Error in add new booking", error);
+          });
+      })
+      .catch((error) => {
+        console.log("Error in updateFlightSchedule", error);
       });
-    });
   };
 
   const selectSeat = (e, seatNo) => {
@@ -96,7 +129,7 @@ const Booking = () => {
     }
   };
 
-  for (let i = 1; i <= 200; i++) {
+  for (let i = 1; i <= bookingDetails.flightId.flightTotalSeat; i++) {
     let addDiv = false;
     if (i % 3 == 0) {
       addDiv = true;
@@ -143,6 +176,7 @@ const Booking = () => {
               placeholder="Enter Name"
               name={"Passanger" + i}
               onChange={(e) => onInputChange(e)}
+              required
             />
           </div>
         </div>
@@ -207,9 +241,21 @@ const Booking = () => {
 
                 <div className="row mb-2">
                   <div className="col-md-12 text-center">
-                    <button type="submit" className="btn btn-warning">
-                      Confirm & Book
-                    </button>
+                    {Auth.authenticated() && (
+                      <button type="submit" className="btn btn-warning">
+                        Confirm & Book
+                      </button>
+                    )}
+
+                    {!Auth.authenticated() && (
+                      <Router>
+                        <NavLink exact to="/login">
+                          <button type="button" className="btn btn-warning">
+                            Login for booking
+                          </button>
+                        </NavLink>
+                      </Router>
+                    )}
                   </div>
                 </div>
               </div>
@@ -217,6 +263,11 @@ const Booking = () => {
           </form>
         </div>
         <div className="col-md-6 booking-details">
+          {validation.seat && (
+            <div className="text-danger text-center mb-2">
+              Please select seat(s)
+            </div>
+          )}
           <div className="row mb-2 text-center seat-label">
             <div className="col-md-2 seat-available text-center pt-1">
               Available

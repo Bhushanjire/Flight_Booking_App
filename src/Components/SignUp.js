@@ -52,6 +52,7 @@ const SignIn = () => {
                       name="firstName"
                       onChange={(e) => onInputChange(e)}
                       value={firstName}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -63,6 +64,7 @@ const SignIn = () => {
                       name="lastName"
                       onChange={(e) => onInputChange(e)}
                       value={lastName}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -74,6 +76,7 @@ const SignIn = () => {
                       name="emailId"
                       onChange={(e) => onInputChange(e)}
                       value={emailId}
+                      required
                     />
                   </div>
                   <div className="form-group">
@@ -85,6 +88,7 @@ const SignIn = () => {
                       name="mobileNo"
                       onChange={(e) => onInputChange(e)}
                       value={mobileNo}
+                      required
                     />
                   </div>
 
@@ -96,6 +100,7 @@ const SignIn = () => {
                       name="gender"
                       onChange={(e) => onInputChange(e)}
                       value={gender}
+                      required
                     >
                       <option value="">--Select Gender</option>
                       <option value="Male">Male</option>
@@ -111,6 +116,7 @@ const SignIn = () => {
                       name="password"
                       onChange={(e) => onInputChange(e)}
                       value={password}
+                      required
                     />
                   </div>
                   <div className="form-group">

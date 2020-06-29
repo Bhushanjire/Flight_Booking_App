@@ -11,16 +11,18 @@ const Main = () => {
     fromCity: "",
     toCity: "",
     travelDate: "",
-    noOfPerson : ""
+    noOfPerson: "",
   });
 
   const [flightList, setFlightList] = useState([]);
-
   const [cities, setCities] = useState([]);
+  const [validation, setValidation] = useState({
+    isFound: false,
+  });
 
   const onInputChange = (event) => {
-    console.log(event.target.name+' '+event.target.value );
-    
+    console.log(event.target.name + " " + event.target.value);
+
     setFlight({ ...flight, [event.target.name]: event.target.value });
   };
 
@@ -35,22 +37,31 @@ const Main = () => {
   };
 
   const loadData = () => {
-    console.log('Flight',flight);
-    
-    Flight.getList(flight, (result) => {
-      setFlightList(result.data);
+    setValidation({
+      isFound: true,
     });
+    Flight.getList(flight)
+      .then((result) => {
+        setFlightList(result.data);
+      })
+      .catch((error) => {
+        console.log("Error in getList", error);
+      });
   };
 
   const loadCities = () => {
-    Flight.getCityList((result) => {
-      setCities(result.data);
-    });
+    Flight.getCityList()
+      .then((result) => {
+        setCities(result.data);
+      })
+      .catch((error) => {
+        console.log("Error in get city list", error);
+      });
 
     // setCities(cityResult.data);
   };
 
-  const { fromCity, toCity, travelDate,noOfPerson } = flight;
+  const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
     <div className="container">
       {/* {flightList} */}
@@ -72,8 +83,9 @@ const Main = () => {
               id="fromCity"
               name="fromCity"
               onChange={(e) => onInputChange(e)}
+              required
             >
-              <option  value=''>--From--</option>
+              <option value="">--From--</option>
               {cities.map((row) => (
                 <option key={row.id} value={row.name}>
                   {row.name}
@@ -104,8 +116,9 @@ const Main = () => {
               id="toCity"
               name="toCity"
               onChange={(e) => onInputChange(e)}
+              required
             >
-              <option value=''>--To--</option>
+              <option value="">--To--</option>
               {cities.map((row) => (
                 <option key={row.id} value={row.name}>
                   {row.name}
@@ -122,6 +135,7 @@ const Main = () => {
               name="travelDate"
               onChange={(e) => onInputChange(e)}
               value={travelDate}
+              required
             />
           </div>
           <div className="col-md-2">
@@ -133,6 +147,7 @@ const Main = () => {
               name="noOfPerson"
               onChange={(e) => onInputChange(e)}
               value={noOfPerson}
+              required
             />
           </div>
           <div className="col-md-2">
@@ -146,6 +161,12 @@ const Main = () => {
         <div className="col-md-12">
           {flightList.length > 0 && (
             <Flights flightData={flight} flightList={flightList} />
+          )}
+
+          {flightList.length < 1 && validation.isFound && (
+            <div className="text-danger text-center mt-3">
+              <h3>Flight not found</h3>
+            </div>
           )}
         </div>
       </div>

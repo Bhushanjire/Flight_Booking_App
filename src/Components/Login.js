@@ -6,45 +6,6 @@ import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 
-// const validate = (values) => {
-//   const errors = {};
-//   if (!values.emailId) {
-//     errors.emailId = "Required";
-//   } else if (
-//     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailId)
-//   ) {
-//     errors.emailId = "Invalid email address";
-//   }
-//   if (!values.password) {
-//     errors.password = "Email is required";
-//   } else if (values.password.length < 2) {
-//     errors.password = "Minimum be 6 characters or more";
-//   }
-//   return errors;
-// };
-
-// const renderField = ({
-//   input,
-//   label,
-//   type,
-//   meta: { touched, error, warning },
-// }) => (
-//   <div>
-//     <label className="control-label">{label}</label>
-//     <div>
-//       <input
-//         {...input}
-//         placeholder={label}
-//         type={type}
-//         className="form-control"
-//       />
-//       {touched &&
-//         ((error && <span className="text-danger">{error}</span>) ||
-//           (warning && <span>{warning}</span>))}
-//     </div>
-//   </div>
-// );
-
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
 
@@ -86,15 +47,26 @@ let Login = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setErrorMessages();
-    if (loginData && loginData.emailId && loginData.password && !error.isValidEmail) {
-      Auth.login(loginData).then((res) => {
-        if (res) {
-          history.push("/");
-          setIsValid({ isValid: false });
-        } else {
-          setIsValid({ isValid: true });
-        }
-      });
+    if (
+      loginData &&
+      loginData.emailId &&
+      loginData.password &&
+      !error.isValidEmail
+    ) {
+      Auth.login(loginData)
+        .then((res) => {
+          if (res.data.length > 0) {
+            localStorage.setItem("react-user", JSON.stringify(res.data[0]));
+            localStorage.setItem("react-token", "token12345");
+            history.push("/");
+            setIsValid({ isValid: false });
+          } else {
+            setIsValid({ isValid: true });
+          }
+        })
+        .catch((error) => {
+          console.log("Error in login", error);
+        });
     } else {
       console.log("Record not found");
     }
