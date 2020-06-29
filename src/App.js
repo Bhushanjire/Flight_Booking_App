@@ -5,6 +5,7 @@ import SignUp from "./Components/SignUp";
 import NotFound from "./Components/NotFound";
 import Booking from "./Components/Booking";
 import MyBooking from "./Components/MyBooking";
+import Header from './Components/Header';
 
 import {
   BrowserRouter as Router,
@@ -15,7 +16,8 @@ import {
 
 function App() {
   return (
-    <Router>
+    <React.Fragment>
+      <Header />
       <Switch>
         <Route exact path="/" component={Layout} />
         <Route exact path="/login" component={Login} />
@@ -24,7 +26,7 @@ function App() {
         <Route exact path="/my-booking" component={MyBooking} />
         <Route component={NotFound} />
       </Switch>
-    </Router>
+      </React.Fragment>
   );
 }
 

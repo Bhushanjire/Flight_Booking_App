@@ -3,9 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
 
-// import "./Css/SelectSearch.css";
-// import SelectSearch from "react-select-search";
-
 const Main = () => {
   const [flight, setFlight] = useState({
     fromCity: "",
@@ -63,6 +60,7 @@ const Main = () => {
 
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
+    
     <div className="container">
       {/* {flightList} */}
       <form onSubmit={(e) => submitHandler(e)}>

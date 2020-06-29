@@ -22,7 +22,6 @@ const store = createStore(rootReducer);
 ReactDOM.render(
   <React.Fragment>
     <Router>
-      <Header />
       <App />
     </Router>
   </React.Fragment>,
