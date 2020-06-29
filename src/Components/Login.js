@@ -5,6 +5,9 @@ import Auth from "../Services/Auth";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
+import Header from "../Components/Header";
+
+export const MyContext = React.createContext({});
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
@@ -12,7 +15,8 @@ let Login = (props) => {
   let history = useHistory();
 
   if (Auth.authenticated()) {
-    window.location = "/";
+    history.push("/");
+    // window.location = "/";
   }
 
   const [loginData, setLogin] = useState({
@@ -30,9 +34,6 @@ let Login = (props) => {
   });
 
   useEffect(() => {
-    // console.log("loginData.emailId", loginData.emailId);
-    // console.log("loginData.password", loginData.password);
-    // setErrorMessages()
     if (loginData.emailId) {
       console.log("if");
     } else {
@@ -57,9 +58,14 @@ let Login = (props) => {
         .then((res) => {
           if (res.data.length > 0) {
             localStorage.setItem("react-user", JSON.stringify(res.data[0]));
+
+            const newContext = React.createContext({ color: "black" });
+
             localStorage.setItem("react-token", "token12345");
             history.push("/");
             setIsValid({ isValid: false });
+            // history.push("/");
+            window.location = "/";
           } else {
             setIsValid({ isValid: true });
           }
@@ -84,6 +90,9 @@ let Login = (props) => {
 
   return (
     <React.Fragment>
+      {/* <MyContext.Provider value={loginData}>
+        <Header />
+      </MyContext.Provider> */}
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">

@@ -17,6 +17,9 @@ const Flight = {
   addNewBooking(data) {
     return axios.post(`http://localhost:3003/FlightBooking`, data);
   },
+  getMyBookings(id){
+    return axios.get(`http://localhost:3003/FlightBooking?userId=${id}`);
+  }
 };
 
 export default Flight;

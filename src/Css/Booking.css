@@ -1,5 +1,5 @@
 .booking-details {
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0px;
 }
 
@@ -53,4 +53,8 @@
 
 .selected-seats{
   background-color: yellow;
+}
+.seat-block{
+  height: 60vh;
+  overflow-y: scroll;
 }

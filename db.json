@@ -70,6 +70,15 @@
       "gender": "Male",
       "password": "12345",
       "id": 4
+    },
+    {
+      "firstName": "Bhushan",
+      "lastName": "Jire",
+      "emailId": "bhushanjire@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "123456",
+      "id": 5
     }
   ],
   "FligthList": [
@@ -127,15 +136,7 @@
       "price": "5530",
       "bookingSeats": [
         1,
-        2,
-        80,
-        81,
-        32,
-        33,
-        44,
-        45,
-        35,
-        36
+        2
       ],
       "scheduleDate": "2020-06-30",
       "departuteTime": "12.30 pm",
@@ -191,9 +192,9 @@
         "state": "Maharashtra",
         "country": "India"
       },
-      "price": "5530",
+      "price": "6000",
       "bookingSeats": [],
-      "scheduleDate": "2020-06-30",
+      "scheduleDate": "2020-07-01",
       "departuteTime": "12.30 pm",
       "arrivalTime": "03.30 pm",
       "duration": "3h"
@@ -219,9 +220,9 @@
         "state": "Maharashtra",
         "country": "India"
       },
-      "price": "5530",
+      "price": "7000",
       "bookingSeats": [],
-      "scheduleDate": "2020-06-30",
+      "scheduleDate": "2020-07-01",
       "departuteTime": "12.30 pm",
       "arrivalTime": "03.30 pm",
       "duration": "3h"
@@ -247,9 +248,9 @@
         "state": "Maharashtra",
         "country": "India"
       },
-      "price": "5530",
+      "price": "6500",
       "bookingSeats": [],
-      "scheduleDate": "2020-06-01",
+      "scheduleDate": "2020-07-01",
       "departuteTime": "12.30 pm",
       "arrivalTime": "03.30 pm",
       "duration": "3h"
@@ -257,74 +258,49 @@
   ],
   "FlightBooking": [
     {
-      "id": 1,
-      "flightSchuleId": 1,
-      "userId": 1,
-      "seactNumbers": [
-        1,
-        2
-      ],
-      "passengersName": [
-        "Bhushan Jire",
-        "Ashwini Jire"
-      ],
-      "totalPrice": "10000"
-    },
-    {
       "flightSchuleId": "1",
       "userId": 2,
       "seactNumbers": [
-        80,
-        81
+        1,
+        2
       ],
       "passengersName": {
         "Passanger1": "Bhushan jire",
         "Passanger2": "Ashwini jire"
       },
       "totalPrice": 11060,
-      "id": 3
-    },
-    {
-      "flightSchuleId": "1",
-      "userId": 2,
-      "seactNumbers": [
-        32,
-        33
-      ],
-      "passengersName": {
-        "Passanger1": "Ajay Devgan",
-        "Passanger2": "Kajal Devgan"
+      "bookingDetails": {
+        "id": 1,
+        "flightId": {
+          "id": 1,
+          "flightNumber": "Ind123",
+          "flightName": "Indigo Gold",
+          "flightcompanyName": "Indigo",
+          "flightTotalSeat": 200
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "5530",
+        "bookingSeats": [
+          1,
+          2
+        ],
+        "scheduleDate": "2020-06-30",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
       },
-      "totalPrice": 11060,
-      "id": 4
-    },
-    {
-      "flightSchuleId": "1",
-      "userId": 2,
-      "seactNumbers": [
-        44,
-        45
-      ],
-      "passengersName": {
-        "Passanger1": "Test Passenger1",
-        "Passanger2": "Test Passenger2"
-      },
-      "totalPrice": 11060,
-      "id": 5
-    },
-    {
-      "flightSchuleId": "1",
-      "userId": 2,
-      "seactNumbers": [
-        35,
-        36
-      ],
-      "passengersName": {
-        "Passanger1": "Test 1",
-        "Passanger2": "Test2"
-      },
-      "totalPrice": 11060,
-      "id": 6
+      "id": 1
     }
   ]
 }

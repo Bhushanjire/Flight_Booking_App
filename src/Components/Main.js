@@ -60,7 +60,6 @@ const Main = () => {
 
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
-    
     <div className="container">
       {/* {flightList} */}
       <form onSubmit={(e) => submitHandler(e)}>
@@ -83,7 +82,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               required
             >
-              <option value="">--From--</option>
+              <option value="">--Source--</option>
               {cities.map((row) => (
                 <option key={row.id} value={row.name}>
                   {row.name}
@@ -116,7 +115,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               required
             >
-              <option value="">--To--</option>
+              <option value="">--Destination--</option>
               {cities.map((row) => (
                 <option key={row.id} value={row.name}>
                   {row.name}
@@ -138,7 +137,7 @@ const Main = () => {
           </div>
           <div className="col-md-2">
             <input
-              type="text"
+              type="number"
               className="form-control"
               placeholder="No Of Person"
               id="noOfPerson"
@@ -146,6 +145,8 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={noOfPerson}
               required
+              min="1"
+              max="50"
             />
           </div>
           <div className="col-md-2">
@@ -160,10 +161,9 @@ const Main = () => {
           {flightList.length > 0 && (
             <Flights flightData={flight} flightList={flightList} />
           )}
-
           {flightList.length < 1 && validation.isFound && (
-            <div className="text-danger text-center mt-3">
-              <h3>Flight not found</h3>
+            <div class="alert alert-danger mt-2 text-center" role="alert">
+              Ohh! Flight is not found
             </div>
           )}
         </div>

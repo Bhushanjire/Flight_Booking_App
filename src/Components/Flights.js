@@ -1,16 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 const Flights = (props) => {
-  console.log("Flight component", props.flightData);
-  let { fromCity, toCity, travelDate,noOfPerson } = props.flightData;
-
+  let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
   return (
     <React.Fragment>
       <div className="row">
         <div className="col-md-12 mt-3 text-center">
-          <h4>
-            {fromCity} To {toCity} - ({travelDate})
-          </h4>
+          <div class="alert alert-success" role="alert">
+          <strong>{fromCity} To {toCity} - ({travelDate}</strong>)
+          </div>
         </div>
       </div>
 
@@ -24,6 +22,7 @@ const Flights = (props) => {
             <th scope="col">Duration</th>
             <th scope="col">Available Seats</th>
             <th scope="col">Price</th>
+            <th scope="col">Total Price</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -39,9 +38,14 @@ const Flights = (props) => {
                 {parseInt(row.flightId.flightTotalSeat) -
                   parseInt(row.bookingSeats.length)}
               </td>
-              <td>Rs. {(row.price*noOfPerson)}</td>
+              <td>Rs. {row.price}</td>
+              <td>Rs. {row.price * noOfPerson}</td>
               <td>
-                <NavLink exact to={'/booking/'+row.id+'/'+noOfPerson} className="ml-2">
+                <NavLink
+                  exact
+                  to={"/booking/" + row.id + "/" + noOfPerson}
+                  className="ml-2"
+                >
                   <button type="button" className="btn btn-primary">
                     Continue
                   </button>

@@ -22,6 +22,7 @@ const Booking = () => {
   const [validation, setValidation] = useState({
     seat: false,
     passengers: false,
+    bookSuccess: false,
   });
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
 
@@ -70,49 +71,44 @@ const Booking = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    let scheduleData = bookingDetails;
-
-    if (passenger) {
-      console.log("ifff", passenger);
-    } else {
-      console.log("else", passenger);
-    }
-
     if (noOfPerson == selectedSeat.length) {
       setValidation({ ...validation, seat: false });
+      let scheduleData = bookingDetails;
+
+      scheduleData.bookingSeats = bookingDetails.bookingSeats.concat(
+        selectedSeat
+      );
+
+      Flight.updateFlightSchedule(id, scheduleData)
+        .then((result) => {
+          let postData = {
+            flightSchuleId: id,
+            userId: loginUser.id,
+            seactNumbers: selectedSeat,
+            passengersName: passenger,
+            totalPrice: bookingDetails.price * noOfPerson,
+            bookingDetails : scheduleData
+          };
+          Flight.addNewBooking(postData)
+            .then((result) => {
+              setValidation({ ...validation, bookSuccess: true,seat : false });
+              setTimeout(() => {
+                history.push("/my-booking/"+loginUser.id);
+              }, 1000);
+              // window.location = "/";
+            })
+            .catch((error) => {
+              console.log("Error in add new booking", error);
+            });
+        })
+        .catch((error) => {
+          console.log("Error in updateFlightSchedule", error);
+        });
     } else {
       setValidation({
         seat: true,
       });
     }
-
-    return;
-
-    scheduleData.bookingSeats = bookingDetails.bookingSeats.concat(
-      selectedSeat
-    );
-
-    Flight.updateFlightSchedule(id, scheduleData)
-      .then((result) => {
-        let postData = {
-          flightSchuleId: id,
-          userId: loginUser.id,
-          seactNumbers: selectedSeat,
-          passengersName: passenger,
-          totalPrice: bookingDetails.price * noOfPerson,
-        };
-        Flight.addNewBooking(postData)
-          .then((result) => {
-            history.push("/");
-            // window.location = "/";
-          })
-          .catch((error) => {
-            console.log("Error in add new booking", error);
-          });
-      })
-      .catch((error) => {
-        console.log("Error in updateFlightSchedule", error);
-      });
   };
 
   const selectSeat = (e, seatNo) => {
@@ -186,7 +182,6 @@ const Booking = () => {
 
   return (
     <React.Fragment>
-      {/* <Header/> */}
       <div className="row mt-3">
         <div className="col-md-4 booking-details">
           <form onSubmit={(e) => submitHandler(e)}>
@@ -248,13 +243,11 @@ const Booking = () => {
                     )}
 
                     {!Auth.authenticated() && (
-                      <Router>
-                        <NavLink exact to="/login">
-                          <button type="button" className="btn btn-warning">
-                            Login for booking
-                          </button>
-                        </NavLink>
-                      </Router>
+                      <NavLink exact to="/login">
+                        <button type="button" className="btn btn-warning">
+                          Login for booking
+                        </button>
+                      </NavLink>
                     )}
                   </div>
                 </div>
@@ -268,6 +261,13 @@ const Booking = () => {
               Please select seat(s)
             </div>
           )}
+
+          {validation.bookSuccess && (
+            <div className="alert alert-success" role="alert">
+              Flight booked successfully
+            </div>
+          )}
+
           <div className="row mb-2 text-center seat-label">
             <div className="col-md-2 seat-available text-center pt-1">
               Available
@@ -281,7 +281,7 @@ const Booking = () => {
             </div>
           </div>
 
-          <div className="row mb-2">{items}</div>
+          <div className="row mb-2 seat-block">{items}</div>
         </div>
       </div>
     </React.Fragment>

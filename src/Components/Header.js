@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import App from "../App";
+import {MyContext} from '../Components/Login';
 import {
   Link,
   NavLink,
@@ -13,8 +14,8 @@ import {
 } from "react-router-dom";
 import Auth from "../Services/Auth";
 
-const Header = () => {
-  const { firstName, lastName } = JSON.parse(
+const Header = (props) => {
+  const { firstName, lastName,id } = JSON.parse(
     localStorage.getItem("react-user")
   );
 
@@ -22,21 +23,21 @@ const Header = () => {
 
   return (
     <React.Fragment>
-      <Router>
+   
         <div className="header pt-4 mb-5">
           <div className="row">
             <div className="col-md-4">
               <span className="ml-1">
-                {Auth.authenticated() && (
+                {/* {Auth.authenticated() && ( */}
                   <Link exact to="/" className="mr-2">
                     Home
                   </Link>
-                )}
+                {/* )} */}
               </span>
               &nbsp;&nbsp;
               <span>
                 {Auth.authenticated() && (
-                  <Link exact to="/my-booking" className="mr-2">
+                  <Link exact to={`/my-booking/${id}`} className="mr-2">
                     My Bookings
                   </Link>
                 )}
@@ -73,8 +74,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-        
-      </Router>
     </React.Fragment>
   );
 };

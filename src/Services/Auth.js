@@ -19,7 +19,6 @@ const Auth = {
     return axios
       .get(
         `http://localhost:3003/users?emailId=${emailId}&password=${password}`)
-      
   },
   logout() {
     localStorage.removeItem("react-token");

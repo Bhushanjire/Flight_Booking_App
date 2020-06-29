@@ -2,9 +2,17 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Auth from "../Services/Auth";
 
 const SignIn = () => {
-    let history = useHistory();
+  let history = useHistory();
+  if (Auth.authenticated()) {
+    history.push("/");
+  }
+
+  const [validation, setValidation] = useState({
+    isSuccess: false,
+  });
 
   const [user, setUser] = useState({
     firstName: "",
@@ -21,15 +29,27 @@ const SignIn = () => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
-  const submitHandler =  (e) => {
-    console.log("User", user);
+  const submitHandler = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3003/users", user).then((result)=>{
-        history.push("/");
-    }).catch(error=>{
-        console.log('Error');
-        
-    });
+    axios
+      .post("http://localhost:3003/users", user)
+      .then((result) => {
+        setUser({
+          firstName: "",
+          lastName: "",
+          emailId: "",
+          mobileNo: "",
+          gender: "",
+          password: "",
+        });
+        setValidation({ ...validation, isSuccess: true });
+        setTimeout(() => {
+          history.push("/login");
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log("Error in create user", error);
+      });
   };
 
   return (
@@ -38,6 +58,11 @@ const SignIn = () => {
         <div className="row">
           <div className="col-md-12">
             <div className="login-block">
+              {validation.isSuccess && (
+                <div className="alert alert-success" role="alert">
+                  Signup successfully...Please Login
+                </div>
+              )}
               <div className="card">
                 <div className="card-body">
                   <center>

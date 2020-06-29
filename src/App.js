@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/booking/:id/:noOfPerson" component={Booking} />
-        <Route exact path="/my-booking" component={MyBooking} />
+        <Route exact path="/my-booking/:id" component={MyBooking} />
         <Route component={NotFound} />
       </Switch>
       </React.Fragment>
