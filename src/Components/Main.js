@@ -18,8 +18,6 @@ const Main = () => {
   });
 
   const onInputChange = (event) => {
-    console.log(event.target.name + " " + event.target.value);
-
     setFlight({ ...flight, [event.target.name]: event.target.value });
   };
 
@@ -61,7 +59,6 @@ const Main = () => {
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
     <div className="container">
-      {/* {flightList} */}
       <form onSubmit={(e) => submitHandler(e)}>
         <div className="row">
           <div className="col-md-3">
@@ -74,6 +71,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={fromCity}
             /> */}
+            
             <select
               className="form-control"
               placeholder="From"
@@ -162,7 +160,7 @@ const Main = () => {
             <Flights flightData={flight} flightList={flightList} />
           )}
           {flightList.length < 1 && validation.isFound && (
-            <div class="alert alert-danger mt-2 text-center" role="alert">
+            <div className="alert alert-danger mt-2 text-center" role="alert">
               Ohh! Flight is not found
             </div>
           )}

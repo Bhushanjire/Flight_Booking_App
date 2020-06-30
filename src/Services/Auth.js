@@ -16,13 +16,24 @@ const Auth = {
     return !!localStorage.getItem("react-token");
   },
   login({ emailId, password }) {
-    return axios
-      .get(
-        `http://localhost:3003/users?emailId=${emailId}&password=${password}`)
+    return axios.get(
+      `http://localhost:3003/users?emailId=${emailId}&password=${password}`
+    );
   },
   logout() {
     localStorage.removeItem("react-token");
+    localStorage.removeItem("react-user");
+
     window.location = "/";
+  },
+
+
+  checkEmailExist(emailId){
+    return axios
+      .get(`http://localhost:3003/users?emailId=${emailId}`)
+  },
+  signUp(user) {
+    return axios.post(`http://localhost:3003/users`,user);
   },
 };
 

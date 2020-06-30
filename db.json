@@ -63,15 +63,6 @@
       "id": 3
     },
     {
-      "firstName": "Test",
-      "lastName": "User",
-      "emailId": "test@gmail.com",
-      "mobileNo": "9763075620",
-      "gender": "Male",
-      "password": "12345",
-      "id": 4
-    },
-    {
       "firstName": "Bhushan",
       "lastName": "Jire",
       "emailId": "bhushanjire@gmail.com",
@@ -136,7 +127,9 @@
       "price": "5530",
       "bookingSeats": [
         1,
-        2
+        2,
+        14,
+        15
       ],
       "scheduleDate": "2020-06-30",
       "departuteTime": "12.30 pm",
@@ -301,6 +294,53 @@
         "duration": "3h"
       },
       "id": 1
+    },
+    {
+      "flightSchuleId": "1",
+      "userId": 2,
+      "seactNumbers": [
+        14,
+        15
+      ],
+      "passengersName": {
+        "Passanger1": "Akshay Kumar",
+        "Passanger2": "Ajay Devagan"
+      },
+      "totalPrice": 11060,
+      "bookingDetails": {
+        "id": 1,
+        "flightId": {
+          "id": 1,
+          "flightNumber": "Ind123",
+          "flightName": "Indigo Gold",
+          "flightcompanyName": "Indigo",
+          "flightTotalSeat": 200
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "5530",
+        "bookingSeats": [
+          1,
+          2,
+          14,
+          15
+        ],
+        "scheduleDate": "2020-06-30",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
+      },
+      "id": 2
     }
   ]
 }

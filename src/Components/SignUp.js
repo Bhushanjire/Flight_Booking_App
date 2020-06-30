@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 
@@ -12,6 +11,7 @@ const SignIn = () => {
 
   const [validation, setValidation] = useState({
     isSuccess: false,
+    isEmailExist: false,
   });
 
   const [user, setUser] = useState({
@@ -31,24 +31,36 @@ const SignIn = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3003/users", user)
+    Auth.checkEmailExist(emailId)
       .then((result) => {
-        setUser({
-          firstName: "",
-          lastName: "",
-          emailId: "",
-          mobileNo: "",
-          gender: "",
-          password: "",
-        });
-        setValidation({ ...validation, isSuccess: true });
-        setTimeout(() => {
-          history.push("/login");
-        }, 2000);
+        if (result.data.length) {
+          setValidation({ ...validation, isEmailExist: true });
+        } else {
+          setValidation({ ...validation, isEmailExist: false });
+          Auth.signUp(user)
+            .then((result) => {
+              if (result) {
+                setUser({
+                  firstName: "",
+                  lastName: "",
+                  emailId: "",
+                  mobileNo: "",
+                  gender: "",
+                  password: "",
+                });
+                setValidation({ ...validation, isSuccess: true });
+                setTimeout(() => {
+                  history.push("/login");
+                }, 2000);
+              }
+            })
+            .catch((error) => {
+              console.log("Error in create user", error);
+            });
+        }
       })
       .catch((error) => {
-        console.log("Error in create user", error);
+        console.log("Error in checkEmailExist");
       });
   };
 
@@ -69,7 +81,6 @@ const SignIn = () => {
                     <h3>Sign Up</h3>
                   </center>
                   <div className="form-group">
-                    {/* <label>First Name:</label> */}
                     <input
                       type="text"
                       className="form-control"
@@ -81,7 +92,6 @@ const SignIn = () => {
                     />
                   </div>
                   <div className="form-group">
-                    {/* <label>Last Name:</label> */}
                     <input
                       type="text"
                       className="form-control"
@@ -93,9 +103,8 @@ const SignIn = () => {
                     />
                   </div>
                   <div className="form-group">
-                    {/* <label>Email ID:</label> */}
                     <input
-                      type="text"
+                      type="email"
                       className="form-control"
                       placeholder="Enter email ID"
                       name="emailId"
@@ -105,7 +114,6 @@ const SignIn = () => {
                     />
                   </div>
                   <div className="form-group">
-                    {/* <label>Mobile No:</label> */}
                     <input
                       type="text"
                       className="form-control"
@@ -118,8 +126,6 @@ const SignIn = () => {
                   </div>
 
                   <div className="form-group">
-                    {/* <label>Gender:</label> */}
-
                     <select
                       className="form-control"
                       name="gender"
@@ -133,7 +139,6 @@ const SignIn = () => {
                     </select>
                   </div>
                   <div className="form-group">
-                    {/* <label>Password:</label> */}
                     <input
                       type="password"
                       className="form-control"
@@ -144,6 +149,11 @@ const SignIn = () => {
                       required
                     />
                   </div>
+                  {validation.isEmailExist && (
+                    <div className="alert alert-danger" role="alert">
+                      Email ID already exist
+                    </div>
+                  )}
                   <div className="form-group">
                     <center>
                       <button type="submit" className="btn btn-primary">

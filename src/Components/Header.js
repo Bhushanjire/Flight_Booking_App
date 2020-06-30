@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import App from "../App";
-import {MyContext} from '../Components/Login';
 import {
   Link,
   NavLink,
@@ -15,15 +14,17 @@ import {
 import Auth from "../Services/Auth";
 
 const Header = (props) => {
-  const { firstName, lastName,id } = JSON.parse(
+  var LoginUser =null;
+  if(Auth.authenticated()){
+
+  var { firstName, lastName,id } = JSON.parse(
     localStorage.getItem("react-user")
   );
 
-  let LoginUser = "Welcome ," + firstName + " " + lastName;
-
+  LoginUser = "Welcome ," + firstName  + " " + lastName;
+}
   return (
     <React.Fragment>
-   
         <div className="header pt-4 mb-5">
           <div className="row">
             <div className="col-md-4">

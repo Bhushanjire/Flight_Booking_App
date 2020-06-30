@@ -6,7 +6,7 @@ const Flights = (props) => {
     <React.Fragment>
       <div className="row">
         <div className="col-md-12 mt-3 text-center">
-          <div class="alert alert-success" role="alert">
+          <div className="alert alert-success" role="alert">
           <strong>{fromCity} To {toCity} - ({travelDate}</strong>)
           </div>
         </div>

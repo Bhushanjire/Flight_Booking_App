@@ -6,6 +6,7 @@ import NotFound from "./Components/NotFound";
 import Booking from "./Components/Booking";
 import MyBooking from "./Components/MyBooking";
 import Header from './Components/Header';
+import './App.css';
 
 import {
   BrowserRouter as Router,

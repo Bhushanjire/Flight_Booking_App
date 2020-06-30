@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import Header from "../Components/Header";
 
-export const MyContext = React.createContext({});
-
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
 
