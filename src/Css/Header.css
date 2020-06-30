@@ -7,3 +7,6 @@
 .cursor-ptr{
     cursor: pointer;
 }
+.active{
+    color: green;
+}

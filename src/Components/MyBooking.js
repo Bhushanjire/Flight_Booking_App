@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Flight from "../Services/Fligth.service";
-import { useParams } from "react-router-dom";
+import { useParams,NavLink } from "react-router-dom";
 
 const MyBooking = () => {
   let { id } = useParams();
@@ -51,8 +50,6 @@ const MyBooking = () => {
   const loadBookings = () => {
     Flight.getMyBookings(id)
       .then((result) => {
-        let data = result.data;
-        console.log("Data", data);
         setBooking(result.data);
       })
       .catch((error) => {
@@ -91,7 +88,11 @@ const MyBooking = () => {
                 <td>{row?.bookingDetails?.arrivalTime}</td>
                 <td>{row?.totalPrice}</td>
                 <td>
+                  {
+                    <NavLink exact to={`/booking/${row?.flightSchuleId}/${row?.seactNumbers?.length}`}>
                     <button type="button" className="btn btn-info">Edit</button>
+                    </NavLink>
+                  }
                 </td>
               </tr>
             ))}

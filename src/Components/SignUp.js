@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 
@@ -160,18 +160,18 @@ const SignIn = () => {
                         Sign Up
                       </button>
                       &nbsp;&nbsp;
-                      <NavLink exact to="/" className="ml-2">
+                      <Link exact to="/" className="ml-2">
                         <button type="button" className="btn btn-danger">
                           Cancel
                         </button>
-                      </NavLink>
+                      </Link>
                     </center>
                   </div>
                   <div>
                     <center>
-                      <NavLink exact to="/login" className="ml-2">
+                      <Link exact to="/login" className="ml-2">
                         Login
-                      </NavLink>
+                      </Link>
                     </center>
                   </div>
                 </div>

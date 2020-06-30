@@ -11,6 +11,14 @@ const Main = () => {
     noOfPerson: "",
   });
 
+  const currentDate =
+    new Date().getFullYear() +
+    "-0" +
+    (new Date().getMonth() + 1) +
+    "-" +
+    new Date().getDate();
+
+
   const [flightList, setFlightList] = useState([]);
   const [cities, setCities] = useState([]);
   const [validation, setValidation] = useState({
@@ -71,7 +79,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={fromCity}
             /> */}
-            
+
             <select
               className="form-control"
               placeholder="From"
@@ -131,6 +139,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={travelDate}
               required
+              min={currentDate}
             />
           </div>
           <div className="col-md-2">

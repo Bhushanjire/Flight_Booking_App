@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../Css/Login.css";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import Header from "../Components/Header";
+import Loading from '../Components/Loding';
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
@@ -32,11 +33,6 @@ let Login = (props) => {
   });
 
   useEffect(() => {
-    if (loginData.emailId) {
-      console.log("if");
-    } else {
-      console.log("else");
-    }
   }, [loginData.emailId, loginData.password]);
 
   const onInputChange = (event) => {
@@ -60,7 +56,6 @@ let Login = (props) => {
             const newContext = React.createContext({ color: "black" });
 
             localStorage.setItem("react-token", "token12345");
-            history.push("/");
             setIsValid({ isValid: false });
             // history.push("/");
             window.location = "/";
@@ -98,6 +93,7 @@ let Login = (props) => {
               <div className="card-body">
                 <center>
                   <h3>Login</h3>
+                  <Loading isLoading={true}/>
                 </center>
                 <form onSubmit={(e) => submitHandler(e)}>
                   <div className="form-group">
@@ -156,19 +152,19 @@ let Login = (props) => {
                         Login
                       </button>
                       &nbsp;&nbsp;
-                      <NavLink exact to="/" className="ml-2">
+                      <Link exact to="/" className="ml-2">
                         <button type="button" className="btn btn-danger">
                           Cancel
                         </button>
-                      </NavLink>
+                      </Link>
                     </center>
                   </div>
                 </form>
                 <div>
                   <center>
-                    <NavLink exact to="/sign-up" className="ml-2">
+                    <Link exact to="/sign-up" className="ml-2">
                       Sign Up
-                    </NavLink>
+                    </Link>
                   </center>
                 </div>
               </div>
