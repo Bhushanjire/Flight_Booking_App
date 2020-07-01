@@ -1,13 +1,28 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Flights = (props) => {
-  let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
+   let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
+
+  //Using Redux
+  // let flightList = [];
+  // const searchFlight = useSelector((state) => state.flightReducer)[0];
+  // useSelector((state) => {
+  //   if (state.flightReducer[1]) {
+  //     flightList = state.flightReducer[1];
+  //   }
+  // });
+  // let { fromCity, toCity, travelDate, noOfPerson } = searchFlight;
+
   return (
     <React.Fragment>
       <div className="row">
         <div className="col-md-12 mt-3 text-center">
           <div className="alert alert-success" role="alert">
-          <strong>{fromCity} To {toCity} - ({travelDate}</strong>)
+            <strong>
+              {fromCity} To {toCity} - ({travelDate}
+            </strong>
+            )
           </div>
         </div>
       </div>

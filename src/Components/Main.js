@@ -2,7 +2,8 @@ import React, { Component, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
-
+import { useDispatch } from "react-redux";
+import { flightSearch, getFlightScheduleList } from "../Redux/Actions";
 
 const Main = () => {
   const [flight, setFlight] = useState({
@@ -12,12 +13,14 @@ const Main = () => {
     noOfPerson: "",
   });
 
+  const dispatch = useDispatch();
+
   const currentDate =
     new Date().getFullYear() +
     "-" +
     ("0" + (new Date().getMonth() + 1)).slice(-2) +
     "-" +
-    ("0" + (new Date().getDate())).slice(-2);
+    ("0" + new Date().getDate()).slice(-2);
 
   const [flightList, setFlightList] = useState([]);
   const [cities, setCities] = useState([]);
@@ -36,6 +39,7 @@ const Main = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(flightSearch(flight));
     loadData();
   };
 
@@ -46,6 +50,7 @@ const Main = () => {
     Flight.getList(flight)
       .then((result) => {
         setFlightList(result.data);
+        dispatch(getFlightScheduleList(result.data));
       })
       .catch((error) => {
         console.log("Error in getList", error);
@@ -167,6 +172,8 @@ const Main = () => {
         <div className="col-md-12">
           {flightList.length > 0 && (
             <Flights flightData={flight} flightList={flightList} />
+            //Using redux
+            // <Flights />
           )}
           {flightList.length < 1 && validation.isFound && (
             <div className="alert alert-danger mt-2 text-center" role="alert">

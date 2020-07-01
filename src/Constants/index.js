@@ -1,2 +1,4 @@
 export const ADD_USER = "ADD_USER";
 export const LOGIN_USER = "LOGIN_USER";
+export const FLIGHT_SEARCH = "FLIGHT_SEARCH";
+export const FLIGHT_SCHEDULE_LIST = "FLIGHT_SCHEDULE_LIST";
