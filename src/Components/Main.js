@@ -13,10 +13,12 @@ const Main = () => {
 
   const currentDate =
     new Date().getFullYear() +
-    "-0" +
-    (new Date().getMonth() + 1) +
     "-" +
-    new Date().getDate();
+    ("0" + (new Date().getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + (new Date().getDate())).slice(-2);
+
+
 
 
   const [flightList, setFlightList] = useState([]);
