@@ -6,12 +6,17 @@ import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { Field, reduxForm } from "redux-form";
 import Header from "../Components/Header";
-import Loading from '../Components/Loding';
+import Loading from "../Components/Loding";
+
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../Redux/Actions";
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
 
   let history = useHistory();
+
+  const dispatch = useDispatch();
 
   if (Auth.authenticated()) {
     history.push("/");
@@ -32,8 +37,7 @@ let Login = (props) => {
     isValidEmail: false,
   });
 
-  useEffect(() => {
-  }, [loginData.emailId, loginData.password]);
+  useEffect(() => {}, [loginData.emailId, loginData.password]);
 
   const onInputChange = (event) => {
     setLogin({ ...loginData, [event.target.name]: event.target.value });
@@ -52,13 +56,11 @@ let Login = (props) => {
         .then((res) => {
           if (res.data.length > 0) {
             localStorage.setItem("react-user", JSON.stringify(res.data[0]));
-
-            const newContext = React.createContext({ color: "black" });
-
+            dispatch(loginUser(res.data[0]));
             localStorage.setItem("react-token", "token12345");
             setIsValid({ isValid: false });
-            // history.push("/");
-            window.location = "/";
+            history.push("/");
+            // window.location = "/";
           } else {
             setIsValid({ isValid: true });
           }
@@ -93,7 +95,7 @@ let Login = (props) => {
               <div className="card-body">
                 <center>
                   <h3>Login</h3>
-                  <Loading isLoading={true}/>
+                  <Loading isLoading={true} />
                 </center>
                 <form onSubmit={(e) => submitHandler(e)}>
                   <div className="form-group">

@@ -23,6 +23,7 @@ const Booking = () => {
     seat: false,
     passengers: false,
     bookSuccess: false,
+    editMode: true,
   });
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
 
@@ -67,7 +68,28 @@ const Booking = () => {
 
   useEffect(() => {
     loadSchedule();
+    loadBookingUpdate();
+    
+
   }, []);
+
+  const loadBookingUpdate = () => {
+    Flight.updateFlightBooking(1)
+      .then((result) => {
+        setSelectedSeat(result.data[0].seactNumbers);
+        // const newData = bookingDetails.bookingSeats.filter((item) => !selectedSeat.includes(item));
+        // console.log('newData',newData);
+        
+        // setBookingDetails({
+        //   bookingSeats: bookingDetails.bookingSeats.filter(
+        //     (item) => !selectedSeat.includes(item)
+        //   ),
+        // });
+      })
+      .catch((error) => {
+        console.log("Error in updateFlightBooking");
+      });
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -87,13 +109,13 @@ const Booking = () => {
             seactNumbers: selectedSeat,
             passengersName: passenger,
             totalPrice: bookingDetails.price * noOfPerson,
-            bookingDetails : scheduleData
+            bookingDetails: scheduleData,
           };
           Flight.addNewBooking(postData)
             .then((result) => {
-              setValidation({ ...validation, bookSuccess: true,seat : false });
+              setValidation({ ...validation, bookSuccess: true, seat: false });
               setTimeout(() => {
-                history.push("/my-booking/"+loginUser.id);
+                history.push("/my-booking/" + loginUser.id);
               }, 1000);
               // window.location = "/";
             })
@@ -135,7 +157,7 @@ const Booking = () => {
 
     if (bookingDetails.bookingSeats.includes(i)) {
       isSeatBA = "booked-seats";
-      addEvent = false;
+      if (validation.addMode) addEvent = false;
     }
     if (selectedSeat.includes(i)) {
       isSeatBA = "selected-seats";

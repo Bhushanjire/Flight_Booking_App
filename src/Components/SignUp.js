@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
+import { useSelector, useDispatch } from "react-redux";
+import {addUser} from '../Redux/Actions/';
 
 const SignIn = () => {
+  const users = useSelector((state) => state.userReducer);
+
+  const dispatch = useDispatch();
+  const userRef = useRef({});
+
   let history = useHistory();
   if (Auth.authenticated()) {
     history.push("/");
@@ -31,6 +38,10 @@ const SignIn = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    // dispatch(addUser(user));
+    // return;
+
     Auth.checkEmailExist(emailId)
       .then((result) => {
         if (result.data.length) {
@@ -89,6 +100,7 @@ const SignIn = () => {
                       onChange={(e) => onInputChange(e)}
                       value={firstName}
                       required
+                      ref={userRef}
                     />
                   </div>
                   <div className="form-group">
@@ -100,6 +112,7 @@ const SignIn = () => {
                       onChange={(e) => onInputChange(e)}
                       value={lastName}
                       required
+                      ref={userRef}
                     />
                   </div>
                   <div className="form-group">

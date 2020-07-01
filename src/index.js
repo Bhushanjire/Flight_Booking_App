@@ -2,27 +2,22 @@ import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { createStore, combineReducers } from "redux";
+import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { reducer as formReducer } from "redux-form";
-import Header from "../src/Components/Header";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  withRouter,
-} from "react-router-dom";
+import allReducers from "./Redux/Reducer/";
+import { BrowserRouter as Router } from "react-router-dom";
 
-const rootReducer = combineReducers({
-  form: formReducer,
-});
-
-const store = createStore(rootReducer);
+const store = createStore(
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <React.Fragment>
     <Router>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Router>
   </React.Fragment>,
   document.getElementById("root")

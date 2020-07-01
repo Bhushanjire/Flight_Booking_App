@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
 
+
 const Main = () => {
   const [flight, setFlight] = useState({
     fromCity: "",
@@ -17,9 +18,6 @@ const Main = () => {
     ("0" + (new Date().getMonth() + 1)).slice(-2) +
     "-" +
     ("0" + (new Date().getDate())).slice(-2);
-
-
-
 
   const [flightList, setFlightList] = useState([]);
   const [cities, setCities] = useState([]);

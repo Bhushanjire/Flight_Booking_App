@@ -9,12 +9,17 @@ import {
   Switch,
   useParams,
   useLocation,
+  useHistory,
 } from "react-router-dom";
 import Auth from "../Services/Auth";
-
+import { useSelector, useDispatch } from "react-redux";
 const Header = (props) => {
+  // const user = useSelector((state) => state.userReducer);
+  // console.log('User from header',user);
+
   let location = useLocation();
   var LoginUser = null;
+  const history = useHistory();
   const [route, setRoute] = useState(location.pathname);
   if (Auth.authenticated()) {
     var { firstName, lastName, id } = JSON.parse(
@@ -27,10 +32,16 @@ const Header = (props) => {
     setRoute(location.pathname);
   }, []);
 
-  console.log('location.pathname',location.pathname);
-  
+  console.log("location.pathname", location.pathname);
+
   const selectedLink = (e, route) => {
     setRoute(route);
+  };
+
+  const logout = (e) => {
+    localStorage.removeItem("react-token");
+    localStorage.removeItem("react-user");
+    history.push("/");
   };
   return (
     <React.Fragment>
@@ -93,7 +104,7 @@ const Header = (props) => {
               )}
 
               {Auth.authenticated() && (
-                <a href="#" type="button" onClick={Auth.logout}>
+                <a href="#" type="button" onClick={(e) => logout(e)}>
                   Logout
                 </a>
                 // <NavLink exact to="/sign-up" className="ml-2">logout</NavLink>

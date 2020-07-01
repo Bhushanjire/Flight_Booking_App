@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useHistory} from 'react-router-dom';
 
 axios.interceptors.response.use(
   (response) => {
@@ -10,7 +11,6 @@ axios.interceptors.response.use(
     }
   }
 );
-
 const Auth = {
   authenticated() {
     return !!localStorage.getItem("react-token");
@@ -21,13 +21,8 @@ const Auth = {
     );
   },
   logout() {
-    localStorage.removeItem("react-token");
-    localStorage.removeItem("react-user");
-
-    window.location = "/";
+    
   },
-
-
   checkEmailExist(emailId){
     return axios
       .get(`http://localhost:3003/users?emailId=${emailId}`)
