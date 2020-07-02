@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/" component={Layout} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/booking/:id/:noOfPerson" component={Booking} />
+        <Route exact path="/booking/:id/:noOfPerson/:mode" component={Booking} />
         <Route exact path="/my-booking/:id" component={MyBooking} />
         <Route component={NotFound} />
       </Switch>

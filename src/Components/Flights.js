@@ -58,7 +58,7 @@ const Flights = (props) => {
               <td>
                 <NavLink
                   exact
-                  to={"/booking/" + row.id + "/" + noOfPerson}
+                  to={"/booking/" + row.id + "/" + noOfPerson+"/add"}
                   className="ml-2"
                 >
                   <button type="button" className="btn btn-primary">

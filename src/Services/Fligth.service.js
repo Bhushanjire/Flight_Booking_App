@@ -20,8 +20,11 @@ const Flight = {
   getMyBookings(id){
     return axios.get(`http://localhost:3003/FlightBooking?userId=${id}`);
   },
-  updateFlightBooking(bookingId){
+  getFlightBookingById(bookingId){
     return axios.get(`http://localhost:3003/FlightBooking?id=${bookingId}`);
+  },
+  updateBooking(id,data){
+    return axios.put(`http://localhost:3003/FlightBooking/${id}`,data);
   }
 };
 

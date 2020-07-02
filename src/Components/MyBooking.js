@@ -86,10 +86,10 @@ const MyBooking = () => {
 
                 <td>{row?.bookingDetails?.departuteTime}</td>
                 <td>{row?.bookingDetails?.arrivalTime}</td>
-                <td>{row?.totalPrice}</td>
+                <td>Rs. {row?.totalPrice}</td>
                 <td>
                   {
-                    <NavLink exact to={`/booking/${row?.flightSchuleId}/${row?.seactNumbers?.length}`}>
+                    <NavLink exact to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}>
                     <button type="button" className="btn btn-info">Edit</button>
                     </NavLink>
                   }

@@ -126,12 +126,12 @@
       },
       "price": "5530",
       "bookingSeats": [
-        1,
-        2,
         14,
         15,
         44,
-        45
+        45,
+        1,
+        2
       ],
       "scheduleDate": "2020-06-30",
       "departuteTime": "12.30 pm",
@@ -188,8 +188,10 @@
         "country": "India"
       },
       "price": "6000",
-      "bookingSeats": [],
-      "scheduleDate": "2020-07-01",
+      "bookingSeats": [
+        1
+      ],
+      "scheduleDate": "2020-07-02",
       "departuteTime": "12.30 pm",
       "arrivalTime": "03.30 pm",
       "duration": "3h"
@@ -217,9 +219,9 @@
       },
       "price": "7000",
       "bookingSeats": [],
-      "scheduleDate": "2020-07-01",
-      "departuteTime": "12.30 pm",
-      "arrivalTime": "03.30 pm",
+      "scheduleDate": "2020-07-02",
+      "departuteTime": "04.30 pm",
+      "arrivalTime": "07.30 pm",
       "duration": "3h"
     },
     {
@@ -259,10 +261,7 @@
         1,
         2
       ],
-      "passengersName": {
-        "Passanger1": "Bhushan jire",
-        "Passanger2": "Ashwini jire"
-      },
+      "passengersName": [],
       "totalPrice": 11060,
       "bookingDetails": {
         "id": 1,
@@ -287,6 +286,10 @@
         },
         "price": "5530",
         "bookingSeats": [
+          14,
+          15,
+          44,
+          45,
           1,
           2
         ],
@@ -392,6 +395,46 @@
         "duration": "3h"
       },
       "id": 3
+    },
+    {
+      "flightSchuleId": "3",
+      "userId": 2,
+      "seactNumbers": [
+        1
+      ],
+      "passengersName": [],
+      "totalPrice": 6000,
+      "bookingDetails": {
+        "id": 3,
+        "flightId": {
+          "id": 3,
+          "flightNumber": "3",
+          "flightName": "Kingfisher Gold",
+          "flightcompanyName": "Kingfisher",
+          "flightTotalSeat": 250
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "6000",
+        "bookingSeats": [
+          1
+        ],
+        "scheduleDate": "2020-07-02",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
+      },
+      "id": 4
     }
   ]
 }
