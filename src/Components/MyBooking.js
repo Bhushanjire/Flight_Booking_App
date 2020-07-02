@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Flight from "../Services/Fligth.service";
 import { useParams, Link } from "react-router-dom";
+import { getMyBookings, loading } from "../Redux/Actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const MyBooking = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
+  const bookingList = useSelector((state) => state.userReducer);
   const [booking, setBooking] = useState([
     {
       flightSchuleId: 0,
@@ -48,9 +52,15 @@ const MyBooking = () => {
   }, []);
 
   const loadBookings = () => {
+    // console.log("bookingList", bookingList);
+    dispatch(loading(true));
     Flight.getMyBookings(id)
       .then((result) => {
         setBooking(result.data);
+        dispatch(loading(false));
+
+        // dispatch(getMyBookings(id))
+
       })
       .catch((error) => {
         console.log("Error in booking list", error);
@@ -119,13 +129,10 @@ const MyBooking = () => {
                       )}
 
                       {!checkDate(row?.bookingDetails?.scheduleDate) && (
-                         <Link
-                         exact
-                         to={`/view-booking/${row?.id}`}
-                       >
-                        <button type="button" className="btn btn-warning">
-                          View
-                        </button>
+                        <Link exact to={`/view-booking/${row?.id}`}>
+                          <button type="button" className="btn btn-warning">
+                            View
+                          </button>
                         </Link>
                       )}
                     </React.Fragment>

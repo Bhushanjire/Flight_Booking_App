@@ -2,14 +2,16 @@ import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { createStore } from "redux";
+import { createStore,applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./Redux/Reducer/";
 import { BrowserRouter as Router } from "react-router-dom";
+import thunk from 'redux-thunk'
+import { logger } from 'redux-logger'
 
 const store = createStore(
   allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  applyMiddleware(thunk, logger)
 );
 
 ReactDOM.render(

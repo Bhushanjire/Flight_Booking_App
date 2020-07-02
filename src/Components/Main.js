@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
 import { useDispatch } from "react-redux";
-import { flightSearch, getFlightScheduleList } from "../Redux/Actions";
+import { flightSearch, getFlightScheduleList, loading } from "../Redux/Actions";
 
 const Main = () => {
   const [flight, setFlight] = useState({
@@ -40,6 +40,7 @@ const Main = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(flightSearch(flight));
+    dispatch(loading(true));
     loadData();
   };
 
@@ -51,6 +52,7 @@ const Main = () => {
       .then((result) => {
         setFlightList(result.data);
         dispatch(getFlightScheduleList(result.data));
+        dispatch(loading(false));
       })
       .catch((error) => {
         console.log("Error in getList", error);

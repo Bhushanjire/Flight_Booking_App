@@ -3,8 +3,12 @@ import { useParams, useHistory } from "react-router-dom";
 import "../Css/Booking.css";
 import Flight from "../Services/Fligth.service";
 import Auth from "../Services/Auth";
-import { NavLink, BrowserRouter as Router,Link } from "react-router-dom";
+import { NavLink, BrowserRouter as Router, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loading } from "../Redux/Actions";
+
 const Booking = () => {
+  const dispatch = useDispatch();
   const { id, noOfPerson, mode } = useParams();
   const items = [];
   const passengers = [];
@@ -86,8 +90,10 @@ const Booking = () => {
   });
 
   const loadSchedule = (scheduleId) => {
+    dispatch(loading(true));
     Flight.getFlightScheduleById(scheduleId)
       .then((result) => {
+        dispatch(loading(false));
         setBookingDetails(result.data);
       })
       .catch((error) => {
@@ -119,6 +125,8 @@ const Booking = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    dispatch(loading(true));
+
     if (noOfPerson == selectedSeat.length) {
       setValidation({ ...validation, seat: false });
       let scheduleData = bookingDetails;
@@ -141,6 +149,8 @@ const Booking = () => {
             };
             Flight.addNewBooking(postData)
               .then((result) => {
+                dispatch(loading(false));
+
                 setValidation({
                   ...validation,
                   bookSuccess: true,
@@ -179,6 +189,8 @@ const Booking = () => {
               };
               Flight.updateBooking(id, postData)
                 .then((result) => {
+                  dispatch(loading(false));
+
                   if (result) {
                     setValidation({
                       ...validation,
@@ -273,7 +285,6 @@ const Booking = () => {
               placeholder="Enter Name"
               name={"Passanger" + i}
               onChange={(e) => onInputChange(e)}
-              required
               key={i}
             />
           </div>
@@ -337,9 +348,11 @@ const Booking = () => {
                   <div className="col-md-5 booking-details-label">
                     Seat No.:
                   </div>
-                  <div className="col-md-7">{previousBooked.seactNumbers.join(',')}</div>
+                  <div className="col-md-7">
+                    {previousBooked.seactNumbers.join(",")}
+                  </div>
                 </div>
-                {/* {passengers} */}
+                {passengers}
 
                 <div className="row mb-2">
                   <div className="col-md-5 booking-details-label">Price:</div>
@@ -353,8 +366,11 @@ const Booking = () => {
                     {Auth.authenticated() && (
                       <React.Fragment>
                         <button type="submit" className="btn btn-warning">
-                          {mode == "add" ? "Confirm & Book" : "Confirm & Update"}
-                        </button>&nbsp;
+                          {mode == "add"
+                            ? "Confirm & Book"
+                            : "Confirm & Update"}
+                        </button>
+                        &nbsp;
                         <Link exact to="/" className="ml-2">
                           <button type="button" className="btn btn-danger">
                             Cancel

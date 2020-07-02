@@ -4,12 +4,9 @@ import { Link } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
-import { Field, reduxForm } from "redux-form";
-import Header from "../Components/Header";
-import Loading from "../Components/Loding";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../Redux/Actions";
+import { loading } from "../Redux/Actions";
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
@@ -45,6 +42,7 @@ let Login = (props) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(loading(true));
     setErrorMessages();
     if (
       loginData &&
@@ -54,6 +52,7 @@ let Login = (props) => {
     ) {
       Auth.login(loginData)
         .then((res) => {
+          dispatch(loading(false));
           if (res.data.length > 0) {
             localStorage.setItem("react-user", JSON.stringify(res.data[0]));
             dispatch(loginUser(res.data[0]));
@@ -85,9 +84,6 @@ let Login = (props) => {
 
   return (
     <React.Fragment>
-      {/* <MyContext.Provider value={loginData}>
-        <Header />
-      </MyContext.Provider> */}
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">
@@ -95,7 +91,6 @@ let Login = (props) => {
               <div className="card-body">
                 <center>
                   <h3>Login</h3>
-                  <Loading isLoading={true} />
                 </center>
                 <form onSubmit={(e) => submitHandler(e)}>
                   <div className="form-group">

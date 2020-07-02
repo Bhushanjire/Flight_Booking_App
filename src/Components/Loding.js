@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import loader from "../assets/images/loader.gif";
-class Loading extends Component {
-  constructor(props) {
-    super(props);
-  }
+import { useSelector, useDispatch } from "react-redux";
 
-  render() {
-    return (
-      <React.Fragment>
-        {/* <center>{props?.isLoading && <img src={loader}></img>}</center> */}
-      </React.Fragment>
-    );
-  }
-}
+const Loading = () => {
+  const loadingState = useSelector((state) => state.loadingReducer);
+  return (
+    <React.Fragment>
+      {loadingState && <center>{<img src={loader} className="loading"></img>}</center>}
+    </React.Fragment>
+  );
+};
 
 export default Loading;

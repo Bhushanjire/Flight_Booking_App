@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { useSelector, useDispatch } from "react-redux";
-import {addUser} from '../Redux/Actions/';
+import { addUser, loading } from "../Redux/Actions/";
 
 const SignIn = () => {
   const users = useSelector((state) => state.userReducer);
@@ -38,18 +38,19 @@ const SignIn = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
     // dispatch(addUser(user));
     // return;
-
+    dispatch(loading(true));
     Auth.checkEmailExist(emailId)
       .then((result) => {
         if (result.data.length) {
           setValidation({ ...validation, isEmailExist: true });
+          dispatch(loading(false));
         } else {
           setValidation({ ...validation, isEmailExist: false });
           Auth.signUp(user)
             .then((result) => {
+              dispatch(loading(false));
               if (result) {
                 setUser({
                   firstName: "",

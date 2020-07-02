@@ -70,6 +70,24 @@
       "gender": "Male",
       "password": "123456",
       "id": 5
+    },
+    {
+      "firstName": "Test",
+      "lastName": "User",
+      "emailId": "test@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "123456",
+      "id": 6
+    },
+    {
+      "firstName": "Test",
+      "lastName": "User",
+      "emailId": "test@gmail.com",
+      "mobileNo": "9763075620",
+      "gender": "Male",
+      "password": "1554",
+      "id": 7
     }
   ],
   "FligthList": [
@@ -189,6 +207,7 @@
       },
       "price": "6500",
       "bookingSeats": [
+        1,
         19
       ],
       "scheduleDate": "2020-07-01",
@@ -252,7 +271,8 @@
       "price": "6500",
       "bookingSeats": [
         15,
-        19
+        19,
+        1
       ],
       "scheduleDate": "2020-07-02",
       "departuteTime": "12.30 pm",
@@ -410,49 +430,9 @@
         1
       ],
       "passengersName": [],
-      "totalPrice": 6000,
-      "bookingDetails": {
-        "id": 3,
-        "flightId": {
-          "id": 3,
-          "flightNumber": "3",
-          "flightName": "Kingfisher Gold",
-          "flightcompanyName": "Kingfisher",
-          "flightTotalSeat": 250
-        },
-        "fromCityId": {
-          "id": 1,
-          "name": "Pune",
-          "state": "Maharashtra",
-          "country": "India"
-        },
-        "toCityId": {
-          "id": 2,
-          "name": "Mumbai",
-          "state": "Maharashtra",
-          "country": "India"
-        },
-        "price": "6000",
-        "bookingSeats": [
-          1
-        ],
-        "scheduleDate": "2020-07-02",
-        "departuteTime": "12.30 pm",
-        "arrivalTime": "03.30 pm",
-        "duration": "3h"
-      },
-      "id": 4
-    },
-    {
-      "flightSchuleId": "3",
-      "userId": 5,
-      "seactNumbers": [
-        19
-      ],
-      "passengersName": [],
       "totalPrice": 6500,
       "bookingDetails": {
-        "id": 5,
+        "id": 3,
         "flightId": {
           "id": 1,
           "flightNumber": "1",
@@ -474,9 +454,51 @@
         },
         "price": "6500",
         "bookingSeats": [
+          19,
+          1
+        ],
+        "scheduleDate": "2020-07-01",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
+      },
+      "id": 4
+    },
+    {
+      "flightSchuleId": "3",
+      "userId": 5,
+      "seactNumbers": [
+        19
+      ],
+      "passengersName": [],
+      "totalPrice": 6500,
+      "bookingDetails": {
+        "id": 3,
+        "flightId": {
+          "id": 1,
+          "flightNumber": "1",
+          "flightName": "Indigo Gold",
+          "flightcompanyName": "Indigo",
+          "flightTotalSeat": 200
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "6500",
+        "bookingSeats": [
+          1,
           19
         ],
-        "scheduleDate": "2020-07-02",
+        "scheduleDate": "2020-07-01",
         "departuteTime": "12.30 pm",
         "arrivalTime": "03.30 pm",
         "duration": "3h"
@@ -607,6 +629,48 @@
         "duration": "3h"
       },
       "id": 8
+    },
+    {
+      "flightSchuleId": "5",
+      "userId": 2,
+      "seactNumbers": [
+        1
+      ],
+      "passengersName": [],
+      "totalPrice": 6500,
+      "bookingDetails": {
+        "id": 5,
+        "flightId": {
+          "id": 1,
+          "flightNumber": "1",
+          "flightName": "Indigo Gold",
+          "flightcompanyName": "Indigo",
+          "flightTotalSeat": 200
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "6500",
+        "bookingSeats": [
+          15,
+          19,
+          1
+        ],
+        "scheduleDate": "2020-07-02",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
+      },
+      "id": 9
     }
   ]
 }
