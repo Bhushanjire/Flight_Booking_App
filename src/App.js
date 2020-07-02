@@ -6,6 +6,7 @@ import NotFound from "./Components/NotFound";
 import Booking from "./Components/Booking";
 import MyBooking from "./Components/MyBooking";
 import Header from './Components/Header';
+import ViewBooking from './Components/ViewBooking';
 import './App.css';
 
 import {
@@ -25,6 +26,8 @@ function App() {
         <Route exact path="/sign-up" component={SignUp} />
         <Route exact path="/booking/:id/:noOfPerson/:mode" component={Booking} />
         <Route exact path="/my-booking/:id" component={MyBooking} />
+        <Route exact path="/view-booking/:id" component={ViewBooking} />
+
         <Route component={NotFound} />
       </Switch>
       </React.Fragment>

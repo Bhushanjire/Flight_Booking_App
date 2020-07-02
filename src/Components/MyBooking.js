@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Flight from "../Services/Fligth.service";
-import { useParams,NavLink } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const MyBooking = () => {
   let { id } = useParams();
@@ -57,6 +57,21 @@ const MyBooking = () => {
       });
   };
 
+  const checkDate = (scheduleDate) => {
+    const currentDate =
+      new Date().getFullYear() +
+      "-" +
+      ("0" + (new Date().getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + new Date().getDate()).slice(-2);
+
+    if (new Date(currentDate).getTime() <= new Date(scheduleDate).getTime()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="container">
@@ -69,6 +84,7 @@ const MyBooking = () => {
               <th scope="col">Date</th>
               <th scope="col">Departure Time</th>
               <th scope="col">Arrival Time</th>
+              <th scope="col">Seat No.</th>
               <th scope="col">Price</th>
               <th scope="col">Action</th>
             </tr>
@@ -86,12 +102,33 @@ const MyBooking = () => {
 
                 <td>{row?.bookingDetails?.departuteTime}</td>
                 <td>{row?.bookingDetails?.arrivalTime}</td>
+                <td>{row?.seactNumbers.join(",")}</td>
                 <td>Rs. {row?.totalPrice}</td>
                 <td>
                   {
-                    <NavLink exact to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}>
-                    <button type="button" className="btn btn-info">Edit</button>
-                    </NavLink>
+                    <React.Fragment>
+                      {checkDate(row?.bookingDetails?.scheduleDate) && (
+                        <Link
+                          exact
+                          to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
+                        >
+                          <button type="button" className="btn btn-info">
+                            Edit
+                          </button>
+                        </Link>
+                      )}
+
+                      {!checkDate(row?.bookingDetails?.scheduleDate) && (
+                         <Link
+                         exact
+                         to={`/view-booking/${row?.id}`}
+                       >
+                        <button type="button" className="btn btn-warning">
+                          View
+                        </button>
+                        </Link>
+                      )}
+                    </React.Fragment>
                   }
                 </td>
               </tr>

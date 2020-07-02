@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import "../Css/Booking.css";
 import Flight from "../Services/Fligth.service";
 import Auth from "../Services/Auth";
-import { NavLink, BrowserRouter as Router } from "react-router-dom";
+import { NavLink, BrowserRouter as Router,Link } from "react-router-dom";
 const Booking = () => {
   const { id, noOfPerson, mode } = useParams();
   const items = [];
@@ -99,15 +99,15 @@ const Booking = () => {
     if (mode == "add") {
       loadSchedule(id);
     } else {
-      loadBookingUpdate();
+      loadBookingUpdate(id);
     }
   }, []);
 
-  const loadBookingUpdate = () => {
-    Flight.getFlightBookingById(id)
+  const loadBookingUpdate = (bookingId) => {
+    Flight.getFlightBookingById(bookingId)
       .then((result) => {
         if (result) {
-          loadSchedule(result.data[0].id);
+          loadSchedule(result.data[0].flightSchuleId);
           setSelectedSeat(result.data[0].seactNumbers);
           setPreviousBooked(result.data[0]);
         }
@@ -274,6 +274,7 @@ const Booking = () => {
               name={"Passanger" + i}
               onChange={(e) => onInputChange(e)}
               required
+              key={i}
             />
           </div>
         </div>
@@ -326,6 +327,18 @@ const Booking = () => {
                   </div>
                   <div className="col-md-7">{bookingDetails?.arrivalTime}</div>
                 </div>
+                <div className="row mb-2">
+                  <div className="col-md-5 booking-details-label">
+                    Passenger:
+                  </div>
+                  <div className="col-md-7">{noOfPerson}</div>
+                </div>
+                <div className="row mb-2">
+                  <div className="col-md-5 booking-details-label">
+                    Seat No.:
+                  </div>
+                  <div className="col-md-7">{previousBooked.seactNumbers.join(',')}</div>
+                </div>
                 {/* {passengers} */}
 
                 <div className="row mb-2">
@@ -338,9 +351,16 @@ const Booking = () => {
                 <div className="row mb-2">
                   <div className="col-md-12 text-center">
                     {Auth.authenticated() && (
-                      <button type="submit" className="btn btn-warning">
-                        {mode == "add" ? "Confirm & Book" : "Confirm Update"}
-                      </button>
+                      <React.Fragment>
+                        <button type="submit" className="btn btn-warning">
+                          {mode == "add" ? "Confirm & Book" : "Confirm & Update"}
+                        </button>&nbsp;
+                        <Link exact to="/" className="ml-2">
+                          <button type="button" className="btn btn-danger">
+                            Cancel
+                          </button>
+                        </Link>
+                      </React.Fragment>
                     )}
 
                     {!Auth.authenticated() && (
