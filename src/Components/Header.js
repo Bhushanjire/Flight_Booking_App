@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "../Css/Header.css";
+// import "../Css/Header.css";
+import "../Css/Header.scss";
 import "bootstrap/dist/css/bootstrap.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlane, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import {
   Link,
   NavLink,
@@ -75,7 +78,7 @@ const Header = (props) => {
             </span>
           </div>
           <div className="col-md-4 text-center">
-            <h3>Book Your Flight</h3>
+            <h3><FontAwesomeIcon icon={faPlane} className="plane-color"/> Book Your Flight <FontAwesomeIcon icon={faPlane} className="plane-color"/></h3>
           </div>
           <div className="col-md-4 text-right">
             <div className="pr-5">
@@ -104,10 +107,10 @@ const Header = (props) => {
               )}
 
               {Auth.authenticated() && (
-                <a href="#" type="button" onClick={(e) => logout(e)}>
-                  Logout
-                </a>
-                // <NavLink exact to="/sign-up" className="ml-2">logout</NavLink>
+                // <a href="#" type="button" onClick={(e) => logout(e)}>
+                //   Logout
+                // </a>
+                <FontAwesomeIcon icon={faSignOutAlt} onClick={(e) => logout(e)} className="logout-icon" title="Logout"/>
               )}
             </div>
           </div>

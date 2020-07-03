@@ -3,6 +3,10 @@ import Flight from "../Services/Fligth.service";
 import { useParams, Link } from "react-router-dom";
 import { getMyBookings, loading } from "../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "react-js-pagination";
+// require("bootstrap/less/bootstrap.less");
 
 const MyBooking = () => {
   let { id } = useParams();
@@ -47,6 +51,12 @@ const MyBooking = () => {
     },
   ]);
 
+  const [search, setSearch] = useState("");
+  const [pagination, setPagination] = useState({
+    activePage: 1,
+    limit : 2
+  });
+
   useEffect(() => {
     loadBookings();
   }, []);
@@ -54,13 +64,12 @@ const MyBooking = () => {
   const loadBookings = () => {
     // console.log("bookingList", bookingList);
     dispatch(loading(true));
-    Flight.getMyBookings(id)
+    Flight.getMyBookings(id, search,pagination.activePage,pagination.limit)
       .then((result) => {
         setBooking(result.data);
         dispatch(loading(false));
 
         // dispatch(getMyBookings(id))
-
       })
       .catch((error) => {
         console.log("Error in booking list", error);
@@ -82,9 +91,36 @@ const MyBooking = () => {
     }
   };
 
+  const searchHandler = (e) => {
+    console.log("searchHandler", e.target.value);
+    setSearch(e.target.value);
+    loadBookings();
+  };
+
+  const handlePageChange = (pageNumber) => {
+    console.log(`active page is ${pageNumber}`);
+    setPagination({...pagination, activePage: pageNumber,
+    limit : 2 });
+    loadBookings();
+  };
+
   return (
     <React.Fragment>
       <div className="container">
+        <div className="mb-2">
+          <center>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Search"
+              aria-label="Search"
+              style={{ width: "50%" }}
+              onChange={(e) => searchHandler(e)}
+              name="textSearch"
+            />
+          </center>
+        </div>
+
         <table className="table">
           <thead className="thead-dark">
             <tr>
@@ -122,17 +158,21 @@ const MyBooking = () => {
                           exact
                           to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
                         >
-                          <button type="button" className="btn btn-info">
-                            Edit
-                          </button>
+                          <FontAwesomeIcon
+                            icon={faEdit}
+                            style={{ fontSize: "18px" }}
+                            title="Edit"
+                          />
                         </Link>
                       )}
 
                       {!checkDate(row?.bookingDetails?.scheduleDate) && (
                         <Link exact to={`/view-booking/${row?.id}`}>
-                          <button type="button" className="btn btn-warning">
-                            View
-                          </button>
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            style={{ fontSize: "18px", color: "green" }}
+                            title="View"
+                          />
                         </Link>
                       )}
                     </React.Fragment>
@@ -142,6 +182,17 @@ const MyBooking = () => {
             ))}
           </tbody>
         </table>
+        <div>
+          <Pagination
+            activePage={pagination.activePage}
+            itemsCountPerPage={pagination.limit}
+            totalItemsCount={6}
+            pageRangeDisplayed={5}
+            itemClass="page-item"
+            linkClass="page-link"
+            onChange={(e) => handlePageChange(e)}
+          />
+        </div>
       </div>
     </React.Fragment>
   );

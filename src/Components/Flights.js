@@ -1,6 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import flightStyle from "../Css-Module/flight.module.scss";
 const Flights = (props) => {
    let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
 
@@ -20,7 +23,7 @@ const Flights = (props) => {
         <div className="col-md-12 mt-3 text-center">
           <div className="alert alert-success" role="alert">
             <strong>
-              {fromCity} To {toCity} - ({travelDate}
+              {fromCity} <FontAwesomeIcon icon={faArrowRight} className={flightStyle.right_arrow_icon} /> {toCity} - ({travelDate}
             </strong>
             )
           </div>

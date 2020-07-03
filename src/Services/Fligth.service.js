@@ -17,8 +17,8 @@ const Flight = {
   addNewBooking(data) {
     return axios.post(`http://localhost:3003/FlightBooking`, data);
   },
-  getMyBookings(id){
-    return axios.get(`http://localhost:3003/FlightBooking?userId=${id}`);
+  getMyBookings(id,searchText,pageNo,limit){
+    return axios.get(`http://localhost:3003/FlightBooking?userId=${id}&q=${searchText}&_page=${pageNo}&_limit=${limit}`);
   },
   getFlightBookingById(bookingId){
     return axios.get(`http://localhost:3003/FlightBooking?id=${bookingId}`);

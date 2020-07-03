@@ -6,7 +6,9 @@ import Auth from "../Services/Auth";
 import { NavLink, BrowserRouter as Router, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loading } from "../Redux/Actions";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChair } from '@fortawesome/free-solid-svg-icons';                            
+                            
 const Booking = () => {
   const dispatch = useDispatch();
   const { id, noOfPerson, mode } = useParams();
@@ -217,6 +219,7 @@ const Booking = () => {
       setValidation({
         seat: true,
       });
+      dispatch(loading(false));
     }
   };
 
@@ -256,13 +259,18 @@ const Booking = () => {
     items.push(
       <React.Fragment>
         <div className="col-md-1 col-size" key={i + 2}>
+          
+        
           <div
             className={"seat text-center pt-1 " + isSeatBA}
             key={i}
             onClick={addEvent ? (e) => selectSeat(e, i) : null}
           >
+            
+            
             {i}
           </div>
+        
         </div>
         {addDiv && <div className="col-md-3" key={i + 1}></div>}
       </React.Fragment>
@@ -406,15 +414,17 @@ const Booking = () => {
           )}
 
           <div className="row mb-2 text-center seat-label">
-            <div className="col-md-2 seat-available text-center pt-1">
-              Available
+            <div className="col-md-3 seat-available text-center pt-1">
+              Available <FontAwesomeIcon icon={faChair}/>
             </div>
-            <div className="col-md-2"></div>
-            <div className="col-md-2 seat-booked text-center pt-1">Booked</div>
-            <div className="col-md-2"></div>
+            <div className="col-md-1"></div>
+            <div className="col-md-3 seat-booked text-center pt-1">
+              Booked <FontAwesomeIcon icon={faChair}/>
+              </div>
+            <div className="col-md-1"></div>
 
-            <div className="col-md-2 seat-selected text-center pt-1">
-              Selected
+            <div className="col-md-3 seat-selected text-center pt-1">
+              Selected <FontAwesomeIcon icon={faChair}/>
             </div>
           </div>
 
