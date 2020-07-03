@@ -52,19 +52,17 @@ const MyBooking = () => {
   ]);
 
   const [search, setSearch] = useState("");
-  const [pagination, setPagination] = useState({
-    activePage: 1,
-    limit : 2
-  });
+  const [activePage, setActivePage] = useState(1);
+  const perPageLimit = 2;
 
   useEffect(() => {
-    loadBookings();
+    loadBookings(1);
   }, []);
 
-  const loadBookings = () => {
+  const loadBookings = (pageNumber = 1) => {
     // console.log("bookingList", bookingList);
     dispatch(loading(true));
-    Flight.getMyBookings(id, search,pagination.activePage,pagination.limit)
+    Flight.getMyBookings(id, search, pageNumber, perPageLimit)
       .then((result) => {
         setBooking(result.data);
         dispatch(loading(false));
@@ -94,14 +92,13 @@ const MyBooking = () => {
   const searchHandler = (e) => {
     console.log("searchHandler", e.target.value);
     setSearch(e.target.value);
+    setActivePage(1);
     loadBookings();
   };
 
-  const handlePageChange = (pageNumber) => {
-    console.log(`active page is ${pageNumber}`);
-    setPagination({...pagination, activePage: pageNumber,
-    limit : 2 });
-    loadBookings();
+  const handlePageChange =  async (pageNumber) => {
+   const test =  await  setActivePage(pageNumber);
+     loadBookings(pageNumber);
   };
 
   return (
@@ -182,16 +179,20 @@ const MyBooking = () => {
             ))}
           </tbody>
         </table>
-        <div>
+        <div className="row">
+          <div className="col-md-8"></div>
+          <div className="col-md-4">
           <Pagination
-            activePage={pagination.activePage}
-            itemsCountPerPage={pagination.limit}
+            activePage={activePage}
+            itemsCountPerPage={perPageLimit}
             totalItemsCount={6}
             pageRangeDisplayed={5}
             itemClass="page-item"
             linkClass="page-link"
             onChange={(e) => handlePageChange(e)}
           />
+          </div>
+          
         </div>
       </div>
     </React.Fragment>
