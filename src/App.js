@@ -8,6 +8,7 @@ import MyBooking from "./Components/MyBooking";
 import Header from "./Components/Header";
 import ViewBooking from "./Components/ViewBooking";
 import Loading from "./Components/Loding";
+import Protected from "./Components/Protected";
 
 import "./App.css";
 
@@ -27,13 +28,34 @@ function App() {
         <Route exact path="/" component={Layout} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route
+
+        <Protected
           exact
           path="/booking/:id/:noOfPerson/:mode"
           component={Booking}
-        />
-        <Route exact path="/my-booking/:id" component={MyBooking} />
-        <Route exact path="/view-booking/:id" component={ViewBooking} />
+        ></Protected>
+        {/* <Route
+          exact
+          path="/booking/:id/:noOfPerson/:mode"
+          component={Booking}
+        /> */}
+        <Protected
+          exact
+          path="/booking/:id/:noOfPerson/:mode"
+          component={Booking}
+        ></Protected>
+        <Protected
+          exact
+          path="/my-booking/:id"
+          component={MyBooking}
+        ></Protected>
+        {/* <Route exact path="/my-booking/:id" component={MyBooking} /> */}
+        <Protected
+          exact
+          path="/view-booking/:id"
+          component={ViewBooking}
+        ></Protected>
+        {/* <Route exact path="/view-booking/:id" component={ViewBooking} /> */}
 
         <Route component={NotFound} />
       </Switch>

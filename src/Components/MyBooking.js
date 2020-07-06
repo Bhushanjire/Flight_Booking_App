@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Flight from "../Services/Fligth.service";
 import { useParams, Link } from "react-router-dom";
 import { getMyBookings, loading } from "../Redux/Actions";
@@ -6,66 +6,95 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "react-js-pagination";
+import ConfirmPopup from "../Components/ConfirmPopup";
+
 // require("bootstrap/less/bootstrap.less");
 
-const MyBooking = () => {
-  let { id } = useParams();
-  const dispatch = useDispatch();
-  const bookingList = useSelector((state) => state.userReducer);
-  const [booking, setBooking] = useState([
-    {
-      flightSchuleId: 0,
-      userId: 0,
-      seactNumbers: [],
-      passengersName: {},
-      totalPrice: 0,
-      bookingDetails: {
-        id: 0,
-        flightId: {
+class MyBooking extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: this.props.match.params.id,
+      booking: [
+        {
+          flightSchuleId: 0,
+          userId: 0,
+          seactNumbers: [],
+          passengersName: {},
+          totalPrice: 0,
+          bookingDetails: {
+            id: 0,
+            flightId: {
+              id: 0,
+              flightNumber: "",
+              flightName: "",
+              flightcompanyName: "",
+              flightTotalSeat: 0,
+            },
+            fromCityId: {
+              id: 0,
+              name: "",
+              state: "",
+              country: "",
+            },
+            toCityId: {
+              id: 0,
+              name: "",
+              state: "",
+              country: "",
+            },
+            price: 0,
+            bookingSeats: [],
+            scheduleDate: "",
+            departuteTime: "",
+            arrivalTime: "",
+            duration: "",
+          },
           id: 0,
-          flightNumber: "",
-          flightName: "",
-          flightcompanyName: "",
-          flightTotalSeat: 0,
         },
-        fromCityId: {
-          id: 0,
-          name: "",
-          state: "",
-          country: "",
-        },
-        toCityId: {
-          id: 0,
-          name: "",
-          state: "",
-          country: "",
-        },
-        price: 0,
-        bookingSeats: [],
-        scheduleDate: "",
-        departuteTime: "",
-        arrivalTime: "",
-        duration: "",
-      },
-      id: 0,
-    },
-  ]);
+      ],
+      search: "",
+      activePage: 1,
+      perPageLimit: 2,
+      pageNumber: 1,
+      totalRecords: 0,
+      // dispatch : useDispatch()
+    };
+  }
 
-  const [search, setSearch] = useState("");
-  const [activePage, setActivePage] = useState(1);
-  const perPageLimit = 2;
+  // const bookingList = useSelector((state) => state.userReducer);
+  // const [popup, setPopup] = useState(false);
 
-  useEffect(() => {
-    loadBookings(1);
-  }, []);
+  // const [search, setSearch] = useState("");
+  // const [activePage, setActivePage] = useState(1);
 
-  const loadBookings = (pageNumber = 1) => {
+  // useEffect(() => {
+  //   loadBookings(1);
+  // }, []);
+
+  componentDidMount() {
+    this.loadBookings(this.state.id);
+  }
+
+  loadBookings = (pageNumber = 1) => {
     // console.log("bookingList", bookingList);
-    dispatch(loading(true));
-    Flight.getMyBookings(id, search, pageNumber, perPageLimit)
+    // this.state.dispatch(loading(true));
+
+    Flight.getMyBookings(
+      this.state.id,
+      this.state.search,
+      this.state.activePage,
+      this.state.perPageLimit
+    )
       .then((result) => {
-        setBooking(result.data);
-        dispatch(loading(false));
+        console.log("Bookings", result.headers["x-total-count"]);
+
+        this.setState({
+          booking: result.data,
+          totalRecords: result.headers["x-total-count"],
+        });
+        // setBooking(result.data);
+        // this.state.dispatch(loading(false));
 
         // dispatch(getMyBookings(id))
       })
@@ -74,7 +103,7 @@ const MyBooking = () => {
       });
   };
 
-  const checkDate = (scheduleDate) => {
+  checkDate = (scheduleDate) => {
     const currentDate =
       new Date().getFullYear() +
       "-" +
@@ -89,114 +118,138 @@ const MyBooking = () => {
     }
   };
 
-  const searchHandler = (e) => {
-    console.log("searchHandler", e.target.value);
-    setSearch(e.target.value);
-    setActivePage(1);
-    loadBookings();
+  searchHandler = (e) => {
+    this.setState({
+      search: e.target.value,
+      activePage: 1,
+    });
+    this.loadBookings();
   };
 
-  const handlePageChange =  async (pageNumber) => {
-   const test =  await  setActivePage(pageNumber);
-     loadBookings(pageNumber);
+  handlePageChange = async (pageNumber) => {
+    // const test = await setActivePage(pageNumber);
+    // this.state.activePage = pageNumber;
+    await this.setState({
+      activePage: pageNumber,
+    });
+    this.loadBookings();
   };
 
-  return (
-    <React.Fragment>
-      <div className="container">
-        <div className="mb-2">
-          <center>
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Search"
-              aria-label="Search"
-              style={{ width: "50%" }}
-              onChange={(e) => searchHandler(e)}
-              name="textSearch"
-            />
-          </center>
-        </div>
+  openPopup = (e) => {
+    this.refs.child.handleShow();
+  };
 
-        <table className="table">
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Fight Name</th>
-              <th scope="col">Travel</th>
-              <th scope="col">Date</th>
-              <th scope="col">Departure Time</th>
-              <th scope="col">Arrival Time</th>
-              <th scope="col">Seat No.</th>
-              <th scope="col">Price</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {booking.map((row, index) => (
-              <tr key={index}>
-                <th scope="row">{index + 1}</th>
-                <td>{row.bookingDetails?.flightId?.flightName}</td>
-                <td>
-                  {row?.bookingDetails?.fromCityId?.name} -{" "}
-                  {row?.bookingDetails?.toCityId?.name}
-                </td>
-                <td>{row?.bookingDetails?.scheduleDate}</td>
+  closePopup =(e) =>{
+    console.log('closed popup called');
+    
+    this.refs.child.handleClose();
+  }
 
-                <td>{row?.bookingDetails?.departuteTime}</td>
-                <td>{row?.bookingDetails?.arrivalTime}</td>
-                <td>{row?.seactNumbers.join(",")}</td>
-                <td>Rs. {row?.totalPrice}</td>
-                <td>
-                  {
-                    <React.Fragment>
-                      {checkDate(row?.bookingDetails?.scheduleDate) && (
-                        <Link
-                          exact
-                          to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEdit}
-                            style={{ fontSize: "18px" }}
-                            title="Edit"
-                          />
-                        </Link>
-                      )}
+  render() {
+    return (
+      <React.Fragment>
+        <ConfirmPopup ref="child"  close = {this.closePopup}/>
+        <div className="container">
+          <div className="mb-2">
+            <center>
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Search"
+                aria-label="Search"
+                style={{ width: "50%" }}
+                onChange={(e) => this.searchHandler(e)}
+                name="textSearch"
+              />
+            </center>
+          </div>
 
-                      {!checkDate(row?.bookingDetails?.scheduleDate) && (
-                        <Link exact to={`/view-booking/${row?.id}`}>
+          <table className="table">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fight Name</th>
+                <th scope="col">Travel</th>
+                <th scope="col">Date</th>
+                <th scope="col">Departure Time</th>
+                <th scope="col">Arrival Time</th>
+                <th scope="col">Seat No.</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.booking.map((row, index) => (
+                <tr key={index}>
+                  <th scope="row">{index + 1}</th>
+                  <td>{row.bookingDetails?.flightId?.flightName}</td>
+                  <td>
+                    {row?.bookingDetails?.fromCityId?.name} -{" "}
+                    {row?.bookingDetails?.toCityId?.name}
+                  </td>
+                  <td>{row?.bookingDetails?.scheduleDate}</td>
+
+                  <td>{row?.bookingDetails?.departuteTime}</td>
+                  <td>{row?.bookingDetails?.arrivalTime}</td>
+                  <td>{row?.seactNumbers.join(",")}</td>
+                  <td>Rs. {row?.totalPrice}</td>
+                  <td>
+                    {
+                      <React.Fragment>
+                        {this.checkDate(row?.bookingDetails?.scheduleDate) && (
+                          <Link
+                            exact
+                            to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
+                          >
+                            <FontAwesomeIcon
+                              icon={faEdit}
+                              style={{ fontSize: "18px" }}
+                              title="Edit"
+                            />
+                          </Link>
+                        )}
+
+                        {!this.checkDate(row?.bookingDetails?.scheduleDate) && (
+                          // <Link exact to={`/view-booking/${row?.id}`}>
+                          //   <FontAwesomeIcon
+                          //     icon={faEye}
+                          //     style={{ fontSize: "18px", color: "green" }}
+                          //     title="View"
+                          //   />
+                          // </Link>
+
                           <FontAwesomeIcon
                             icon={faEye}
                             style={{ fontSize: "18px", color: "green" }}
                             title="View"
+                            onClick={(e) => this.openPopup(e, true)}
                           />
-                        </Link>
-                      )}
-                    </React.Fragment>
-                  }
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="row">
-          <div className="col-md-8"></div>
-          <div className="col-md-4">
-          <Pagination
-            activePage={activePage}
-            itemsCountPerPage={perPageLimit}
-            totalItemsCount={6}
-            pageRangeDisplayed={5}
-            itemClass="page-item"
-            linkClass="page-link"
-            onChange={(e) => handlePageChange(e)}
-          />
+                        )}
+                      </React.Fragment>
+                    }
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="row">
+            <div className="col-md-8"></div>
+            <div className="col-md-4">
+              <Pagination
+                activePage={this.state.activePage}
+                itemsCountPerPage={this.state.perPageLimit}
+                totalItemsCount={this.state.totalRecords}
+                pageRangeDisplayed={5}
+                itemClass="page-item"
+                linkClass="page-link"
+                onChange={(e) => this.handlePageChange(e)}
+              />
+            </div>
           </div>
-          
         </div>
-      </div>
-    </React.Fragment>
-  );
-};
+      </React.Fragment>
+    );
+  }
+}
 
 export default MyBooking;
