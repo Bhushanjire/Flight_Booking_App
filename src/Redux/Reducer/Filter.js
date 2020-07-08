@@ -1,8 +1,13 @@
 import { FILTER } from "../../Constants";
-const filterReducer = (state = {}, action) => {
+const initial = {
+    price : '',
+    company : ''
+}
+const filterReducer = (state=initial , action) => {
+    console.log('In reducer',action);
   switch (action.type) {
     case FILTER:
-      return [...state, action.payload];
+      return action.payload;
       break;
     default:
       return state;

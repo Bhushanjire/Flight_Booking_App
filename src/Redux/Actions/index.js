@@ -65,8 +65,6 @@ export const getMyBookings = (id) => {
 };
 
 export const loading = (value) => {
-  console.log("Value in action", value);
-
   return {
     type: LOADING,
     payload: value,
@@ -74,8 +72,12 @@ export const loading = (value) => {
 };
 
 export const filter = (data) => {
-  return {
-    type: FILTER,
-    payload: data,
+  console.log("Value in action", data);
+
+  return (dispatch) => {
+    return dispatch({
+      type: FILTER,
+      payload: data,
+    });
   };
 };

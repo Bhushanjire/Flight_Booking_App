@@ -2,29 +2,38 @@ import React, { Component } from "react";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { connect } from "react-redux";
-import Main from "../Components/Main";
 import { filter } from "../Redux/Actions/index";
 
 class Filter extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      volume: 1500,
+      price: 1500,
+      company : 'xyz'
     };
-
-   
   }
-   mapDispatchToProps = (dispatch) => {
-    return {
-      filter: (value) => dispatch({ type: "FILTER", value: this.state }),
-    };
+
+  submitHandler = (e) => {
+    this.props.filter(this.state);
+    console.log("Button click", e);
   };
 
   handleOnChange = (value) => {
     this.setState({
-      volume: value,
+      price: value,
     });
   };
+
+  inputChange = (e)=>{
+    console.log(e.target.value);
+  }
+
+  resetFilter =(e)=>{
+    this.state={}
+    this.props.filter(this.state);
+
+  }
+
   render() {
     return (
       <>
@@ -33,7 +42,7 @@ class Filter extends Component {
             Price :
             <div>
               <Slider
-                value={this.state.volume}
+                value={this.state.price}
                 orientation="vertical"
                 onChange={this.handleOnChange}
                 orientation="horizontal"
@@ -58,10 +67,10 @@ class Filter extends Component {
               }}
             >
               <li>
-                <input type="checkbox" /> &nbsp; Indigo AirLine{" "}
+                <input type="checkbox"  value={this.state.company} onChange={(e)=>this.inputChange(e)} /> &nbsp; Indigo AirLine
               </li>
               <li>
-                <input type="checkbox" /> &nbsp; Kingfisher AirLine{" "}
+                <input type="checkbox" /> &nbsp; Kingfisher Airline
               </li>
             </ul>
           </div>
@@ -73,8 +82,19 @@ class Filter extends Component {
         </div>
         <div className="row mb-2">
           <div className="col-md-12 text-center">
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              onClick={(e) => this.submitHandler(e)}
+              className="btn btn-primary"
+            >
               Apply
+            </button> &nbsp;
+            <button
+              type="button"
+              onClick={(e) => this.resetFilter(e)}
+              className="btn btn-warning"
+            >
+              Reset
             </button>
           </div>
         </div>
@@ -82,5 +102,11 @@ class Filter extends Component {
     );
   }
 }
-export default Filter;
-// export default connect(null,this.mapDispatchToProps)(Filter)
+
+const mapStateToProps = state => ({  
+   state
+});  
+  
+export default connect(mapStateToProps, { filter })(Filter); 
+
+// export default Filter;
