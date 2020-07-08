@@ -250,6 +250,7 @@ class MyBooking extends Component {
                             style={{ fontSize: "18px", color: "green" }}
                             title="View"
                             onClick={(e) => this.openPopup(e, row)}
+                            className="hand-cursor"
                           />
                         )}
                       </React.Fragment>

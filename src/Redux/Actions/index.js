@@ -5,6 +5,7 @@ import {
   FLIGHT_SCHEDULE_LIST,
   GET_MY_BOOKING,
   LOADING,
+  FILTER,
 } from "../../Constants/index";
 import axios from "axios";
 
@@ -64,10 +65,17 @@ export const getMyBookings = (id) => {
 };
 
 export const loading = (value) => {
-  console.log('Value in action',value);
-  
+  console.log("Value in action", value);
+
   return {
     type: LOADING,
     payload: value,
+  };
+};
+
+export const filter = (data) => {
+  return {
+    type: FILTER,
+    payload: data,
   };
 };

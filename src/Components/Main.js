@@ -2,8 +2,13 @@ import React, { Component, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
-import { useDispatch } from "react-redux";
-import { flightSearch, getFlightScheduleList, loading } from "../Redux/Actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  flightSearch,
+  getFlightScheduleList,
+  loading,
+  filter,
+} from "../Redux/Actions";
 
 const Main = () => {
   const [flight, setFlight] = useState({
@@ -14,6 +19,10 @@ const Main = () => {
   });
 
   const dispatch = useDispatch();
+
+  const filter = useSelector((state) => state.filterReducer);
+  console.log('Filter Form main',filter);
+  
 
   const currentDate =
     new Date().getFullYear() +
