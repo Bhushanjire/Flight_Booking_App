@@ -1,6 +1,9 @@
 import React, { useState, Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import flightStyle from "../Css-Module/flight.module.scss";
 
 class ConfirmPopup extends Component {
   constructor(props) {
@@ -8,19 +11,26 @@ class ConfirmPopup extends Component {
     this.state = {
       isOpen: false,
       isClose: false,
+      heading: null,
+      message: null,
     };
-    console.log("props in ConfirmPopup", this.props);
   }
 
-  handleClose = () => {
-    console.log("handleClose called");
+  handleClose = (e, value) => {
     this.setState({
-      isClose: false,
+      isClose: true,
+      isOpen: false,
     });
+    return value;
   };
-  handleShow = () => {
+  handleShow = (data) => {
+    this.setState({
+      heading: data.heading,
+      message: data.message,
+    });
     this.setState({
       isOpen: true,
+      isClose: true,
     });
   };
 
@@ -29,19 +39,27 @@ class ConfirmPopup extends Component {
       <>
         <Modal
           show={this.state.isOpen}
-          onHide={this.state.isClose}
+          onHide={this.handleClose}
           animation={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title className="text-center">
+              {this.state.heading}
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Body>{this.state.message}</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.props.close}>
-              Close
+            <Button
+              variant="secondary"
+              onClick={(e) => this.props.close(e, false)}
+            >
+              Cancel
             </Button>
-            <Button variant="primary" onClick={this.props.close}>
-              Save Changes
+            <Button
+              variant="primary"
+              onClick={(e) => this.props.close(e, true)}
+            >
+              {this.state.heading}
             </Button>
           </Modal.Footer>
         </Modal>

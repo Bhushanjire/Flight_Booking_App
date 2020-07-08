@@ -308,6 +308,36 @@
       "departuteTime": "6.00 pm",
       "arrivalTime": "10.00 pm",
       "duration": "4h"
+    },
+    {
+      "id": 7,
+      "flightId": {
+        "id": 1,
+        "flightNumber": "Ind123",
+        "flightName": "Indigo Gold",
+        "flightcompanyName": "Indigo",
+        "flightTotalSeat": 200
+      },
+      "fromCityId": {
+        "id": 1,
+        "name": "Pune",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "toCityId": {
+        "id": 2,
+        "name": "Mumbai",
+        "state": "Maharashtra",
+        "country": "India"
+      },
+      "price": "7845",
+      "bookingSeats": [
+        1
+      ],
+      "scheduleDate": "2020-07-25",
+      "departuteTime": "12.30 pm",
+      "arrivalTime": "03.30 pm",
+      "duration": "3h"
     }
   ],
   "FlightBooking": [
@@ -743,6 +773,48 @@
         "duration": "4h"
       },
       "id": 10
+    },
+    {
+      "flightSchuleId": "7",
+      "userId": 5,
+      "seactNumbers": [
+        1
+      ],
+      "passengersName": {
+        "Passanger1": "Bhushan Jire"
+      },
+      "totalPrice": 7845,
+      "bookingDetails": {
+        "id": 7,
+        "flightId": {
+          "id": 1,
+          "flightNumber": "Ind123",
+          "flightName": "Indigo Gold",
+          "flightcompanyName": "Indigo",
+          "flightTotalSeat": 200
+        },
+        "fromCityId": {
+          "id": 1,
+          "name": "Pune",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "toCityId": {
+          "id": 2,
+          "name": "Mumbai",
+          "state": "Maharashtra",
+          "country": "India"
+        },
+        "price": "7845",
+        "bookingSeats": [
+          1
+        ],
+        "scheduleDate": "2020-07-25",
+        "departuteTime": "12.30 pm",
+        "arrivalTime": "03.30 pm",
+        "duration": "3h"
+      },
+      "id": 11
     }
   ]
 }

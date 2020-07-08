@@ -44,3 +44,10 @@
   z-index: 1;
   fill: orange !important;
 }
+
+.ft-w-600{
+  font-weight: 600;
+}
+.hand-cursor{
+  cursor: pointer;
+}

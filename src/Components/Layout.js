@@ -10,7 +10,7 @@ export default class Layout extends Component {
       <React.Fragment>
         <div className="row">
           <div className="col-md-2">
-            <Filter />
+            {/* <Filter /> */}
           </div>
           <div className="col-md-10 text-left">
             <Main />

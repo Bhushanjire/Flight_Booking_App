@@ -7,7 +7,8 @@ import { NavLink, BrowserRouter as Router, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loading } from "../Redux/Actions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChair } from '@fortawesome/free-solid-svg-icons';                            
+import { faChair } from '@fortawesome/free-solid-svg-icons'; 
+
                             
 const Booking = () => {
   const dispatch = useDispatch();
@@ -127,6 +128,9 @@ const Booking = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    // openPopup()
+    // return
     dispatch(loading(true));
 
     if (noOfPerson == selectedSeat.length) {
@@ -300,6 +304,8 @@ const Booking = () => {
       </React.Fragment>
     );
   }
+
+ 
 
   return (
     <React.Fragment>

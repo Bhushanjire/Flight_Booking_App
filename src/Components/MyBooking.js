@@ -4,9 +4,11 @@ import { useParams, Link } from "react-router-dom";
 import { getMyBookings, loading } from "../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit,faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "react-js-pagination";
-import ConfirmPopup from "../Components/ConfirmPopup";
+import ViewBookingPopup from "./ViewBookingPopup";
+import ConfirmPopup from '../Components/ConfirmPopup';
+
 
 // require("bootstrap/less/bootstrap.less");
 
@@ -58,6 +60,8 @@ class MyBooking extends Component {
       perPageLimit: 2,
       pageNumber: 1,
       totalRecords: 0,
+      isOpen: false,
+      isClose: false,
       // dispatch : useDispatch()
     };
   }
@@ -135,20 +139,43 @@ class MyBooking extends Component {
     this.loadBookings();
   };
 
-  openPopup = (e) => {
-    this.refs.child.handleShow();
+  openPopup = (e, data) => {
+    let res = this.refs.child.handleShow(data);
   };
 
-  closePopup =(e) =>{
-    console.log('closed popup called');
-    
-    this.refs.child.handleClose();
-  }
+  closePopup = (e, value) => {
+    let res = this.refs.child.handleClose(e, value);
+    if (res) {
+      console.log("result", value);
+    } else {
+      console.log("result", value);
+    }
+  };
+
+   openConfirmPopup = (e) => {
+    let data={
+       heading : "Delete",
+       message : "Are you sure, you want to delete?"
+     }
+     let res = this.refs.confirmPopupRef.handleShow(data);
+   };
+ 
+    closeConfirmPopup = (e, value) => {
+     let res = this.refs.confirmPopupRef.handleClose(e, value);
+     if (res) {
+       console.log("result", value);
+     } else {
+       console.log("result", value);
+     }
+   };
 
   render() {
     return (
       <React.Fragment>
-        <ConfirmPopup ref="child"  close = {this.closePopup}/>
+        <ViewBookingPopup ref="child" close={this.closePopup} />
+        <ConfirmPopup ref="confirmPopupRef" close={this.closeConfirmPopup} />
+
+        <FontAwesomeIcon icon={faTrash} onClick={(e)=>this.openConfirmPopup()} className="hand-cursor" />
         <div className="container">
           <div className="mb-2">
             <center>
@@ -222,7 +249,7 @@ class MyBooking extends Component {
                             icon={faEye}
                             style={{ fontSize: "18px", color: "green" }}
                             title="View"
-                            onClick={(e) => this.openPopup(e, true)}
+                            onClick={(e) => this.openPopup(e, row)}
                           />
                         )}
                       </React.Fragment>
