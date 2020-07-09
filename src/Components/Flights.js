@@ -1,11 +1,44 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import flightStyle from "../Css-Module/flight.module.scss";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+  },
+});
 const Flights = (props) => {
-   let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
+  const classes = useStyles();
+  let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
 
   //Using Redux
   // let flightList = [];
@@ -23,14 +56,19 @@ const Flights = (props) => {
         <div className="col-md-12 mt-3 text-center">
           <div className="alert alert-success" role="alert">
             <strong>
-              {fromCity} <FontAwesomeIcon icon={faArrowRight} className={flightStyle.right_arrow_icon} /> {toCity} - ({travelDate}
+              {fromCity}{" "}
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className={flightStyle.right_arrow_icon}
+              />{" "}
+              {toCity} - ({travelDate}
             </strong>
             )
           </div>
         </div>
       </div>
 
-      <table className="table mt-2">
+      {/* <table className="table mt-2">
         <thead className="thead-dark">
           <tr>
             <th scope="col">#</th>
@@ -61,7 +99,7 @@ const Flights = (props) => {
               <td>
                 <NavLink
                   exact
-                  to={"/booking/" + row.id + "/" + noOfPerson+"/add"}
+                  to={"/booking/" + row.id + "/" + noOfPerson + "/add"}
                   className="ml-2"
                 >
                   <button type="button" className="btn btn-primary">
@@ -72,7 +110,63 @@ const Flights = (props) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">Airline</StyledTableCell>
+              <StyledTableCell align="center">Departure</StyledTableCell>
+              <StyledTableCell align="center">Arrival</StyledTableCell>
+              <StyledTableCell align="center">Duration</StyledTableCell>
+              <StyledTableCell align="center">Available Seats</StyledTableCell>
+              <StyledTableCell align="center">Price</StyledTableCell>
+              <StyledTableCell align="center">Total Price</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.flightList.map((row) => (
+              <StyledTableRow key={row.id}>
+                <StyledTableCell align="center">
+                  {row.flightId.flightName}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.departuteTime}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.arrivalTime}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.duration}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {parseInt(row.flightId.flightTotalSeat) -
+                    parseInt(row.bookingSeats.length)}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  Rs. {row.price}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  Rs. {row.price * noOfPerson}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <NavLink
+                    exact
+                    to={"/booking/" + row.id + "/" + noOfPerson + "/add"}
+                    className="ml-2"
+                  >
+                    {/* <button type="button" className="btn btn-primary">
+                      Continue
+                    </button> */}
+                    <Button type="button" variant="contained" color="primary">
+                      Continue
+                    </Button>
+                  </NavLink>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </React.Fragment>
   );
 };

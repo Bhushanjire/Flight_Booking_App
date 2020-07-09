@@ -1,15 +1,21 @@
 import React, { Component } from "react";
-import Slider from "react-rangeslider";
+// import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { connect } from "react-redux";
 import { filter } from "../Redux/Actions/index";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
+import Divider from '@material-ui/core/Divider';
 
 class Filter extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       price: 1500,
-      company : 'xyz'
+      company: [],
+      inputCheck: false,
     };
   }
 
@@ -18,21 +24,36 @@ class Filter extends Component {
     console.log("Button click", e);
   };
 
-  handleOnChange = (value) => {
+  handleOnChange = (e,value) => {
+    console.log('Range value',value);
     this.setState({
       price: value,
     });
   };
 
-  inputChange = (e)=>{
+  inputChange = (e) => {
     console.log(e.target.value);
-  }
+    if (e.target.checked) {
+      this.setState({
+        company: e.target.value,
+      });
+    } else {
+      this.setState({
+        company: "",
+      });
+    }
+    // this.setState({
+    //   inputChange: e.target.checked,
+    // });
+  };
 
-  resetFilter =(e)=>{
-    this.state={}
+  resetFilter = (e) => {
+    this.setState({
+      price: 1500,
+      company: [],
+    });
     this.props.filter(this.state);
-
-  }
+  };
 
   render() {
     return (
@@ -41,7 +62,7 @@ class Filter extends Component {
           <div className="col-md-12 ft-w-600">
             Price :
             <div>
-              <Slider
+              {/* <Slider
                 value={this.state.price}
                 orientation="vertical"
                 onChange={this.handleOnChange}
@@ -49,13 +70,27 @@ class Filter extends Component {
                 min={1000}
                 max={10000}
                 step={500}
+              /> */}
+
+              {/* <Typography id="range-slider" gutterBottom>
+                Temperature range
+              </Typography> */}
+              <Slider
+                value={this.state.price}
+                onChange={this.handleOnChange}
+                valueLabelDisplay="auto"
+                aria-labelledby="range-slider"
+                // getAriaValueText={valuetext}
+                min={1000}
+                step={500}
+                max={10000}
               />
             </div>
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-md-12">
-            <hr />
+          <Divider />
           </div>
         </div>
         <div className="row mb-2">
@@ -67,35 +102,47 @@ class Filter extends Component {
               }}
             >
               <li>
-                <input type="checkbox"  value={this.state.company} onChange={(e)=>this.inputChange(e)} /> &nbsp; Indigo AirLine
+                <Checkbox
+                  onChange={(e) => this.inputChange(e)}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                  value={this.state.company}
+                />
+                &nbsp; Indigo AirLine
               </li>
               <li>
-                <input type="checkbox" /> &nbsp; Kingfisher Airline
+                <Checkbox
+                  onChange={(e) => this.inputChange(e)}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                  value="Kingfisher Airline"
+                />
+                &nbsp; Kingfisher Airline
               </li>
             </ul>
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-md-12">
-            <hr />
+          <Divider />
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-md-12 text-center">
-            <button
+            <Button
               type="button"
+              variant="contained"
+              color="primary"
               onClick={(e) => this.submitHandler(e)}
-              className="btn btn-primary"
             >
               Apply
-            </button> &nbsp;
-            <button
+            </Button>
+            &nbsp;
+            <Button
               type="button"
               onClick={(e) => this.resetFilter(e)}
-              className="btn btn-warning"
+              variant="contained"
             >
               Reset
-            </button>
+            </Button>
           </div>
         </div>
       </>
@@ -103,10 +150,10 @@ class Filter extends Component {
   }
 }
 
-const mapStateToProps = state => ({  
-   state
-});  
-  
-export default connect(mapStateToProps, { filter })(Filter); 
+const mapStateToProps = (state) => ({
+  state,
+});
+
+export default connect(mapStateToProps, { filter })(Filter);
 
 // export default Filter;

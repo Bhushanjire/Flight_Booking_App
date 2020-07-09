@@ -3,6 +3,20 @@ import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
 import Flight from "../Services/Fligth.service";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
+
+
 import {
   flightSearch,
   getFlightScheduleList,
@@ -21,8 +35,7 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const filter = useSelector((state) => state.filterReducer);
-  console.log('Filter Form main',filter);
-  
+  console.log("Filter Form main", filter);
 
   const currentDate =
     new Date().getFullYear() +
@@ -96,7 +109,7 @@ const Main = () => {
               value={fromCity}
             /> */}
 
-            <select
+            {/* <select
               className="form-control"
               placeholder="From"
               id="fromCity"
@@ -110,7 +123,22 @@ const Main = () => {
                   {row.name}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <InputLabel id="fromCity">Source</InputLabel>
+            <Select
+              placeholder="From"
+              id="fromCity"
+              name="fromCity"
+              onChange={(e) => onInputChange(e)}
+              required
+              style={{ width: "100%" }}
+            >
+              <MenuItem value="">--Select--</MenuItem>
+              {cities.map((row) => (
+                <MenuItem value={row.name}>{row.name}</MenuItem>
+              ))}
+            </Select>
+
             {/* <SelectSearch
               options={options}
               search={true}
@@ -129,7 +157,7 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={toCity}
             /> */}
-            <select
+            {/* <select
               className="form-control"
               placeholder="To"
               id="toCity"
@@ -143,10 +171,35 @@ const Main = () => {
                   {row.name}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <InputLabel id="toCity">Destination</InputLabel>
+            <Select
+              placeholder="To"
+              id="toCity"
+              name="toCity"
+              onChange={(e) => onInputChange(e)}
+              required
+              style={{ width: "100%" }}
+            >
+              <MenuItem value="">--Select--</MenuItem>
+              {cities.map((row) => (
+                <MenuItem value={row.name}>{row.name}</MenuItem>
+              ))}
+            </Select>
           </div>
           <div className="col-md-2">
-            <input
+            {/* <input
+              type="date"
+              className="form-control"
+              placeholder="Date"
+              id="travelDate"
+              name="travelDate"
+              onChange={(e) => onInputChange(e)}
+              value={travelDate}
+              required
+              min={currentDate}
+            /> */}
+            <TextField
               type="date"
               className="form-control"
               placeholder="Date"
@@ -157,9 +210,24 @@ const Main = () => {
               required
               min={currentDate}
             />
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    </MuiPickersUtilsProvider>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="travelDate"
+              label="Travel Date"
+              value={travelDate}
+              onChange={(e) => onInputChange(e)}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            /> */}
           </div>
           <div className="col-md-2">
-            <input
+            {/* <input
               type="number"
               className="form-control"
               placeholder="No Of Person"
@@ -170,12 +238,30 @@ const Main = () => {
               required
               min="1"
               max="50"
+            /> */}
+            <TextField
+              id="standard-basic"
+              type="number"
+              className="form-control"
+              placeholder="No Of Person"
+              id="noOfPerson"
+              name="noOfPerson"
+              onChange={(e) => onInputChange(e)}
+              value={noOfPerson}
+              required
+              min="1"
+              max="50"
+              label="Passengers"
             />
           </div>
           <div className="col-md-2">
-            <button type="submit" className="btn btn-primary">
+            {/* <button type="submit" className="btn btn-primary">
               Search
-            </button>
+            </button> */}
+
+            <Button variant="contained" type="submit" color="primary">
+              Search
+            </Button>
           </div>
         </div>
       </form>

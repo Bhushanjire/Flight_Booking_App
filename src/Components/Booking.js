@@ -6,10 +6,10 @@ import Auth from "../Services/Auth";
 import { NavLink, BrowserRouter as Router, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loading } from "../Redux/Actions";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChair } from '@fortawesome/free-solid-svg-icons'; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChair } from "@fortawesome/free-solid-svg-icons";
+import Button from "@material-ui/core/Button";
 
-                            
 const Booking = () => {
   const dispatch = useDispatch();
   const { id, noOfPerson, mode } = useParams();
@@ -263,18 +263,13 @@ const Booking = () => {
     items.push(
       <React.Fragment>
         <div className="col-md-1 col-size" key={i + 2}>
-          
-        
           <div
             className={"seat text-center pt-1 " + isSeatBA}
             key={i}
             onClick={addEvent ? (e) => selectSeat(e, i) : null}
           >
-            
-            
             {i}
           </div>
-        
         </div>
         {addDiv && <div className="col-md-3" key={i + 1}></div>}
       </React.Fragment>
@@ -304,8 +299,6 @@ const Booking = () => {
       </React.Fragment>
     );
   }
-
- 
 
   return (
     <React.Fragment>
@@ -379,16 +372,26 @@ const Booking = () => {
                   <div className="col-md-12 text-center">
                     {Auth.authenticated() && (
                       <React.Fragment>
-                        <button type="submit" className="btn btn-warning">
+                        {/* <button type="submit" className="btn btn-warning">
                           {mode == "add"
                             ? "Confirm & Book"
                             : "Confirm & Update"}
-                        </button>
+                        </button> */}
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                        >
+                          {mode == "add"
+                            ? "Confirm & Book"
+                            : "Confirm & Update"}
+                        </Button>
                         &nbsp;
                         <Link exact to="/" className="ml-2">
-                          <button type="button" className="btn btn-danger">
+                          {/* <button type="button" className="btn btn-danger">
                             Cancel
-                          </button>
+                          </button> */}
+                          <Button  type="button" variant="contained">Cancel</Button>
                         </Link>
                       </React.Fragment>
                     )}
@@ -421,16 +424,16 @@ const Booking = () => {
 
           <div className="row mb-2 text-center seat-label">
             <div className="col-md-3 seat-available text-center pt-1">
-              Available <FontAwesomeIcon icon={faChair}/>
+              Available <FontAwesomeIcon icon={faChair} />
             </div>
             <div className="col-md-1"></div>
             <div className="col-md-3 seat-booked text-center pt-1">
-              Booked <FontAwesomeIcon icon={faChair}/>
-              </div>
+              Booked <FontAwesomeIcon icon={faChair} />
+            </div>
             <div className="col-md-1"></div>
 
             <div className="col-md-3 seat-selected text-center pt-1">
-              Selected <FontAwesomeIcon icon={faChair}/>
+              Selected <FontAwesomeIcon icon={faChair} />
             </div>
           </div>
 
