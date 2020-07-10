@@ -9,11 +9,21 @@ import Pagination from "react-js-pagination";
 import ViewBookingPopup from "./ViewBookingPopup";
 import ConfirmPopup from "../Components/ConfirmPopup";
 
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 // require("bootstrap/less/bootstrap.less");
 
 class MyBooking extends Component {
   constructor(props) {
     super(props);
+    //  const classes = useStyles();
     this.state = {
       id: this.props.match.params.id,
       booking: [
@@ -55,12 +65,13 @@ class MyBooking extends Component {
         },
       ],
       search: "",
-      activePage: 1,
+      activePage: 0,
       perPageLimit: 2,
       pageNumber: 1,
       totalRecords: 0,
       isOpen: false,
       isClose: false,
+      rowsPerPage: 2,
       // dispatch : useDispatch()
     };
   }
@@ -124,7 +135,7 @@ class MyBooking extends Component {
   searchHandler = (e) => {
     this.setState({
       search: e.target.value,
-      activePage: 1,
+      activePage: 0,
     });
     this.loadBookings();
   };
@@ -168,6 +179,20 @@ class MyBooking extends Component {
     }
   };
 
+  handleChangePage = async (event, newPage) => {
+    await this.setState({
+      activePage: newPage,
+    });
+    this.loadBookings();
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      rowsPerPage: +event.target.value,
+      activePage: 0,
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -189,7 +214,7 @@ class MyBooking extends Component {
             </center>
           </div>
 
-          <table className="table">
+          {/* <table className="table">
             <thead className="thead-dark">
               <tr>
                 <th scope="col">#</th>
@@ -252,7 +277,8 @@ class MyBooking extends Component {
                               title="View"
                               onClick={(e) => this.openPopup(e, row)}
                               className="hand-cursor"
-                            /> &nbsp;
+                            />{" "}
+                            &nbsp;
                             <FontAwesomeIcon
                               icon={faTrash}
                               onClick={(e) => this.openConfirmPopup()}
@@ -267,8 +293,8 @@ class MyBooking extends Component {
                 </tr>
               ))}
             </tbody>
-          </table>
-          <div className="row">
+          </table> */}
+          {/* <div className="row">
             <div className="col-md-8"></div>
             <div className="col-md-4">
               <Pagination
@@ -281,7 +307,129 @@ class MyBooking extends Component {
                 onChange={(e) => this.handlePageChange(e)}
               />
             </div>
-          </div>
+          </div> */}
+          <Paper className={{ width: "100%" }}>
+            <TableContainer className={{ maxHeight: "440" }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell key="FightName" align="center">
+                      <strong>Fight Name</strong>
+                    </TableCell>
+                    <TableCell key="Travel" align="center">
+                      <strong>Travel</strong>
+                    </TableCell>
+                    <TableCell key="Date" align="center">
+                      <strong>Date</strong>
+                    </TableCell>
+                    <TableCell key="DepartureTime" align="center">
+                      <strong>Departure Time</strong>
+                    </TableCell>
+                    <TableCell key="ArrivalTime" align="center">
+                      <strong>Arrival Time</strong>
+                    </TableCell>
+                    <TableCell key="SeatNo" align="center">
+                      <strong>Seat No</strong>
+                    </TableCell>
+                    <TableCell key="Price" align="center">
+                      <strong>Price</strong>
+                    </TableCell>
+                    <TableCell key="Action" align="center">
+                      <strong>Action</strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.booking.map((row) => (
+                    <TableRow hover key={row.id}>
+                      <TableCell align="center">
+                        {row.bookingDetails?.flightId?.flightName}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.bookingDetails?.fromCityId?.name} -
+                        {row?.bookingDetails?.toCityId?.name}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.bookingDetails?.scheduleDate}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.bookingDetails?.departuteTime}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.bookingDetails?.arrivalTime}
+                      </TableCell>
+                      <TableCell align="center">
+                        {row?.seactNumbers.join(",")}
+                      </TableCell>
+                      <TableCell align="center">
+                        Rs. {row?.totalPrice}
+                      </TableCell>
+                      <TableCell align="center">
+                        {
+                          <React.Fragment>
+                            {this.checkDate(
+                              row?.bookingDetails?.scheduleDate
+                            ) && (
+                              <>
+                                <Link
+                                  exact
+                                  to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faEdit}
+                                    style={{ fontSize: "18px" }}
+                                    title="Edit"
+                                  />
+                                </Link>
+                                &nbsp;
+                              </>
+                            )}
+
+                            {!this.checkDate(
+                              row?.bookingDetails?.scheduleDate
+                            ) && (
+                              // <Link exact to={`/view-booking/${row?.id}`}>
+                              //   <FontAwesomeIcon
+                              //     icon={faEye}
+                              //     style={{ fontSize: "18px", color: "green" }}
+                              //     title="View"
+                              //   />
+                              // </Link>
+                              <>
+                                <FontAwesomeIcon
+                                  icon={faEye}
+                                  style={{ fontSize: "18px", color: "green" }}
+                                  title="View"
+                                  onClick={(e) => this.openPopup(e, row)}
+                                  className="hand-cursor"
+                                />{" "}
+                                &nbsp;
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  onClick={(e) => this.openConfirmPopup()}
+                                  className="hand-cursor text-danger"
+                                  title="Not implemented yet"
+                                />
+                              </>
+                            )}
+                          </React.Fragment>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[2, 4, 6]}
+              component="div"
+              count={this.state.totalRecords}
+              rowsPerPage={this.state.rowsPerPage}
+              page={this.state.activePage}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </Paper>
         </div>
       </React.Fragment>
     );
