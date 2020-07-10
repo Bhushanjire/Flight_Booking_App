@@ -1,9 +1,3 @@
-.header{
-    width: 100%;
-    height: 70px;
-    background-color: lightskyblue;
-    /* position: fixed; */
-}
 .cursor-ptr{
     cursor: pointer;
 }
@@ -16,5 +10,9 @@
 .logout-icon{
     font-size: 18px;
     cursor: pointer;
+}
+
+.inactive{
+    color : white;
 }
 

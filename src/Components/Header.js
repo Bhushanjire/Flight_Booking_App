@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 // import "../Css/Header.css";
 import "../Css/Header.scss";
 import "bootstrap/dist/css/bootstrap.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlane, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlane, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   Link,
   NavLink,
@@ -16,7 +16,27 @@ import {
 } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 const Header = (props) => {
+  const classes = useStyles();
   // const user = useSelector((state) => state.userReducer);
   // console.log('User from header',user);
 
@@ -35,8 +55,6 @@ const Header = (props) => {
     setRoute(location.pathname);
   }, []);
 
-  console.log("location.pathname", location.pathname);
-
   const selectedLink = (e, route) => {
     setRoute(route);
   };
@@ -48,74 +66,90 @@ const Header = (props) => {
   };
   return (
     <React.Fragment>
-      <div className="header pt-4 mb-5">
-        <div className="row">
-          <div className="col-md-4">
-            <span className="ml-1">
-              {/* {Auth.authenticated() && ( */}
-              <Link
-                exact
-                to="/"
-                className={`mr-2 ${route == "/" ? "active" : ""}`}
-                onClick={(e) => selectedLink(e, "/")}
-              >
-                Home
-              </Link>
-              {/* )} */}
-            </span>
-            &nbsp;&nbsp;
-            <span>
-              {Auth.authenticated() && (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              <span className="ml-1">
+                {/* {Auth.authenticated() && ( */}
                 <Link
                   exact
-                  to={`/my-booking/${id}`}
-                  className={`mr-2 ${route == "/my-booking" ? "active" : ""}`}
-                  onClick={(e) => selectedLink(e, "/my-booking")}
+                  to="/"
+                  className={`mr-2 ${route == "/" ? "active" : ""}`}
+                  onClick={(e) => selectedLink(e, "/")}
                 >
-                  My Bookings
+                  <Button style={{ color: "white" }}>Home</Button>
                 </Link>
-              )}
-            </span>
-          </div>
-          <div className="col-md-4 text-center">
-            <h3><FontAwesomeIcon icon={faPlane} className="plane-color"/> Book Your Flight <FontAwesomeIcon icon={faPlane} className="plane-color"/></h3>
-          </div>
-          <div className="col-md-4 text-right">
-            <div className="pr-5">
-              <span className="mr-3">{Auth.authenticated() && LoginUser}</span>
-              {!Auth.authenticated() && (
-                <NavLink
-                  exact
-                  to="/login"
-                  className={`mr-2 ${route == "/login" ? "active" : ""}`}
-                  onClick={(e) => selectedLink(e, "/login")}
-                >
-                  Login
-                </NavLink>
-              )}
-              {!Auth.authenticated() && <span>/</span>}
-
-              {!Auth.authenticated() && (
-                <NavLink
-                  exact
-                  to="/sign-up"
-                  className={`ml-2 ${route == "/sign-up" ? "active" : ""}`}
-                  onClick={(e) => selectedLink(e, "/sign-up")}
-                >
-                  Sign Up
-                </NavLink>
-              )}
-
-              {Auth.authenticated() && (
-                // <a href="#" type="button" onClick={(e) => logout(e)}>
-                //   Logout
-                // </a>
-                <FontAwesomeIcon icon={faSignOutAlt} onClick={(e) => logout(e)} className="logout-icon" title="Logout"/>
-              )}
+                {/* )} */}
+              </span>
+              &nbsp;&nbsp;
+              <span>
+                {Auth.authenticated() && (
+                  <Link
+                    exact
+                    to={`/my-booking/${id}`}
+                    className={`mr-2 ${route == "/my-booking" ? "active" : ""}`}
+                    onClick={(e) => selectedLink(e, "/my-booking")}
+                  >
+                    <Button style={{ color: "white" }}>My Bookings</Button>
+                  </Link>
+                )}
+              </span>
+            </Typography>
+            <div style={{ marginRight: "22%" }}>
+              <h3>
+                <FontAwesomeIcon icon={faPlane} className="plane-color" /> Book
+                Your Flight{" "}
+                <FontAwesomeIcon icon={faPlane} className="plane-color" />
+              </h3>
             </div>
-          </div>
-        </div>
+            <span className="mr-3">{Auth.authenticated() && LoginUser}</span>
+            {!Auth.authenticated() && (
+              <NavLink
+                exact
+                to="/login"
+                className={`mr-2 ${route == "/login" ? "active" : ""}`}
+                onClick={(e) => selectedLink(e, "/login")}
+              >
+                <Button style={{ color: "white" }}>Login</Button>
+              </NavLink>
+            )}
+            {!Auth.authenticated() && <span>/</span>}
+
+            {!Auth.authenticated() && (
+              <NavLink
+                exact
+                to="/sign-up"
+                className={`ml-2 ${route == "/sign-up" ? "active" : ""}`}
+                onClick={(e) => selectedLink(e, "/sign-up")}
+              >
+                <Button style={{ color: "white" }}>Sign Up</Button>
+              </NavLink>
+            )}
+
+            {Auth.authenticated() && (
+              // <a href="#" type="button" onClick={(e) => logout(e)}>
+              //   Logout
+              // </a>
+              <FontAwesomeIcon
+                icon={faSignOutAlt}
+                onClick={(e) => logout(e)}
+                className="logout-icon"
+                title="Logout"
+              />
+            )}
+          </Toolbar>
+        </AppBar>
       </div>
+      <div className="mb-5"></div>
     </React.Fragment>
   );
 };

@@ -4,12 +4,10 @@ import { useParams, Link } from "react-router-dom";
 import { getMyBookings, loading } from "../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEdit,faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "react-js-pagination";
 import ViewBookingPopup from "./ViewBookingPopup";
-import ConfirmPopup from '../Components/ConfirmPopup';
-
-
+import ConfirmPopup from "../Components/ConfirmPopup";
 
 // require("bootstrap/less/bootstrap.less");
 
@@ -153,22 +151,22 @@ class MyBooking extends Component {
     }
   };
 
-   openConfirmPopup = (e) => {
-    let data={
-       heading : "Delete",
-       message : "Are you sure, you want to delete?"
-     }
-     let res = this.refs.confirmPopupRef.handleShow(data);
-   };
- 
-    closeConfirmPopup = (e, value) => {
-     let res = this.refs.confirmPopupRef.handleClose(e, value);
-     if (res) {
-       console.log("result", value);
-     } else {
-       console.log("result", value);
-     }
-   };
+  openConfirmPopup = (e) => {
+    let data = {
+      heading: "Delete",
+      message: "Are you sure, you want to delete?",
+    };
+    let res = this.refs.confirmPopupRef.handleShow(data);
+  };
+
+  closeConfirmPopup = (e, value) => {
+    let res = this.refs.confirmPopupRef.handleClose(e, value);
+    if (res) {
+      console.log("result", value);
+    } else {
+      console.log("result", value);
+    }
+  };
 
   render() {
     return (
@@ -176,7 +174,6 @@ class MyBooking extends Component {
         <ViewBookingPopup ref="child" close={this.closePopup} />
         <ConfirmPopup ref="confirmPopupRef" close={this.closeConfirmPopup} />
 
-        <FontAwesomeIcon icon={faTrash} onClick={(e)=>this.openConfirmPopup()} className="hand-cursor" />
         <div className="container">
           <div className="mb-2">
             <center>
@@ -225,16 +222,19 @@ class MyBooking extends Component {
                     {
                       <React.Fragment>
                         {this.checkDate(row?.bookingDetails?.scheduleDate) && (
-                          <Link
-                            exact
-                            to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
-                          >
-                            <FontAwesomeIcon
-                              icon={faEdit}
-                              style={{ fontSize: "18px" }}
-                              title="Edit"
-                            />
-                          </Link>
+                          <>
+                            <Link
+                              exact
+                              to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
+                            >
+                              <FontAwesomeIcon
+                                icon={faEdit}
+                                style={{ fontSize: "18px" }}
+                                title="Edit"
+                              />
+                            </Link>
+                            &nbsp;
+                          </>
                         )}
 
                         {!this.checkDate(row?.bookingDetails?.scheduleDate) && (
@@ -245,14 +245,21 @@ class MyBooking extends Component {
                           //     title="View"
                           //   />
                           // </Link>
-
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            style={{ fontSize: "18px", color: "green" }}
-                            title="View"
-                            onClick={(e) => this.openPopup(e, row)}
-                            className="hand-cursor"
-                          />
+                          <>
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              style={{ fontSize: "18px", color: "green" }}
+                              title="View"
+                              onClick={(e) => this.openPopup(e, row)}
+                              className="hand-cursor"
+                            /> &nbsp;
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              onClick={(e) => this.openConfirmPopup()}
+                              className="hand-cursor text-danger"
+                              title="Not implemented yet"
+                            />
+                          </>
                         )}
                       </React.Fragment>
                     }
