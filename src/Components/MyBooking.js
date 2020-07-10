@@ -97,12 +97,10 @@ class MyBooking extends Component {
     Flight.getMyBookings(
       this.state.id,
       this.state.search,
-      this.state.activePage,
+      this.state.activePage + 1,
       this.state.perPageLimit
     )
       .then((result) => {
-        console.log("Bookings", result.headers["x-total-count"]);
-
         this.setState({
           booking: result.data,
           totalRecords: result.headers["x-total-count"],
@@ -132,8 +130,8 @@ class MyBooking extends Component {
     }
   };
 
-  searchHandler = (e) => {
-    this.setState({
+  searchHandler = async (e) => {
+    await this.setState({
       search: e.target.value,
       activePage: 0,
     });
@@ -186,11 +184,13 @@ class MyBooking extends Component {
     this.loadBookings();
   };
 
-  handleChangeRowsPerPage = (event) => {
-    this.setState({
-      rowsPerPage: +event.target.value,
+  handleChangeRowsPerPage = async (event) => {
+    await this.setState({
+      rowsPerPage: event.target.value,
       activePage: 0,
+      perPageLimit: event.target.value,
     });
+    this.loadBookings();
   };
 
   render() {
