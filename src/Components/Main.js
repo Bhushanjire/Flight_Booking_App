@@ -1,3 +1,4 @@
+import "date-fns";
 import React, { Component, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Flights from "./Flights";
@@ -8,14 +9,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import DateFnsUtils from '@date-io/date-fns';
+
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import {
   flightSearch,
@@ -28,7 +31,7 @@ const Main = () => {
   const [flight, setFlight] = useState({
     fromCity: "",
     toCity: "",
-    travelDate: "",
+    travelDate: new Date(),
     noOfPerson: "",
   });
 
@@ -54,12 +57,25 @@ const Main = () => {
     setFlight({ ...flight, [event.target.name]: event.target.value });
   };
 
+  const handleDateChange = (date) => {
+    let selectedDate =
+    new Date(date).getFullYear() +
+    "-" +
+    ("0" + (new Date(date).getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + new Date(date).getDate()).slice(-2);
+    setFlight({ ...flight, travelDate: selectedDate });
+  };
+
   useEffect(() => {
     // flightData = flight;
     loadCities();
   }, []);
 
   const submitHandler = (e) => {
+
+    console.log();
+    
     e.preventDefault();
     dispatch(flightSearch(flight));
     dispatch(loading(true));
@@ -93,6 +109,22 @@ const Main = () => {
     // setCities(cityResult.data);
   };
 
+  const onSourceChange=(event,value)=>{
+    console.log('value',value);
+    
+    setFlight({...flight,
+      fromCity : value
+    })
+  }
+
+  const onDestinationChange=(event,value)=>{
+    setFlight({...flight,
+      toCity : value
+    })
+  }
+
+  
+
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
     <div className="container">
@@ -124,7 +156,7 @@ const Main = () => {
                 </option>
               ))}
             </select> */}
-            <InputLabel id="fromCity">Source</InputLabel>
+            {/* <InputLabel id="fromCity">Source</InputLabel>
             <Select
               placeholder="From"
               id="fromCity"
@@ -137,7 +169,26 @@ const Main = () => {
               {cities.map((row) => (
                 <MenuItem value={row.name}>{row.name}</MenuItem>
               ))}
-            </Select>
+            </Select> */}
+
+            <Autocomplete
+              freeSolo
+              id="free-solo-2-demo"
+              disableClearable
+              options={cities.map((option) => option.name)}
+              onChange={(e,value) => onSourceChange(e,value)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Source"
+                  margin="normal"
+                  variant="outlined"
+                  name="source"
+                  InputProps={{ ...params.InputProps, type: "search" }}
+                  required
+                />
+              )}
+            />
 
             {/* <SelectSearch
               options={options}
@@ -172,7 +223,7 @@ const Main = () => {
                 </option>
               ))}
             </select> */}
-            <InputLabel id="toCity">Destination</InputLabel>
+            {/* <InputLabel id="toCity">Destination</InputLabel>
             <Select
               placeholder="To"
               id="toCity"
@@ -185,7 +236,26 @@ const Main = () => {
               {cities.map((row) => (
                 <MenuItem value={row.name}>{row.name}</MenuItem>
               ))}
-            </Select>
+            </Select> */}
+
+            <Autocomplete
+              freeSolo
+              id="free-solo-2-demo"
+              disableClearable
+              options={cities.map((option) => option.name)}
+              onChange={(e,value) => onDestinationChange(e,value)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Destination"
+                  margin="normal"
+                  variant="outlined"
+                  name="destination"
+                  InputProps={{ ...params.InputProps, type: "search" }}
+                  required
+                />
+              )}
+            />
           </div>
           <div className="col-md-2">
             {/* <input
@@ -199,7 +269,7 @@ const Main = () => {
               required
               min={currentDate}
             /> */}
-            <TextField
+            {/* <TextField
               type="date"
               className="form-control"
               placeholder="Date"
@@ -209,22 +279,26 @@ const Main = () => {
               value={travelDate}
               required
               min={currentDate}
-            />
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    </MuiPickersUtilsProvider>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="travelDate"
-              label="Travel Date"
-              value={travelDate}
-              onChange={(e) => onInputChange(e)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
             /> */}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="space-around">
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Travel Date"
+                  value={travelDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                  required
+                  minDate = {new Date()}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
           </div>
           <div className="col-md-2">
             {/* <input
@@ -249,8 +323,8 @@ const Main = () => {
               onChange={(e) => onInputChange(e)}
               value={noOfPerson}
               required
-              min="1"
-              max="50"
+              min={1}
+              max={50}
               label="Passengers"
             />
           </div>

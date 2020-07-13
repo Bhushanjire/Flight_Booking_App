@@ -23,7 +23,6 @@ import TableRow from "@material-ui/core/TableRow";
 class MyBooking extends Component {
   constructor(props) {
     super(props);
-    //  const classes = useStyles();
     this.state = {
       id: this.props.match.params.id,
       booking: [
