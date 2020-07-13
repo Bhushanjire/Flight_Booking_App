@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,14 +40,15 @@ const Flights = (props) => {
   const classes = useStyles();
   let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
 
-  //Using Redux
-  // let flightList = [];
+  // Using Redux
   // const searchFlight = useSelector((state) => state.flightReducer)[0];
   // useSelector((state) => {
-  //   if (state.flightReducer[1]) {
-  //     flightList = state.flightReducer[1];
+  //   if (state.flightReducer.flightList.length > 0) {
+  //     console.log("flightSearchRedux", state.flightReducer.flightSearch);
+  //     console.log("flightListRedux", state.flightReducer.flightList);
   //   }
   // });
+
   // let { fromCity, toCity, travelDate, noOfPerson } = searchFlight;
 
   return (

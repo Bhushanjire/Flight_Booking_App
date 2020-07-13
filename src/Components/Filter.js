@@ -7,7 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 
 class Filter extends Component {
   constructor(props, context) {
@@ -24,27 +24,23 @@ class Filter extends Component {
     console.log("Button click", e);
   };
 
-  handleOnChange = (e,value) => {
-    console.log('Range value',value);
+  handlePriceChange = (e, value) => {
+    console.log("Range value", value);
     this.setState({
       price: value,
     });
   };
 
-  inputChange = (e) => {
-    console.log(e.target.value);
+  handleCompanyChange = (e) => {
     if (e.target.checked) {
       this.setState({
-        company: e.target.value,
+        company: this.state.company.concat(e.target.value),
       });
     } else {
       this.setState({
-        company: "",
+        company: this.state.company.filter(item => item != e.target.value),
       });
     }
-    // this.setState({
-    //   inputChange: e.target.checked,
-    // });
   };
 
   resetFilter = (e) => {
@@ -77,7 +73,7 @@ class Filter extends Component {
               </Typography> */}
               <Slider
                 value={this.state.price}
-                onChange={this.handleOnChange}
+                onChange={this.handlePriceChange}
                 valueLabelDisplay="auto"
                 aria-labelledby="range-slider"
                 // getAriaValueText={valuetext}
@@ -90,7 +86,7 @@ class Filter extends Component {
         </div>
         <div className="row mb-2">
           <div className="col-md-12">
-          <Divider />
+            <Divider />
           </div>
         </div>
         <div className="row mb-2">
@@ -103,15 +99,15 @@ class Filter extends Component {
             >
               <li>
                 <Checkbox
-                  onChange={(e) => this.inputChange(e)}
+                  onChange={(e) => this.handleCompanyChange(e)}
                   inputProps={{ "aria-label": "primary checkbox" }}
-                  value={this.state.company}
+                  value="Indigo Airline"
                 />
                 &nbsp; Indigo AirLine
               </li>
               <li>
                 <Checkbox
-                  onChange={(e) => this.inputChange(e)}
+                  onChange={(e) => this.handleCompanyChange(e)}
                   inputProps={{ "aria-label": "primary checkbox" }}
                   value="Kingfisher Airline"
                 />
@@ -122,7 +118,7 @@ class Filter extends Component {
         </div>
         <div className="row mb-2">
           <div className="col-md-12">
-          <Divider />
+            <Divider />
           </div>
         </div>
         <div className="row mb-2">

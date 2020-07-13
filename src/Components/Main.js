@@ -35,10 +35,14 @@ const Main = () => {
     noOfPerson: "",
   });
 
-  const dispatch = useDispatch();
+  useSelector((state) => {
+    if (state.flightReducer.flightList.length > 0) {
+      console.log("flightSearchRedux", state.flightReducer.flightSearch);
+      console.log("flightListRedux", state.flightReducer.flightList);
+    }
+  });
 
-  const filter = useSelector((state) => state.filterReducer);
-  console.log("Filter Form main", filter);
+  const dispatch = useDispatch();
 
   const currentDate =
     new Date().getFullYear() +
@@ -59,11 +63,11 @@ const Main = () => {
 
   const handleDateChange = (date) => {
     let selectedDate =
-    new Date(date).getFullYear() +
-    "-" +
-    ("0" + (new Date(date).getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + new Date(date).getDate()).slice(-2);
+      new Date(date).getFullYear() +
+      "-" +
+      ("0" + (new Date(date).getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + new Date(date).getDate()).slice(-2);
     setFlight({ ...flight, travelDate: selectedDate });
   };
 
@@ -73,9 +77,6 @@ const Main = () => {
   }, []);
 
   const submitHandler = (e) => {
-
-    console.log();
-    
     e.preventDefault();
     dispatch(flightSearch(flight));
     dispatch(loading(true));
@@ -109,21 +110,15 @@ const Main = () => {
     // setCities(cityResult.data);
   };
 
-  const onSourceChange=(event,value)=>{
-    console.log('value',value);
-    
-    setFlight({...flight,
-      fromCity : value
-    })
-  }
+  const onSourceChange = (event, value) => {
+    console.log("value", value);
 
-  const onDestinationChange=(event,value)=>{
-    setFlight({...flight,
-      toCity : value
-    })
-  }
+    setFlight({ ...flight, fromCity: value });
+  };
 
-  
+  const onDestinationChange = (event, value) => {
+    setFlight({ ...flight, toCity: value });
+  };
 
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;
   return (
@@ -176,7 +171,7 @@ const Main = () => {
               id="free-solo-2-demo"
               disableClearable
               options={cities.map((option) => option.name)}
-              onChange={(e,value) => onSourceChange(e,value)}
+              onChange={(e, value) => onSourceChange(e, value)}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -243,7 +238,7 @@ const Main = () => {
               id="free-solo-2-demo"
               disableClearable
               options={cities.map((option) => option.name)}
-              onChange={(e,value) => onDestinationChange(e,value)}
+              onChange={(e, value) => onDestinationChange(e, value)}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -295,7 +290,7 @@ const Main = () => {
                     "aria-label": "change date",
                   }}
                   required
-                  minDate = {new Date()}
+                  minDate={new Date()}
                 />
               </Grid>
             </MuiPickersUtilsProvider>

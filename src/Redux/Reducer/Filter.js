@@ -1,7 +1,7 @@
 import { FILTER } from "../../Constants";
 const initial = {
     price : '',
-    company : ''
+    company : []
 }
 const filterReducer = (state=initial , action) => {
   switch (action.type) {
