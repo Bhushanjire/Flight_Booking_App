@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { useSelector, useDispatch } from "react-redux";
 import { addUser, loading } from "../Redux/Actions/";
+import { signUp } from "../Services/PreloginApi";
 
 const SignIn = () => {
   const users = useSelector((state) => state.userReducer);
@@ -41,39 +42,68 @@ const SignIn = () => {
     // dispatch(addUser(user));
     // return;
     dispatch(loading(true));
-    Auth.checkEmailExist(emailId)
-      .then((result) => {
-        if (result.data.length) {
-          setValidation({ ...validation, isEmailExist: true });
-          dispatch(loading(false));
-        } else {
+    signUp(user)
+      .then((signUpResponce) => {
+        dispatch(loading(false));
+        let apiResponce = signUpResponce.data;
+        if (apiResponce.isSuccess) {
           setValidation({ ...validation, isEmailExist: false });
-          Auth.signUp(user)
-            .then((result) => {
-              dispatch(loading(false));
-              if (result) {
-                setUser({
-                  firstName: "",
-                  lastName: "",
-                  emailId: "",
-                  mobileNo: "",
-                  gender: "",
-                  password: "",
-                });
-                setValidation({ ...validation, isSuccess: true });
-                setTimeout(() => {
-                  history.push("/login");
-                }, 2000);
-              }
-            })
-            .catch((error) => {
-              console.log("Error in create user", error);
-            });
+          setUser({
+            firstName: "",
+            lastName: "",
+            emailId: "",
+            mobileNo: "",
+            gender: "",
+            password: "",
+          });
+          setValidation({ ...validation, isSuccess: true });
+          setTimeout(() => {
+            history.push("/login");
+          }, 2000);
+        } else {
+          dispatch(loading(false));
+          setValidation({ ...validation, isEmailExist: true });
+          console.log("Error in signup");
         }
       })
       .catch((error) => {
-        console.log("Error in checkEmailExist");
+        dispatch(loading(false));
+        setValidation({ ...validation, isEmailExist: true });
+        console.log("Error in signup");
       });
+    // Auth.checkEmailExist(emailId)
+    //   .then((result) => {
+    //     if (result.data.length) {
+    //       setValidation({ ...validation, isEmailExist: true });
+    //       dispatch(loading(false));
+    //     } else {
+    //       setValidation({ ...validation, isEmailExist: false });
+    //       Auth.signUp(user)
+    //         .then((result) => {
+    //           dispatch(loading(false));
+    //           if (result) {
+    //             setUser({
+    //               firstName: "",
+    //               lastName: "",
+    //               emailId: "",
+    //               mobileNo: "",
+    //               gender: "",
+    //               password: "",
+    //             });
+    //             setValidation({ ...validation, isSuccess: true });
+    //             setTimeout(() => {
+    //               history.push("/login");
+    //             }, 2000);
+    //           }
+    //         })
+    //         .catch((error) => {
+    //           console.log("Error in create user", error);
+    //         });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error in checkEmailExist");
+    //   });
   };
 
   return (

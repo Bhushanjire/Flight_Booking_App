@@ -92,10 +92,10 @@ class User {
       } else {
         if (emailResult) {
           responce
-            .status(400)
+            .status(200)
             .send(
               ResponceFormat.setResponce(
-                400,
+                200,
                 false,
                 "EmailID is already exist",
                 null
@@ -119,10 +119,10 @@ class User {
               UserSchema.create(userData, (error, result) => {
                 if (error) {
                   responce
-                    .status(201)
+                    .status(400)
                     .send(
                       ResponceFormat.setResponce(
-                        201,
+                        400,
                         false,
                         "User signup error",
                         error

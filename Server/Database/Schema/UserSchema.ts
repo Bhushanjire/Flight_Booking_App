@@ -27,6 +27,9 @@ const UserSchema = new Mongoose(
       type : String,
       trim : true,
     },
+    gender : {
+      type : String
+    },
     salt : String,
     token: {
       type: String,
