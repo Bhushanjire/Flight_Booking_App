@@ -1,5 +1,6 @@
 import express = require("express");
 import UserController = require("../Controller/UserController");
+import ValidateUser = require('../Configuration/ValidateUser');
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ class UserRoutes {
   get routes() {
     const controller = this._UserController;
     router.post("/user/login", controller.login);
+    router.post("/user/signup", controller.create);
+    // router.get("/booking-list",controller.)
     return router;
   }
 }
