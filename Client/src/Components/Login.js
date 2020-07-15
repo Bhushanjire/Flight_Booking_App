@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../Redux/Actions";
 import { loading } from "../Redux/Actions";
+import { login } from "../Services/LoginApi";
 
 let Login = (props) => {
   const { handleSubmit, pristine, submitting } = props;
@@ -50,23 +51,42 @@ let Login = (props) => {
       loginData.password &&
       !error.isValidEmail
     ) {
-      Auth.login(loginData)
-        .then((res) => {
+      login(loginData)
+        .then((loginResponce) => {
           dispatch(loading(false));
-          if (res.data.length > 0) {
-            localStorage.setItem("react-user", JSON.stringify(res.data[0]));
-            dispatch(loginUser(res.data[0]));
-            localStorage.setItem("react-token", "token12345");
+          let apiResponce = loginResponce.data;
+          if (apiResponce.isSuccess) {
+            localStorage.setItem(
+              "react-user",
+              JSON.stringify(apiResponce.data)
+            );
+            dispatch(loginUser(apiResponce.data));
             setIsValid({ isValid: false });
             history.push("/");
-            // window.location = "/";
-          } else {
+          }else{
             setIsValid({ isValid: true });
           }
         })
         .catch((error) => {
           console.log("Error in login", error);
         });
+
+      // Auth.login(loginData)
+      //   .then((res) => {
+      //     dispatch(loading(false));
+      //     if (res.data.length > 0) {
+      //       localStorage.setItem("react-user", JSON.stringify(res.data[0]));
+      //       dispatch(loginUser(res.data[0]));
+      //       setIsValid({ isValid: false });
+      //       history.push("/");
+      //       // window.location = "/";
+      //     } else {
+      //       setIsValid({ isValid: true });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log("Error in login", error);
+      //   });
     } else {
       console.log("Record not found");
     }

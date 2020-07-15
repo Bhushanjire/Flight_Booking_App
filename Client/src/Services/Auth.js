@@ -13,7 +13,7 @@ axios.interceptors.response.use(
 );
 const Auth = {
   authenticated() {
-    return !!localStorage.getItem("react-token");
+    return !!localStorage.getItem("react-user");
   },
   login({ emailId, password }) {
     return axios.get(

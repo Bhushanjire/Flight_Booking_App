@@ -45,7 +45,7 @@ const Header = (props) => {
   const history = useHistory();
   const [route, setRoute] = useState(location.pathname);
   if (Auth.authenticated()) {
-    var { firstName, lastName, id } = JSON.parse(
+    var { firstName, lastName, _id } = JSON.parse(
       localStorage.getItem("react-user")
     );
 
@@ -95,7 +95,7 @@ const Header = (props) => {
                 {Auth.authenticated() && (
                   <Link
                     exact
-                    to={`/my-booking/${id}`}
+                    to={`/my-booking/${_id}`}
                     className={`mr-2 ${route == "/my-booking" ? "active" : ""}`}
                     onClick={(e) => selectedLink(e, "/my-booking")}
                   >
