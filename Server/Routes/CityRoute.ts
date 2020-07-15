@@ -13,7 +13,7 @@ class CityRoute {
 
   get routes() {
     const controller = this._CityController;
-    router.get("/list-city", ValidateUser.auth, controller.getAllCities);
+    router.get("/list-city",  controller.getAllCities);
     router.post("/create-city", ValidateUser.auth, controller.createCity);
     return router;
   }

@@ -10,10 +10,10 @@ const api = axios.create({
 api.interceptors.request.use(function (config) {
   if (localStorage.getItem("react-user")) {
     const logindata = JSON.parse(localStorage.getItem("react-user"));
-    config.headers.auth = logindata.token;
+    config.headers.authorization = "Bearer "+logindata.token;
     return config;
   } else {
-    config.headers.auth = "";
+    config.headers.authorization = "";
     return config;
   }
 });

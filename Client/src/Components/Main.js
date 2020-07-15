@@ -20,6 +20,8 @@ import {
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
+import { getCities } from "../Services/PostLoginApi";
+
 import {
   flightSearch,
   getFlightScheduleList,
@@ -99,12 +101,22 @@ const Main = () => {
   };
 
   const loadCities = () => {
-    Flight.getCityList()
-      .then((result) => {
-        setCities(result.data);
+    // Flight.getCityList()
+    //   .then((result) => {
+    //     setCities(result.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error in get city list", error);
+    //   });
+
+    getCities()
+      .then((cityResponce) => {
+        let apiResponce = cityResponce.data;
+        setCities(apiResponce.data);
+        console.log("cityResponce", apiResponce);
       })
       .catch((error) => {
-        console.log("Error in get city list", error);
+        console.log("Error in city list", error);
       });
 
     // setCities(cityResult.data);
