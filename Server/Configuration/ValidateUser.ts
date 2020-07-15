@@ -1,23 +1,29 @@
-const jwt = require("jsonwebtoken");
+import jwt = require("jsonwebtoken");
 import ResponceFormat = require("../Configuration/ResponceFormat");
 
 class ValidateUser {
-  static auth(request, responce, next) {
-    const authorizationHeader = request.header.authorization;
+  static auth = (request, responce, next) => {
+    const authorizationHeader = request.headers.authorization;
     if (authorizationHeader) {
-      const token = request.header.authorization.split(" ")[1];
-      const options = { expiresIn: "24h", issuer: "Bhushan-Jire" };
+      const token = request.headers.authorization.split(" ")[1];
+      // const options = { expiresIn: "24h" };
       try {
-        jwt.verfy(token, "flightBooking", options, (error, result) => {
+        jwt.verify(token, "flightBooking", (error, result) => {
           if (error) {
-            responce.send(
-              ResponceFormat.setResponce(201, false, "Error in token", error)
-            );
+            return responce
+              .status(401)
+              .send(
+                ResponceFormat.setResponce(401, false, "Error in token", error)
+              );
           } else {
             if (result) {
-              ResponceFormat.setResponce(201, false, "Token expired", error);
-            } else {
               next();
+            } else {
+              return responce
+                .status(401)
+                .send(
+                  ResponceFormat.setResponce(401, false, "Token expired", error)
+                );
             }
           }
         });
@@ -25,11 +31,11 @@ class ValidateUser {
         throw new Error(error);
       }
     } else {
-      responce.send(
-        ResponceFormat.setResponce(401, false, "Token Required", null)
-      );
+      responce
+        .status(401)
+        .send(ResponceFormat.setResponce(401, false, "Token Required", null));
     }
-  }
+  };
 }
 
 export = ValidateUser;

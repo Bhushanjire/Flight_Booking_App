@@ -34,7 +34,7 @@ class User {
                     data: result.emailId,
                   },
                   "flightBooking",
-                  { expiresIn: "24" },
+                  { expiresIn: '1h'},
                   (err, token) => {
                     result.token = token;
                     responce
@@ -144,6 +144,20 @@ class User {
             }
           });
         }
+      }
+    });
+  }
+
+  getAllUsers(request: express.request, responce: express.request) {
+    UserSchema.find({}, (error, result) => {
+      if (error) {
+        responce
+          .status(400)
+          .send(
+            ResponceFormat.setResponce(400, false, "Error in user list", null)
+          );
+      } else {
+        responce.status(200).send(ResponceFormat.setResponce(200,true, "All users list", result));
       }
     });
   }
