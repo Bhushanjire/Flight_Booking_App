@@ -3,6 +3,7 @@ import UserRoute = require("../Routes/User");
 import CityRoute = require("../Routes/CityRoute");
 import FligthRoute = require("../Routes/FlightRoute");
 import FlightScheduleRoute = require("../Routes/FlightScheduleRoute");
+import FlightBookingRoute = require("../Routes/FlightBookingRoute");
 
 const app = express();
 const APIVersion = "/api/v1";
@@ -15,7 +16,7 @@ class BaseRoute {
     app.use(APIVersion, new CityRoute().routes);
     app.use(APIVersion, new FligthRoute().routes);
     app.use(APIVersion, new FlightScheduleRoute().routes);
-
+    app.use(APIVersion, new FlightBookingRoute().routes);
     return app;
   }
 }

@@ -15,7 +15,7 @@ class UserRoutes {
     const controller = this._UserController;
     router.post("/user/login", controller.login);
     router.post("/user/signup", controller.create);
-    router.get("/user/all-users",ValidateUser.auth, controller.getAllUsers);
+    router.get("/user/all-users",controller.getAllUsers);
     // router.get("/booking-list",controller.)
     return router;
   }
