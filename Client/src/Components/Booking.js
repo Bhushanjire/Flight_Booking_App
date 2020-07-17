@@ -142,6 +142,8 @@ const Booking = () => {
       .then((result) => {
         let apiResponce = result.data;
         if (apiResponce.isSuccess) {
+          console.log('Booking Details',apiResponce);
+          
           loadSchedule(apiResponce.data.flightScheduleId);
           setSelectedSeat(apiResponce.data.seactNumbers);
           setPreviousBooked(apiResponce.data);
@@ -258,28 +260,24 @@ const Booking = () => {
           booking: {
             id: id,
             seactNumbers: selectedSeat,
-            passengersName: passenger,
+            passengersName: Object.values(passenger),
             totalPrice: bookingDetails.price * noOfPerson,
           },
         };
-
         updateBooking(postData)
           .then((result) => {
             let apiResponce = result.data;
             if (apiResponce.isSuccess) {
-              if (result) {
-                setValidation({
-                  ...validation,
-                  bookSuccess: true,
-                  seat: false,
-                });
-                setTimeout(() => {
-                  history.push("/my-booking/" + loginUser._id);
-                }, 1000);
-              }
+              setValidation({
+                ...validation,
+                bookSuccess: true,
+                seat: false,
+              });
+              setTimeout(() => {
+                history.push("/my-booking/" + loginUser._id);
+              }, 1000);
             }
             dispatch(loading(false));
-
           })
           .catch((error) => {
             dispatch(loading(false));

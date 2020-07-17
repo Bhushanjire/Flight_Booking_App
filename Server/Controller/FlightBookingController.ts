@@ -251,7 +251,7 @@ class FlightBookingController {
                     if(error){
                         responce.status(400).send(ResponeFormat.setResponce(400,false,'Error in booking update',error));
                     }else{
-                        responce.status(200).send(ResponeFormat.setResponce(200,false,'Booking updated successfully',result));
+                        responce.status(200).send(ResponeFormat.setResponce(200,true,'Booking updated successfully',result));
                     }
                 })
             }
