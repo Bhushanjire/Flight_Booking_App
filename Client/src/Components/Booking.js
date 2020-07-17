@@ -9,14 +9,18 @@ import { loading } from "../Redux/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChair } from "@fortawesome/free-solid-svg-icons";
 import Button from "@material-ui/core/Button";
-import { getFlightSchedulById, createBooking } from "../Services/PostLoginApi";
+import {
+  getFlightSchedulById,
+  createBooking,
+  getBookingById,
+  updateBooking,
+} from "../Services/PostLoginApi";
 
 const Booking = () => {
   const dispatch = useDispatch();
   const { id, noOfPerson, mode } = useParams();
   const items = [];
   const passengers = [];
-  const previousBookedSeat = [];
   const history = useHistory();
   const [passenger, setPassenger] = useState([]);
   const [selectedSeat, setSelectedSeat] = useState([]);
@@ -63,7 +67,7 @@ const Booking = () => {
     },
   });
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
-  
+
   const [bookingDetails, setBookingDetails] = useState({
     id: 0,
     flightId: {
@@ -130,17 +134,37 @@ const Booking = () => {
   }, []);
 
   const loadBookingUpdate = (bookingId) => {
-    Flight.getFlightBookingById(bookingId)
+    dispatch(loading(true));
+    let postData = {
+      id: bookingId,
+    };
+    getBookingById(postData)
       .then((result) => {
-        if (result) {
-          loadSchedule(result.data[0].flightSchuleId);
-          setSelectedSeat(result.data[0].seactNumbers);
-          setPreviousBooked(result.data[0]);
+        let apiResponce = result.data;
+        if (apiResponce.isSuccess) {
+          loadSchedule(apiResponce.data.flightScheduleId);
+          setSelectedSeat(apiResponce.data.seactNumbers);
+          setPreviousBooked(apiResponce.data);
+          // setBookingDetails(apiResponce.data);
         }
+        dispatch(loading(false));
       })
       .catch((error) => {
-        console.log("Error in getFlightBookingById", error);
+        dispatch(loading(false));
+        console.log("Error in flight schedule", error);
       });
+
+    // Flight.getFlightBookingById(bookingId)
+    // .then((result) => {
+    //   if (result) {
+    //     loadSchedule(result.data[0].flightSchuleId);
+    //     setSelectedSeat(result.data[0].seactNumbers);
+    //     setPreviousBooked(result.data[0]);
+    //   }
+    // })
+    // .catch((error) => {
+    //   console.log("Error in getFlightBookingById", error);
+    // });
   };
 
   const submitHandler = (event) => {
@@ -220,44 +244,82 @@ const Booking = () => {
           (item) => !previousBooked.seactNumbers.includes(item)
         );
         scheduleData.bookingSeats = updatedSeat;
-        scheduleData.bookingSeats = scheduleData.bookingSeats.concat(
-          selectedSeat
-        );
+        // scheduleData.bookingSeats = scheduleData.bookingSeats.concat(
+        //   selectedSeat
+        // );
 
-        Flight.updateFlightSchedule(previousBooked.flightSchuleId, scheduleData)
+        let updatedSeats = scheduleData.bookingSeats.concat(selectedSeat);
+
+        let postData = {
+          schedule: {
+            id: previousBooked.flightScheduleId._id,
+            bookingSeats: updatedSeats,
+          },
+          booking: {
+            id: id,
+            seactNumbers: selectedSeat,
+            passengersName: passenger,
+            totalPrice: bookingDetails.price * noOfPerson,
+          },
+        };
+
+        updateBooking(postData)
           .then((result) => {
-            if (result) {
-              let postData = {
-                flightScheduleId: previousBooked.flightSchuleId,
-                userId: loginUser.id,
-                seactNumbers: selectedSeat,
-                passengersName: passenger,
-                totalPrice: bookingDetails.price * noOfPerson,
-                bookingDetails: scheduleData,
-              };
-              Flight.updateBooking(id, postData)
-                .then((result) => {
-                  dispatch(loading(false));
-
-                  if (result) {
-                    setValidation({
-                      ...validation,
-                      bookSuccess: true,
-                      seat: false,
-                    });
-                    setTimeout(() => {
-                      history.push("/my-booking/" + loginUser._id);
-                    }, 1000);
-                  }
-                })
-                .catch((error) => {
-                  console.log("Error in update booking", error);
+            let apiResponce = result.data;
+            if (apiResponce.isSuccess) {
+              if (result) {
+                setValidation({
+                  ...validation,
+                  bookSuccess: true,
+                  seat: false,
                 });
+                setTimeout(() => {
+                  history.push("/my-booking/" + loginUser._id);
+                }, 1000);
+              }
             }
+            dispatch(loading(false));
+
           })
           .catch((error) => {
-            console.log("Error in updateFlightSchedule", error);
+            dispatch(loading(false));
+            console.log("Errorn in update booking");
           });
+
+        // Flight.updateFlightSchedule(previousBooked.flightSchuleId, scheduleData)
+        //   .then((result) => {
+        //     if (result) {
+        //       let postData = {
+        //         flightScheduleId: previousBooked.flightSchuleId,
+        //         userId: loginUser.id,
+        //         seactNumbers: selectedSeat,
+        //         passengersName: passenger,
+        //         totalPrice: bookingDetails.price * noOfPerson,
+        //         bookingDetails: scheduleData,
+        //       };
+        //       Flight.updateBooking(id, postData)
+        //         .then((result) => {
+        //           dispatch(loading(false));
+
+        //           if (result) {
+        //             setValidation({
+        //               ...validation,
+        //               bookSuccess: true,
+        //               seat: false,
+        //             });
+        //             setTimeout(() => {
+        //               history.push("/my-booking/" + loginUser._id);
+        //             }, 1000);
+        //           }
+        //         })
+        //         .catch((error) => {
+        //           console.log("Error in update booking", error);
+        //         });
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log("Error in updateFlightSchedule", error);
+        //   });
       }
 
       return;

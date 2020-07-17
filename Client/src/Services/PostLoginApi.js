@@ -15,3 +15,10 @@ export const createBooking = (data) => {
 export const getUserBooking = (data) => {
   return httpMethod.POST("/flightBooking/get-by-userId", data);
 };
+export const getBookingById = (data)=>{
+  return httpMethod.POST("/flightBooking/get-by-id", data);
+}
+
+export const updateBooking = (data)=>{
+  return httpMethod.POST("/flightBooking/update", data);
+}

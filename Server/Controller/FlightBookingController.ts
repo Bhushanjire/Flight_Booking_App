@@ -122,7 +122,7 @@ class FlightBookingController {
 
   retriveById(request: express.request, responce: express.request) {
     let { id } = request.body;
-    FlightBookingSchema.find({ _id: id }, (error, result) => {
+    FlightBookingSchema.findOne({ _id: id }, (error, result) => {
       if (error) {
         responce
           .status(400)
@@ -237,6 +237,25 @@ class FlightBookingController {
  
       }
     });
+  }
+
+  updateBooking(request : express.request,responce : express.request){
+      let {schedule , booking} = request.body;
+      FlighScheduleSchema.update({_id : schedule.id},{$set : {
+        bookingSeats : schedule.bookingSeats
+      }},(error,result)=>{
+            if(error){
+                responce.status(400).send(ResponeFormat.setResponce(400,false,'Error in booking schedule update',error));
+            }else{
+                FlightBookingSchema.update({_id :booking.id},booking,(error,result)=>{
+                    if(error){
+                        responce.status(400).send(ResponeFormat.setResponce(400,false,'Error in booking update',error));
+                    }else{
+                        responce.status(200).send(ResponeFormat.setResponce(200,false,'Booking updated successfully',result));
+                    }
+                })
+            }
+      })
   }
 }
 

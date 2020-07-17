@@ -34,7 +34,7 @@ const FlightBookingSchema = new Mongoose(
   },
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );
-FlightBookingSchema.index({'$**': 'text'});
+// FlightBookingSchema.index({'$**': 'text'});
 
 let flightBooking = mongoose.model("FlightBooking", FlightBookingSchema);
 export = flightBooking;

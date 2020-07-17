@@ -14,6 +14,8 @@ class FlightBookingRoute {
     router.get("/flightBooking/retrive", controller.retrive);
     router.post("/flightBooking/get-by-id", controller.retriveById);
     router.post("/flightBooking/get-by-userId", controller.getBookingByUserId);
+    router.post("/flightBooking/update", controller.updateBooking);
+
 
     return router;
   }
