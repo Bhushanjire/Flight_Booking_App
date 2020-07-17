@@ -18,6 +18,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import { getUserBooking } from "../Services/PostLoginApi";
 // require("bootstrap/less/bootstrap.less");
 
 class MyBooking extends Component {
@@ -65,12 +66,13 @@ class MyBooking extends Component {
       ],
       search: "",
       activePage: 0,
-      perPageLimit: 2,
-      pageNumber: 1,
+      perPageLimit: 1,
+      pageNumber: 0,
       totalRecords: 0,
       isOpen: false,
       isClose: false,
-      rowsPerPage: 2,
+      rowsPerPage: 10,
+      // color : 'Yellow'
       // dispatch : useDispatch()
     };
   }
@@ -89,29 +91,53 @@ class MyBooking extends Component {
     this.loadBookings(this.state.id);
   }
 
-  loadBookings = (pageNumber = 1) => {
+  loadBookings = (activePage = 1) => {
     // console.log("bookingList", bookingList);
     // this.state.dispatch(loading(true));
 
-    Flight.getMyBookings(
-      this.state.id,
-      this.state.search,
-      this.state.activePage + 1,
-      this.state.perPageLimit
-    )
+    let postData = {
+      userId: this.state.id,
+      rowsPerPage : this.state.rowsPerPage,
+      activePage : this.state.activePage,
+      searchText : this.state.search 
+    };
+    getUserBooking(postData)
       .then((result) => {
-        this.setState({
-          booking: result.data,
-          totalRecords: result.headers["x-total-count"],
-        });
-        // setBooking(result.data);
+        let apiResponce = result.data;
+        if (apiResponce.isSuccess) {
+          this.setState({
+            booking: apiResponce.data.bookings,
+             totalRecords: apiResponce.data.totalCount,
+          });
+          // setBooking(result.data);
+          // this.state.dispatch(loading(false));
+          // dispatch(getMyBookings(postData.userId));
+        }
         // this.state.dispatch(loading(false));
-
-        // dispatch(getMyBookings(id))
       })
       .catch((error) => {
-        console.log("Error in booking list", error);
+        // this.state.dispatch(loading(false));
+        console.log("Error in get user booking", error);
       });
+
+    // Flight.getMyBookings(
+    //   this.state.id,
+    //   this.state.search,
+    //   this.state.activePage + 1,
+    //   this.state.perPageLimit
+    // )
+    //   .then((result) => {
+    //     this.setState({
+    //       booking: result.data,
+    //       totalRecords: result.headers["x-total-count"],
+    //     });
+    //     setBooking(result.data);
+    //     this.state.dispatch(loading(false));
+    //     dispatch(getMyBookings(id))
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error in booking list", error);
+    //   });
   };
 
   checkDate = (scheduleDate) => {
@@ -137,11 +163,11 @@ class MyBooking extends Component {
     this.loadBookings();
   };
 
-  handlePageChange = async (pageNumber) => {
+  handlePageChange = async (activePage) => {
     // const test = await setActivePage(pageNumber);
     // this.state.activePage = pageNumber;
     await this.setState({
-      activePage: pageNumber,
+      activePage: activePage,
     });
     this.loadBookings();
   };
@@ -187,7 +213,7 @@ class MyBooking extends Component {
     await this.setState({
       rowsPerPage: event.target.value,
       activePage: 0,
-      perPageLimit: event.target.value,
+      rowsPerPage: event.target.value,
     });
     this.loadBookings();
   };
@@ -342,20 +368,20 @@ class MyBooking extends Component {
                   {this.state.booking.map((row) => (
                     <TableRow hover key={row.id}>
                       <TableCell align="center">
-                        {row.bookingDetails?.flightId?.flightName}
+                        {row.flightScheduleId?.flightId?.flightName}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.bookingDetails?.fromCityId?.name} -
-                        {row?.bookingDetails?.toCityId?.name}
+                        {row?.flightScheduleId?.fromCityId?.name} -
+                        {row?.flightScheduleId?.toCityId?.name}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.bookingDetails?.scheduleDate}
+                        {row?.flightScheduleId?.scheduleDate}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.bookingDetails?.departuteTime}
+                        {row?.flightScheduleId?.departuteTime}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.bookingDetails?.arrivalTime}
+                        {row?.flightScheduleId?.arrivalTime}
                       </TableCell>
                       <TableCell align="center">
                         {row?.seactNumbers.join(",")}
@@ -367,12 +393,12 @@ class MyBooking extends Component {
                         {
                           <React.Fragment>
                             {this.checkDate(
-                              row?.bookingDetails?.scheduleDate
+                              row?.flightScheduleId?.scheduleDate
                             ) && (
                               <>
                                 <Link
                                   exact
-                                  to={`/booking/${row?.id}/${row?.seactNumbers?.length}/edit`}
+                                  to={`/booking/${row?._id}/${row?.seactNumbers?.length}/edit`}
                                 >
                                   <FontAwesomeIcon
                                     icon={faEdit}
@@ -384,8 +410,12 @@ class MyBooking extends Component {
                               </>
                             )}
 
+                            {/* {
+                              this.state.color =='Green' ? 'Green' : this.state.color=='Yellow' ? 'Yellow' : 'Red'
+                            } */}
+
                             {!this.checkDate(
-                              row?.bookingDetails?.scheduleDate
+                              row?.flightScheduleId?.scheduleDate
                             ) && (
                               // <Link exact to={`/view-booking/${row?.id}`}>
                               //   <FontAwesomeIcon

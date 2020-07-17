@@ -13,7 +13,9 @@ class FlightScheduleRoute {
     const controller = this._FlightScheduleController;
     router.post("/flightSchedule/create", controller.create);
     router.get("/flightSchedule/list", controller.retrive);
-    router.get("/flightSchedule/get-by-id", controller.retriveById);
+    router.post("/flightSchedule/get-by-id", controller.retriveById);
+    router.post("/flightSchedule/search", controller.searchFlight);
+
 
     return router;
   }

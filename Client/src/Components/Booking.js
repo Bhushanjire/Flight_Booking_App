@@ -9,6 +9,7 @@ import { loading } from "../Redux/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChair } from "@fortawesome/free-solid-svg-icons";
 import Button from "@material-ui/core/Button";
+import { getFlightSchedulById, createBooking } from "../Services/PostLoginApi";
 
 const Booking = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Booking = () => {
   });
   const [previousBooked, setPreviousBooked] = useState({
     id: 0,
-    flightSchuleId: 0,
+    flightScheduleId: 0,
     userId: 0,
     seactNumbers: [],
     passengersName: {},
@@ -62,7 +63,7 @@ const Booking = () => {
     },
   });
   let loginUser = JSON.parse(localStorage.getItem("react-user"));
-
+  
   const [bookingDetails, setBookingDetails] = useState({
     id: 0,
     flightId: {
@@ -94,14 +95,30 @@ const Booking = () => {
 
   const loadSchedule = (scheduleId) => {
     dispatch(loading(true));
-    Flight.getFlightScheduleById(scheduleId)
+    let postData = {
+      id: scheduleId,
+    };
+    getFlightSchedulById(postData)
       .then((result) => {
+        let apiResponce = result.data;
+        if (apiResponce.isSuccess) {
+          setBookingDetails(apiResponce.data);
+        }
         dispatch(loading(false));
-        setBookingDetails(result.data);
       })
       .catch((error) => {
-        console.log("Error in getFlightScheduleById", error);
+        dispatch(loading(false));
+        console.log("Error in flight schedule", error);
       });
+
+    // Flight.getFlightScheduleById(scheduleId)
+    //   .then((result) => {
+    //     dispatch(loading(false));
+    //     setBookingDetails(result.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error in getFlightScheduleById", error);
+    //   });
   };
 
   useEffect(() => {
@@ -143,36 +160,61 @@ const Booking = () => {
           selectedSeat
         );
 
-        Flight.updateFlightSchedule(id, scheduleData)
+        let postData = {
+          flightScheduleId: id,
+          userId: loginUser._id,
+          seactNumbers: selectedSeat,
+          passengersName: passenger,
+          totalPrice: bookingDetails.price * noOfPerson,
+        };
+        createBooking(postData)
           .then((result) => {
-            let postData = {
-              flightSchuleId: id,
-              userId: loginUser.id,
-              seactNumbers: selectedSeat,
-              passengersName: passenger,
-              totalPrice: bookingDetails.price * noOfPerson,
-              bookingDetails: scheduleData,
-            };
-            Flight.addNewBooking(postData)
-              .then((result) => {
-                dispatch(loading(false));
-
-                setValidation({
-                  ...validation,
-                  bookSuccess: true,
-                  seat: false,
-                });
-                setTimeout(() => {
-                  history.push("/my-booking/" + loginUser.id);
-                }, 1000);
-              })
-              .catch((error) => {
-                console.log("Error in add new booking", error);
-              });
+            let apiResponce = result.data;
+            if (apiResponce.isSuccess) {
+            }
+            dispatch(loading(false));
+            setValidation({
+              ...validation,
+              bookSuccess: true,
+              seat: false,
+            });
+            setTimeout(() => {
+              history.push("/my-booking/" + loginUser._id);
+            }, 1000);
           })
           .catch((error) => {
-            console.log("Error in updateFlightSchedule", error);
+            console.log("Error in create booking", error);
           });
+
+        // Flight.updateFlightSchedule(id, scheduleData)
+        //   .then((result) => {
+        //     let postData = {
+        //       flightSchuleId: id,
+        //       userId: loginUser.id,
+        //       seactNumbers: selectedSeat,
+        //       passengersName: passenger,
+        //       totalPrice: bookingDetails.price * noOfPerson,
+        //     };
+        //     Flight.addNewBooking(postData)
+        //       .then((result) => {
+        //         dispatch(loading(false));
+
+        //         setValidation({
+        //           ...validation,
+        //           bookSuccess: true,
+        //           seat: false,
+        //         });
+        //         setTimeout(() => {
+        //           history.push("/my-booking/" + loginUser.id);
+        //         }, 1000);
+        //       })
+        //       .catch((error) => {
+        //         console.log("Error in add new booking", error);
+        //       });
+        //   })
+        //   .catch((error) => {
+        //     console.log("Error in updateFlightSchedule", error);
+        //   });
       } else {
         updatedSeat = scheduleData.bookingSeats.filter(
           (item) => !previousBooked.seactNumbers.includes(item)
@@ -186,7 +228,7 @@ const Booking = () => {
           .then((result) => {
             if (result) {
               let postData = {
-                flightSchuleId: previousBooked.flightSchuleId,
+                flightScheduleId: previousBooked.flightSchuleId,
                 userId: loginUser.id,
                 seactNumbers: selectedSeat,
                 passengersName: passenger,
@@ -204,7 +246,7 @@ const Booking = () => {
                       seat: false,
                     });
                     setTimeout(() => {
-                      history.push("/my-booking/" + loginUser.id);
+                      history.push("/my-booking/" + loginUser._id);
                     }, 1000);
                   }
                 })
@@ -391,7 +433,9 @@ const Booking = () => {
                           {/* <button type="button" className="btn btn-danger">
                             Cancel
                           </button> */}
-                          <Button  type="button" variant="contained">Cancel</Button>
+                          <Button type="button" variant="contained">
+                            Cancel
+                          </Button>
                         </Link>
                       </React.Fragment>
                     )}

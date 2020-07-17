@@ -9,6 +9,7 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
+import { getSeacrhFlight } from "../Services/PostLoginApi";
 
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -19,7 +20,6 @@ import {
 } from "@material-ui/pickers";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
 import { getCities } from "../Services/PostLoginApi";
 
 import {
@@ -35,12 +35,14 @@ const Main = () => {
     toCity: "",
     travelDate: new Date(),
     noOfPerson: "",
+    fromCityName : "",
+    toCityName :""
   });
 
   useSelector((state) => {
     if (state.flightReducer.flightList.length > 0) {
-      console.log("flightSearchRedux", state.flightReducer.flightSearch);
-      console.log("flightListRedux", state.flightReducer.flightList);
+      // console.log("flightSearchRedux", state.flightReducer.flightSearch);
+      // console.log("flightListRedux", state.flightReducer.flightList);
     }
   });
 
@@ -89,15 +91,30 @@ const Main = () => {
     setValidation({
       isFound: true,
     });
-    Flight.getList(flight)
+
+    getSeacrhFlight(flight)
       .then((result) => {
-        setFlightList(result.data);
-        dispatch(getFlightScheduleList(result.data));
+        let apiResponce = result.data;
+        if(apiResponce.isSuccess){
+          setFlightList(apiResponce.data);
+          dispatch(getFlightScheduleList(apiResponce.data));
+        }
         dispatch(loading(false));
       })
       .catch((error) => {
-        console.log("Error in getList", error);
+        dispatch(loading(false));
+        console.log("Error in flight search",error);
       });
+
+    // Flight.getList(flight)
+    //   .then((result) => {
+    //     setFlightList(result.data);
+    //     dispatch(getFlightScheduleList(result.data));
+    //     dispatch(loading(false));
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error in getList", error);
+    //   });
   };
 
   const loadCities = () => {
@@ -113,7 +130,6 @@ const Main = () => {
       .then((cityResponce) => {
         let apiResponce = cityResponce.data;
         setCities(apiResponce.data);
-        console.log("cityResponce", apiResponce);
       })
       .catch((error) => {
         console.log("Error in city list", error);
@@ -123,13 +139,13 @@ const Main = () => {
   };
 
   const onSourceChange = (event, value) => {
-    console.log("value", value);
-
-    setFlight({ ...flight, fromCity: value });
+    let selectedCity = cities.filter((item) => item.name == value)[0];
+    setFlight({ ...flight, fromCity: selectedCity._id,fromCityName :  selectedCity.name});
   };
 
   const onDestinationChange = (event, value) => {
-    setFlight({ ...flight, toCity: value });
+    let selectedCity = cities.filter((item) => item.name == value)[0];
+    setFlight({ ...flight, toCity: selectedCity._id,toCityName :  selectedCity.name });
   };
 
   const { fromCity, toCity, travelDate, noOfPerson, isFound } = flight;

@@ -42,13 +42,52 @@ class FlightScheduleController{
     }
     retriveById(request : express.request,responce :express.request){
         let {id} = request.body
-        FlightScheduleSchema.find({_id : id},(error,result)=>{
+        console.log('retriveById',id);
+        
+        FlightScheduleSchema.findOne({_id : id},(error,result)=>{
             if(error){
                 responce.status(400).send(ResponeFormat.setResponce(400,false,'Error while retrive by id flight schedule',null));
             }else{
                 responce.status(200).send(ResponeFormat.setResponce(200,true,'Flight schedule list',result));
             }
-        })
+        }).populate([
+            {
+                path : "flightId",
+                model : "Flight"
+            },
+            {
+                path : "fromCityId",
+                model : "City"
+            },
+            {
+                path : "toCityId",
+                model : "City"
+            }
+        ])
+    }
+
+    searchFlight(request : express.request,responce :express.request){
+        let {fromCity,toCity,travelDate} = request.body;
+        FlightScheduleSchema.find({fromCityId : fromCity,toCityId : toCity,scheduleDate : travelDate},(error,result)=>{
+            if(error){
+                responce.status(400).send(ResponceFormat.setResponce(400,false,'Error in flight search',error))
+            }else{
+                responce.status(200).send(ResponceFormat.setResponce(200,true,'Available flights',result))
+            }
+        }).populate([
+            {
+                path : "flightId",
+                model : "Flight"
+            },
+            {
+                path : "fromCityId",
+                model : "City"
+            },
+            {
+                path : "toCityId",
+                model : "City"
+            }
+        ])
     }
 }
 

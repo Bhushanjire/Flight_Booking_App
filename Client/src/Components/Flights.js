@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 });
 const Flights = (props) => {
   const classes = useStyles();
-  let { fromCity, toCity, travelDate, noOfPerson } = props.flightData;
+  let { fromCity, fromCityName, toCity, toCityName,travelDate, noOfPerson } = props.flightData;
 
   // Using Redux
   // const searchFlight = useSelector((state) => state.flightReducer)[0];
@@ -57,12 +57,12 @@ const Flights = (props) => {
         <div className="col-md-12 mt-3 text-center">
           <div className="alert alert-success" role="alert">
             <strong>
-              {fromCity}{" "}
+              {fromCityName}{" "}
               <FontAwesomeIcon
                 icon={faArrowRight}
                 className={flightStyle.right_arrow_icon}
               />{" "}
-              {toCity} - ({travelDate}
+              {toCityName} - ({travelDate}
             </strong>
             )
           </div>
@@ -152,7 +152,7 @@ const Flights = (props) => {
                 <StyledTableCell align="center">
                   <NavLink
                     exact
-                    to={"/booking/" + row.id + "/" + noOfPerson + "/add"}
+                    to={"/booking/" + row._id + "/" + noOfPerson + "/add"}
                     className="ml-2"
                   >
                     {/* <button type="button" className="btn btn-primary">
