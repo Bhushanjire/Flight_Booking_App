@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import loader from "../assets/images/loader.gif";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Loading = () => {
   const loadingState = useSelector((state) => state.loadingReducer);

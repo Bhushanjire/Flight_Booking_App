@@ -7,15 +7,10 @@ import { faPlane, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import {
   Link,
   NavLink,
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useParams,
   useLocation,
   useHistory,
 } from "react-router-dom";
 import Auth from "../Services/Auth";
-import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -81,7 +76,6 @@ const Header = (props) => {
               <span className="ml-1">
                 {/* {Auth.authenticated() && ( */}
                 <Link
-                  exact
                   to="/"
                   className={`mr-2 ${route == "/" ? "active" : ""}`}
                   onClick={(e) => selectedLink(e, "/")}
@@ -114,12 +108,11 @@ const Header = (props) => {
             <span className="mr-3">{Auth.authenticated() && LoginUser}</span>
             {!Auth.authenticated() && (
               <NavLink
-                exact
                 to="/login"
                 className={`mr-2 ${route == "/login" ? "active" : ""}`}
                 onClick={(e) => selectedLink(e, "/login")}
               >
-                <Button style={{ color: "white" }}>Login</Button>
+                <Button style={{ color: "white" }}>Sign In</Button>
               </NavLink>
             )}
             {!Auth.authenticated() && <span>/</span>}

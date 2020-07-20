@@ -6,21 +6,21 @@ const UserSchema = new Mongoose(
   {
     firstName: {
       type: String,
-      require: true,
+      require: [true,'First name is required'],
     },
     lastName: {
       type: String,
-      require: true,
+      require: [true,'Last name is required'],
     },
     emailId: {
       type: String,
-      require: true,
+      require: [true,'Email id is required'],
       unique: true,
       trim : true
     },
     mobileNo: {
       type: String,
-      require: true,
+      require: [true,'Mobile No. is required'],
       unique: true,
     },
     password : {

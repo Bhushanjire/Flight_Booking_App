@@ -13,10 +13,8 @@ import Protected from "./Components/Protected";
 import "./App.css";
 
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
-  withRouter,
 } from "react-router-dom";
 
 function App() {

@@ -10,7 +10,7 @@ import { loading } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
 
 let Login = (props) => {
-  const { handleSubmit, pristine, submitting } = props;
+  const {pristine, submitting } = props;
 
   let history = useHistory();
 
@@ -110,7 +110,7 @@ let Login = (props) => {
             <div className="card">
               <div className="card-body">
                 <center>
-                  <h3>Login</h3>
+                  <h3>Sign In</h3>
                 </center>
                 <form onSubmit={(e) => submitHandler(e)}>
                   <div className="form-group">
@@ -166,10 +166,10 @@ let Login = (props) => {
                         className="btn btn-primary"
                         disabled={pristine || submitting}
                       >
-                        Login
+                        Sign In
                       </button>
                       &nbsp;&nbsp;
-                      <Link exact to="/" className="ml-2">
+                      <Link  to="/" className="ml-2">
                         <button type="button" className="btn btn-danger">
                           Cancel
                         </button>
@@ -179,7 +179,7 @@ let Login = (props) => {
                 </form>
                 <div>
                   <center>
-                    <Link exact to="/sign-up" className="ml-2">
+                    <Link  to="/sign-up" className="ml-2">
                       Sign Up
                     </Link>
                   </center>

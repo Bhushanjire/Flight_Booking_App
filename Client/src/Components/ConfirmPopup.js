@@ -1,9 +1,6 @@
-import React, { useState, Component } from "react";
+import React, {Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import flightStyle from "../Css-Module/flight.module.scss";
 
 class ConfirmPopup extends Component {
   constructor(props) {

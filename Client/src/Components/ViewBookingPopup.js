@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, {Component } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

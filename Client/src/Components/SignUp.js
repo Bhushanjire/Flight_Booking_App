@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
-import { useSelector, useDispatch } from "react-redux";
-import { addUser, loading } from "../Redux/Actions/";
+import {useDispatch } from "react-redux";
+import {loading } from "../Redux/Actions/";
 import { signUp } from "../Services/PreloginApi";
 
 const SignIn = () => {
-  const users = useSelector((state) => state.userReducer);
+  // const users = useSelector((state) => state.userReducer);
 
   const dispatch = useDispatch();
   const userRef = useRef({});
@@ -214,7 +214,7 @@ const SignIn = () => {
                   <div>
                     <center>
                       <Link exact to="/login" className="ml-2">
-                        Login
+                        Sign In
                       </Link>
                     </center>
                   </div>

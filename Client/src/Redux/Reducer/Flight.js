@@ -11,14 +11,10 @@ const flightReducer = (state = initial, action) => {
       // console.log("searchData", searchData);
       // return [...state, action.payload];
       return { ...state };
-
-      break;
-
     case FLIGHT_SCHEDULE_LIST:
       // let listData = action.payload;
       state.flightList = action.payload;
       return { ...state };
-      break;
     default:
       return state;
   }
