@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../Redux/Actions";
 import { loading } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
+import ForgotPassword from '../Components/ForgotPassword';
 
 let Login = (props) => {
   const {pristine, submitting } = props;
@@ -33,6 +34,7 @@ let Login = (props) => {
     emailRequired: false,
     passwordRequired: false,
     isValidEmail: false,
+    isOpen : false
   });
 
   useEffect(() => {}, [loginData.emailId, loginData.password]);
@@ -104,8 +106,13 @@ let Login = (props) => {
     });
   };
 
+  const openPopup =()=>{
+    setError({...error,isOpen : true})
+  }
+
   return (
     <React.Fragment>
+      <ForgotPassword isOpen = {error.isOpen}/>
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">
@@ -171,11 +178,11 @@ let Login = (props) => {
                         Sign In
                       </button>
                       &nbsp;&nbsp;
-                      <Link  to="/forgot-password" className="ml-2">
-                        {/* <button type="button" className="btn btn-danger"> */}
+                      {/* <Link  to="/forgot-password" className="ml-2"> */}
+                        <button type="button" onClick={openPopup} className="btn btn-danger"> 
                           Forgot Password
-                        {/* </button> */}
-                      </Link>
+                         </button>
+                      {/* </Link> */}
                     </center>
                   </div>
                 </form>

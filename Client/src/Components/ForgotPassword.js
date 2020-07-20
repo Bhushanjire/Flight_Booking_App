@@ -10,8 +10,8 @@ import { forgotPassword } from "../Services/PreloginApi";
 import { loading } from "../Redux/Actions";
 import { useDispatch } from "react-redux";
 
-
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
+  console.log("props", props);
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
 
@@ -29,6 +29,7 @@ const ForgotPassword = () => {
 
   const handleClose = () => {
     setOpen(false);
+    console.log('handleClose called');
   };
 
   const onInputChange = (event) => {
@@ -38,12 +39,11 @@ const ForgotPassword = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (data.emailId != "") {
-        dispatch(loading(true));
+      dispatch(loading(true));
       forgotPassword(data)
         .then((result) => {
           let apiResponce = result.data;
           if (apiResponce.isSuccess) {
-            console.log("Forgot Password", apiResponce);
             handleClose();
           }
           dispatch(loading(false));
@@ -57,12 +57,12 @@ const ForgotPassword = () => {
   return (
     <>
       <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Open form dialog
-        </Button>
+        </Button> */}
         <form autoComplete="off" onSubmit={submitHandler}>
           <Dialog
-            open={open}
+            open={props.isOpen}
             onClose={handleClose}
             aria-labelledby="form-dialog-title"
           >

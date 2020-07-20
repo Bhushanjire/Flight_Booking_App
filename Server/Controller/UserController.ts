@@ -182,7 +182,6 @@ class User {
         function (callback) {
           UserSchema.findOne({ emailId: emailId }, (error, result) => {
             if (error) {
-              
               callback(error, null);
             } else {
               if (result) {
@@ -216,7 +215,7 @@ class User {
             });
 
             let subject = "Reset Password";
-            let body = `Hello User<br> Please <a href=http://localhost:3000/reset-password/${emailId}>Click Here</a> to reset password`;
+            let body = `<div>Hello ${result.firstName} ${result.lastName}</div> Please <a href=http://localhost:3000/reset-password/${emailId}>Click Here</a> to reset password`;
             const mailOptions = {
               from: "bhushanjire@gmail.com",
               to: emailId,
