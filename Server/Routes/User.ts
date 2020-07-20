@@ -16,6 +16,8 @@ class UserRoutes {
     router.post("/user/login", controller.login);
     router.post("/user/signup", controller.create);
     router.get("/user/all-users",controller.getAllUsers);
+    router.post("/user/forgot-password",controller.forgotPassword);
+
     // router.get("/booking-list",controller.)
     return router;
   }

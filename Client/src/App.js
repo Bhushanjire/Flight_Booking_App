@@ -9,6 +9,8 @@ import Header from "./Components/Header";
 import ViewBooking from "./Components/ViewBooking";
 import Loading from "./Components/Loding";
 import Protected from "./Components/Protected";
+import ForgotPassword from './Components/ForgotPassword';
+import ResetPassword from './Components/ResetPassword';
 
 import "./App.css";
 
@@ -26,6 +28,10 @@ function App() {
         <Route exact path="/" component={Layout} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/sign-up" component={SignUp} />
+        <Route exact path="/forgot-password" component={ForgotPassword} />
+        <Route exact path="/reset-password/:emailId" component={ResetPassword} />
+
+
 
         <Protected
           exact

@@ -3,6 +3,8 @@ import ResponceFormat = require("../Configuration/ResponceFormat");
 import UserSchema = require("../Database/Schema/UserSchema");
 import jwt = require("jsonwebtoken");
 import bcrypt = require("bcrypt");
+import nodemailer = require("nodemailer");
+
 
 class User {
   constructor() {}
@@ -164,6 +166,41 @@ class User {
 
   getBookingList(request: express.request, responce: express.request) {
     let { userId } = request.body;
+  }
+
+  forgotPassword(request: express.request, responce: express.request){
+    let {emailId} = request.body;
+    console.log('process.env.GMAIL_EMAIL',process.env.GMAIL_EMAIL);
+    
+    const transporter = nodemailer.createTransport({
+      servicee: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use SSL
+      auth: {
+          user: process.env.GMAIL_EMAIL,
+          pass: process.env.GMAIL_PASSWORD
+      } //https://myaccount.google.com/lesssecureapps?pli=1  keep on Less secure app access
+  });
+
+  let subject = "Reset Password";
+  let body = `Hello User<br> Please <a href=http://localhost:3000/reset-password/${emailId}>Click Here</a> to reset password`;
+  const mailOptions = {
+      from: 'bhushanjire@gmail.com',
+      to: emailId,
+      subject: subject,
+      //  text: body //for text email
+      html: body //for html email
+  };
+
+  transporter.sendMail(mailOptions,(error, info)=> {
+      if (error) {
+          responce.status(400).send(ResponceFormat.setResponce(400,false,'Error in send forgot password mail',error));
+      } else {
+        responce.status(200).send(ResponceFormat.setResponce(200,true,'Forgot password email send successfully',info));
+
+      }
+  });
   }
 }
 export = User;

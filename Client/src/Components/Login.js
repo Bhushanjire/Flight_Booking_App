@@ -169,10 +169,10 @@ let Login = (props) => {
                         Sign In
                       </button>
                       &nbsp;&nbsp;
-                      <Link  to="/" className="ml-2">
-                        <button type="button" className="btn btn-danger">
-                          Cancel
-                        </button>
+                      <Link  to="/forgot-password" className="ml-2">
+                        {/* <button type="button" className="btn btn-danger"> */}
+                          Forgot Password
+                        {/* </button> */}
                       </Link>
                     </center>
                   </div>
