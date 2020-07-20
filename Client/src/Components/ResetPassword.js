@@ -1,13 +1,17 @@
-import React,{useState} from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams,useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import { resetPassword } from "../Services/PreloginApi";
+import { loading } from "../Redux/Actions";
+import { useDispatch } from "react-redux";
+
+
+
 
 const useStyles = makeStyles({
   root: {
@@ -28,23 +32,41 @@ const useStyles = makeStyles({
 const ResetPassword = () => {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const history = useHistory();
   let { emailId } = useParams();
-  const [data,setData] = useState(
-      {
-          newPassword : "",
-          confirmPassword : ""
-      }
-  )
+  const dispatch = useDispatch();
 
-  const onInputChange = (event)=>{
-    setData({...data ,[event.target.name] : event.target.value});
-  }
+  const [data, setData] = useState({
+    newPassword: "",
+    confirmPassword: "",
+    emailId: emailId,
+  });
 
-  const resetPasswordHandler = (event)=>{
-    event.preventDefault()
-    console.log('Form data',data);
-    
-  }
+  const onInputChange = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const resetPasswordHandler = (event) => {
+    event.preventDefault();
+    dispatch(loading(true));
+
+    resetPassword(data)
+      .then((result) => {
+        let apiResponce = result.data;
+        if (apiResponce.isSuccess) {
+            history.push('/login');
+          console.log("apiResponce", apiResponce);
+        }
+        dispatch(loading(false));
+
+      })
+      .catch((error) => {
+        dispatch(loading(false));
+
+        console.log("Error in reset password", error);
+      });
+    console.log("Form data", data);
+  };
 
   return (
     <>
@@ -67,9 +89,9 @@ const ResetPassword = () => {
                       label="New Password"
                       placeholder="Enter new password"
                       name="newPassword"
-                      style = {{width : '100%'}}
+                      style={{ width: "100%" }}
                       required
-                      value = {data.newPassword}
+                      value={data.newPassword}
                       onChange={onInputChange}
                     />
                   </div>
@@ -81,9 +103,9 @@ const ResetPassword = () => {
                       label="Confirm Password"
                       placeholder="Enter confirm password"
                       name="confirmPassword"
-                      style = {{width : '100%'}}
+                      style={{ width: "100%" }}
                       required
-                      value = {data.confirmPassword}
+                      value={data.confirmPassword}
                       onChange={onInputChange}
                     />
                   </div>

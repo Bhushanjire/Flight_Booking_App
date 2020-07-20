@@ -6,17 +6,22 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { forgotPassword } from "../Services/PreloginApi";
+import { loading } from "../Redux/Actions";
+import { useDispatch } from "react-redux";
+
+
 const ForgotPassword = () => {
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
   const [data, setData] = useState({
-    emailid: "",
+    emailId: "",
   });
-
 
   useEffect(() => {
     // handleClickOpen();
-  },[]);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,8 +37,22 @@ const ForgotPassword = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("formdata", data);
-    handleClose();
+    if (data.emailId != "") {
+        dispatch(loading(true));
+      forgotPassword(data)
+        .then((result) => {
+          let apiResponce = result.data;
+          if (apiResponce.isSuccess) {
+            console.log("Forgot Password", apiResponce);
+            handleClose();
+          }
+          dispatch(loading(false));
+        })
+        .catch((error) => {
+          dispatch(loading(false));
+          console.log("Error in forgot password", error);
+        });
+    }
   };
   return (
     <>
@@ -41,7 +60,7 @@ const ForgotPassword = () => {
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Open form dialog
         </Button>
-        <form onSubmit={submitHandler}>
+        <form autoComplete="off" onSubmit={submitHandler}>
           <Dialog
             open={open}
             onClose={handleClose}
@@ -60,10 +79,9 @@ const ForgotPassword = () => {
                 label="Email Address"
                 type="email"
                 fullWidth
-                type="email"
                 onChange={(e) => onInputChange(e)}
-                name="emailid"
-                value={data.emailid}
+                name="emailId"
+                value={data.emailId}
                 required
               />
             </DialogContent>

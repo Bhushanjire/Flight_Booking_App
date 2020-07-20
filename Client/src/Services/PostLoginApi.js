@@ -22,3 +22,4 @@ export const getBookingById = (data)=>{
 export const updateBooking = (data)=>{
   return httpMethod.POST("/flightBooking/update", data);
 }
+

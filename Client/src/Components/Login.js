@@ -68,6 +68,8 @@ let Login = (props) => {
           }
         })
         .catch((error) => {
+          dispatch(loading(false));
+          setIsValid({ isValid: true });
           console.log("Error in login", error);
         });
 
