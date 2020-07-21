@@ -204,7 +204,7 @@ const SignIn = () => {
                         Sign Up
                       </button>
                       &nbsp;&nbsp;
-                      <Link exact to="/" className="ml-2">
+                      <Link  to="/" className="ml-2">
                         <button type="button" className="btn btn-danger">
                           Cancel
                         </button>
@@ -213,7 +213,7 @@ const SignIn = () => {
                   </div>
                   <div>
                     <center>
-                      <Link exact to="/login" className="ml-2">
+                      <Link  to="/login" className="ml-2">
                         Sign In
                       </Link>
                     </center>

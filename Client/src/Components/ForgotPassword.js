@@ -7,14 +7,15 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { forgotPassword } from "../Services/PreloginApi";
-import { loading } from "../Redux/Actions";
-import { useDispatch } from "react-redux";
+import { loading, popup } from "../Redux/Actions";
+import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ForgotPassword = (props) => {
-  console.log("props", props);
   const [open, setOpen] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
   const dispatch = useDispatch();
-
+  const popupState = useSelector((state) => state.popupReducer);
   const [data, setData] = useState({
     emailId: "",
   });
@@ -29,7 +30,10 @@ const ForgotPassword = (props) => {
 
   const handleClose = () => {
     setOpen(false);
-    console.log('handleClose called');
+    let popupData = {
+      forgotPassword: false,
+    };
+    dispatch(popup(popupData));
   };
 
   const onInputChange = (event) => {
@@ -38,6 +42,13 @@ const ForgotPassword = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10
+      );
+    }, 400);
+
     if (data.emailId != "") {
       dispatch(loading(true));
       forgotPassword(data)
@@ -45,7 +56,12 @@ const ForgotPassword = (props) => {
           let apiResponce = result.data;
           if (apiResponce.isSuccess) {
             handleClose();
+            setData({
+              emailId: "",
+            });
+            setProgress(0);
           }
+          clearInterval(timer);
           dispatch(loading(false));
         })
         .catch((error) => {
@@ -57,12 +73,9 @@ const ForgotPassword = (props) => {
   return (
     <>
       <div>
-        {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Open form dialog
-        </Button> */}
         <form autoComplete="off" onSubmit={submitHandler}>
           <Dialog
-            open={props.isOpen}
+            open={popupState.forgotPassword}
             onClose={handleClose}
             aria-labelledby="form-dialog-title"
           >
@@ -71,7 +84,9 @@ const ForgotPassword = (props) => {
               <DialogContentText>
                 Enter your email ID to get reset password password link
               </DialogContentText>
-
+              <center>
+                <CircularProgress variant="static" value={progress} color="secondary" className="loading" />
+              </center>
               <TextField
                 autoFocus
                 margin="dense"
@@ -79,7 +94,7 @@ const ForgotPassword = (props) => {
                 label="Email Address"
                 type="email"
                 fullWidth
-                onChange={(e) => onInputChange(e)}
+                onChange={onInputChange}
                 name="emailId"
                 value={data.emailId}
                 required
@@ -89,7 +104,11 @@ const ForgotPassword = (props) => {
               <Button onClick={handleClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={submitHandler} color="primary">
+              <Button
+                onClick={submitHandler}
+                variant="contained"
+                color="secondary"
+              >
                 Send
               </Button>
             </DialogActions>

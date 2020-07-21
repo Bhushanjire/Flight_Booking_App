@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../Redux/Actions";
-import { loading } from "../Redux/Actions";
+import { loading,popup } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
 import ForgotPassword from '../Components/ForgotPassword';
 
@@ -66,6 +66,7 @@ let Login = (props) => {
             setIsValid({ isValid: false });
             history.push("/");
           }else{
+            dispatch(loading(false));
             setIsValid({ isValid: true });
           }
         })
@@ -92,6 +93,7 @@ let Login = (props) => {
       //     console.log("Error in login", error);
       //   });
     } else {
+      dispatch(loading(false));
       console.log("Record not found");
     }
   };
@@ -107,12 +109,16 @@ let Login = (props) => {
   };
 
   const openPopup =()=>{
-    setError({...error,isOpen : true})
+    let popupData={
+      forgotPassword : true
+    }
+    dispatch(popup(popupData));
+
   }
 
   return (
     <React.Fragment>
-      <ForgotPassword isOpen = {error.isOpen}/>
+      <ForgotPassword/>
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">

@@ -55,7 +55,6 @@ const ResetPassword = () => {
         let apiResponce = result.data;
         if (apiResponce.isSuccess) {
             history.push('/login');
-          console.log("apiResponce", apiResponce);
         }
         dispatch(loading(false));
 
@@ -89,7 +88,7 @@ const ResetPassword = () => {
                       label="New Password"
                       placeholder="Enter new password"
                       name="newPassword"
-                      style={{ width: "100%" }}
+                      fullWidth
                       required
                       value={data.newPassword}
                       onChange={onInputChange}

@@ -6,6 +6,7 @@ import {
   GET_MY_BOOKING,
   LOADING,
   FILTER,
+  FORGOTPOPUP
 } from "../../Constants/index";
 import axios from "axios";
 
@@ -81,3 +82,10 @@ export const filter = (data) => {
     });
   };
 };
+
+export const popup=(data)=>{
+  return {
+    type : FORGOTPOPUP,
+    payload : data
+  }
+}

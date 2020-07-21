@@ -5,6 +5,7 @@ export const GET_MY_BOOKING = "GET_MY_BOOKING";
 export const LOADING = "LOADING";
 export const FLIGHT_SEARCH = "FLIGHT_SEARCH";
 export const FILTER="FILTER";
+export const FORGOTPOPUP = "FORGOTPOPUP"
 
 
 export const apiResponce = {
