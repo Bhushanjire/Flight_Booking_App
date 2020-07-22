@@ -19,6 +19,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { getUserBooking } from "../Services/PostLoginApi";
+import moment from 'moment';
 // require("bootstrap/less/bootstrap.less");
 
 class MyBooking extends Component {
@@ -333,8 +334,8 @@ class MyBooking extends Component {
               />
             </div>
           </div> */}
-          <Paper className={{ width: "100%" }}>
-            <TableContainer className={{ maxHeight: "440" }}>
+          <Paper>
+            <TableContainer>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow>
@@ -375,7 +376,7 @@ class MyBooking extends Component {
                         {row?.flightScheduleId?.toCityId?.name}
                       </TableCell>
                       <TableCell align="center">
-                        {row?.flightScheduleId?.scheduleDate}
+                        { moment(row?.flightScheduleId?.scheduleDate).format('MMMM Do YYYY') }
                       </TableCell>
                       <TableCell align="center">
                         {row?.flightScheduleId?.departuteTime}

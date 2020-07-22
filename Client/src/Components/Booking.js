@@ -9,6 +9,9 @@ import { loading } from "../Redux/Actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChair } from "@fortawesome/free-solid-svg-icons";
 import Button from "@material-ui/core/Button";
+import Paypal from "../Components/Paypal";
+import moment from 'moment';
+
 import {
   getFlightSchedulById,
   createBooking,
@@ -97,12 +100,20 @@ const Booking = () => {
     duration: "",
   });
 
-  const loadSchedule = (scheduleId) => {
+  useEffect(() => {
+    if (mode == "add") {
+      loadSchedule(id);
+    } else {
+      loadBookingUpdate(id);
+    }
+  }, []);
+
+  const loadSchedule = async (scheduleId) => {
     dispatch(loading(true));
     let postData = {
       id: scheduleId,
     };
-    getFlightSchedulById(postData)
+    await getFlightSchedulById(postData)
       .then((result) => {
         let apiResponce = result.data;
         if (apiResponce.isSuccess) {
@@ -125,14 +136,6 @@ const Booking = () => {
     //   });
   };
 
-  useEffect(() => {
-    if (mode == "add") {
-      loadSchedule(id);
-    } else {
-      loadBookingUpdate(id);
-    }
-  }, []);
-
   const loadBookingUpdate = (bookingId) => {
     dispatch(loading(true));
     let postData = {
@@ -142,8 +145,6 @@ const Booking = () => {
       .then((result) => {
         let apiResponce = result.data;
         if (apiResponce.isSuccess) {
-          console.log('Booking Details',apiResponce);
-          
           loadSchedule(apiResponce.data.flightScheduleId);
           setSelectedSeat(apiResponce.data.seactNumbers);
           setPreviousBooked(apiResponce.data);
@@ -422,7 +423,9 @@ const Booking = () => {
                 </div>
                 <div className="row  mb-2">
                   <div className="col-md-12 text-center">
-                    {bookingDetails?.scheduleDate}
+                    {moment(bookingDetails?.scheduleDate).format(
+                      "MMMM Do YYYY"
+                    )}
                   </div>
                 </div>
                 <div className="row mb-2">
@@ -488,6 +491,11 @@ const Booking = () => {
                             ? "Confirm & Book"
                             : "Confirm & Update"}
                         </Button>
+                        {mode == "add" ? (
+                          <Paypal amount={bookingDetails?.price * noOfPerson} />
+                        ) : (
+                          ""
+                        )}
                         &nbsp;
                         <Link exact to="/" className="ml-2">
                           {/* <button type="button" className="btn btn-danger">

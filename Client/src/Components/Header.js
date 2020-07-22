@@ -4,12 +4,7 @@ import "../Css/Header.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlane, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import {
-  Link,
-  NavLink,
-  useLocation,
-  useHistory,
-} from "react-router-dom";
+import { Link, NavLink, useLocation, useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -18,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Tooltip from "@material-ui/core/Tooltip";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +85,6 @@ const Header = (props) => {
               <span>
                 {Auth.authenticated() && (
                   <Link
-                    exact
                     to={`/my-booking/${_id}`}
                     className={`mr-2 ${route == "/my-booking" ? "active" : ""}`}
                     onClick={(e) => selectedLink(e, "/my-booking")}
@@ -119,7 +115,6 @@ const Header = (props) => {
 
             {!Auth.authenticated() && (
               <NavLink
-                exact
                 to="/sign-up"
                 className={`ml-2 ${route == "/sign-up" ? "active" : ""}`}
                 onClick={(e) => selectedLink(e, "/sign-up")}
@@ -132,12 +127,15 @@ const Header = (props) => {
               // <a href="#" type="button" onClick={(e) => logout(e)}>
               //   Logout
               // </a>
-              <FontAwesomeIcon
-                icon={faSignOutAlt}
-                onClick={(e) => logout(e)}
-                className="logout-icon"
-                title="Logout"
-              />
+
+              <Tooltip title="Logout">
+                <ExitToAppIcon onClick={(e) => logout(e)} className="logout-icon"/>
+              </Tooltip>
+              // <FontAwesomeIcon
+              //   icon={faSignOutAlt}
+              //   onClick={(e) => logout(e)}
+              //   className="logout-icon"
+              // />
             )}
           </Toolbar>
         </AppBar>
