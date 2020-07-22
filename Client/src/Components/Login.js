@@ -9,6 +9,7 @@ import { loginUser } from "../Redux/Actions";
 import { loading,popup } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
 import ForgotPassword from '../Components/ForgotPassword';
+import AlertSuccess from '../Components/AlertSuccess';
 
 let Login = (props) => {
   const {pristine, submitting } = props;
@@ -119,6 +120,7 @@ let Login = (props) => {
   return (
     <React.Fragment>
       <ForgotPassword/>
+      <AlertSuccess/>
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">
