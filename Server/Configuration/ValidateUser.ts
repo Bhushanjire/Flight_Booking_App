@@ -11,7 +11,7 @@ class ValidateUser {
         jwt.verify(token, "flightBooking", (error, result) => {
           if (error) {
             return responce
-              .status(401)
+              .status(200)
               .send(
                 ResponceFormat.setResponce(401, false, "Error in token", error)
               );
@@ -20,7 +20,7 @@ class ValidateUser {
               next();
             } else {
               return responce
-                .status(401)
+                .status(200)
                 .send(
                   ResponceFormat.setResponce(401, false, "Token expired", error)
                 );

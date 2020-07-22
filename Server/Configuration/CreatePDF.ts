@@ -6,11 +6,11 @@ import nodemailer = require("nodemailer");
 class PDF {
   constructor() {}
   createPDF(bookingData : any) {
-      console.log('Booking Data',bookingData);
-      
+    //   console.log('Booking Data',bookingData);
     var options = { format: "Letter" };
     // console.log('qqq',q);
-    let data = `<div style="margin-left : 40%">E-Ticket</div>
+    let data = `<div style="margin-left : 40%">
+            <center>E-Ticket</center></div>
         <br>
         <div style="margin-left : 20%;font-size : 12px">
           <table border="1" cellspacing="0" cellpadding="1">
@@ -65,9 +65,7 @@ class PDF {
           if (err) {
               console.log('Error while PDF create',err);
           } else {
-
             // console.log('PDF created successfully',res);
-
             const transporter = nodemailer.createTransport({
                 servicee: "gmail",
                 host: "smtp.gmail.com",

@@ -20,13 +20,12 @@ api.interceptors.request.use(function (config) {
 
 api.interceptors.response.use(function (response) {
   if (response.data.statusCode === 401) {
-      alert(response.data.message)
+    alert('Token Expired');
     // message.error(response.data.message);
-    localStorage.removeItem("logindata");
+    localStorage.removeItem("react-user");
 
     window.location = "/";
   }
-  console.log(response);
   return response;
 });
 
