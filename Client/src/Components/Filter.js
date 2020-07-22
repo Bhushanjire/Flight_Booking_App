@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { filter } from "../Redux/Actions/index";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import Divider from "@material-ui/core/Divider";
 

@@ -9,7 +9,6 @@ import Pagination from "react-js-pagination";
 import ViewBookingPopup from "./ViewBookingPopup";
 import ConfirmPopup from "../Components/ConfirmPopup";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";

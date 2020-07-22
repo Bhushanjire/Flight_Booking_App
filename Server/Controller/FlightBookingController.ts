@@ -3,6 +3,7 @@ import FlightBookingSchema = require("../Database/Schema/FlightBookingSchema");
 import FlighScheduleSchema = require("../Database/Schema/FlightScheduleSchema");
 import UserSchema = require("../Database/Schema/UserSchema");
 import ResponeFormat = require("../Configuration/ResponceFormat");
+import PDF from '../Configuration/CreatePDF';
 
 class FlightBookingController {
   constructor() {}
@@ -64,6 +65,47 @@ class FlightBookingController {
                           createResult
                         )
                       );
+                      FlightBookingSchema.findOne({ _id: createResult._id }, (error, result) => {
+                        if (error) {
+                          responce
+                            .status(400)
+                            .send(
+                              ResponeFormat.setResponce(
+                                400,
+                                false,
+                                "Error while retrive by id flight booking",
+                                error
+                              )
+                            );
+                        } else {
+                          let obj = new PDF();
+                          obj.createPDF(result);
+                        }
+                      }).populate([
+                        {
+                          path: "userId",
+                          model: "Users",
+                        },
+                        {
+                          path: "flightScheduleId",
+                          model: "FlightSchedule",
+                          populate: [
+                            {
+                              path: "flightId",
+                              model: "Flight",
+                            },
+                            {
+                              path: "fromCityId",
+                              model: "City",
+                            },
+                            {
+                              path: "toCityId",
+                              model: "City",
+                            },
+                          ],
+                        },
+                      ]);
+
                   }
                 }
               );

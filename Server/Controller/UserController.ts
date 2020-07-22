@@ -5,13 +5,13 @@ import jwt = require("jsonwebtoken");
 import bcrypt = require("bcrypt");
 import nodemailer = require("nodemailer");
 import waterfall = require("async-waterfall");
-import braintree =require('braintree');
+import braintree = require("braintree");
 
 class User {
- public gateway 
+  public gateway;
   constructor() {
-     this.gateway = braintree.connect({
-      accessToken: process.env.ACCESS_TOKEN
+    this.gateway = braintree.connect({
+      accessToken: process.env.ACCESS_TOKEN,
     });
   }
   login = (request: express.request, responce: express.request) => {
@@ -232,13 +232,19 @@ class User {
 <div><a href=http://localhost:3000/reset-password/${emailId}> <button style="background-color: #3158c1; padding: 10px 30px 10px 30px; border-radius: 10px; color: white;cursor: pointer;" type="button"> Reset your password</button> </a></div>
 </center></div>`;
 
-          
             const mailOptions = {
               from: "bhushanjire@gmail.com",
               to: emailId,
               subject: subject,
               //  text: body //for text email
-              html: body1, //for html email
+              html: body1, //for html email,
+              attachments: [
+                {
+                  // file on disk as an attachment
+                  filename: "businesscard.pdf",
+                  path: "./assets/files/businesscard.pdf", // stream this file
+                },
+              ],
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -328,16 +334,30 @@ class User {
       }
     });
   }
-clientToken(request : express.request,responce : express.request){
-  this.gateway.clientToken.generate({}, function (error, clientResponse) {
-    if(error){
-      responce.status(400).send(ResponceFormat.setResponce(400,false,'Error in client token',error))
-    }else{
-      responce.status(200).send(200,true,'Client token generated successfully',  clientResponse.clientToken);
-    }
-  });
-}
-
-
+  clientToken(request: express.request, responce: express.request) {
+    this.gateway.clientToken.generate({}, function (error, clientResponse) {
+      if (error) {
+        responce
+          .status(400)
+          .send(
+            ResponceFormat.setResponce(
+              400,
+              false,
+              "Error in client token",
+              error
+            )
+          );
+      } else {
+        responce
+          .status(200)
+          .send(
+            200,
+            true,
+            "Client token generated successfully",
+            clientResponse.clientToken
+          );
+      }
+    });
+  }
 }
 export = User;
