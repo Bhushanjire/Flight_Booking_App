@@ -12,6 +12,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import {flightSearch} from '../Redux/Actions';
+import { useDispatch, useSelector } from "react-redux";
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -40,13 +43,12 @@ const Flights = (props) => {
   let {fromCityName,toCityName,travelDate, noOfPerson } = props.flightData;
 
   // Using Redux
-  // const searchFlight = useSelector((state) => state.flightReducer)[0];
-  // useSelector((state) => {
-  //   if (state.flightReducer.flightList.length > 0) {
-  //     console.log("flightSearchRedux", state.flightReducer.flightSearch);
-  //     console.log("flightListRedux", state.flightReducer.flightList);
-  //   }
-  // });
+  const filterReducer = useSelector((state) => {
+    console.log('state',state);
+    console.log('state.filterReducer',state.filterReducer);
+    return state.filterReducer;
+  });
+ 
 
   // let { fromCity, toCity, travelDate, noOfPerson } = searchFlight;
 
@@ -126,7 +128,7 @@ const Flights = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.flightList.map((row) => (
+            {filterReducer.data.map((row) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell align="center">
                   {row.flightId.flightName}

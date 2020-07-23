@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 // import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
-import { connect } from "react-redux";
-import { filter } from "../Redux/Actions/index";
+import { connect,useDispatch } from "react-redux";
+import { filter,flightSearch } from "../Redux/Actions/index";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
@@ -19,7 +19,11 @@ class Filter extends Component {
   }
 
   submitHandler = (e) => {
-    this.props.filter(this.state);
+    let data = {
+      other : this.state
+    }
+    this.props.flightSearch(data);
+
     console.log("Button click", e);
   };
 
@@ -47,7 +51,10 @@ class Filter extends Component {
       price: 1500,
       company: [],
     });
-    this.props.filter(this.state);
+    let data = {
+      other : this.state
+    }
+    this.props.flightSearch(data);
   };
 
   render() {
@@ -149,6 +156,6 @@ const mapStateToProps = (state) => ({
   state,
 });
 
-export default connect(mapStateToProps, { filter })(Filter);
+export default connect(mapStateToProps, { flightSearch })(Filter);
 
 // export default Filter;

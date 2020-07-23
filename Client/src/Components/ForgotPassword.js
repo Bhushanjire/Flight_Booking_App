@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { forgotPassword } from "../Services/PreloginApi";
-import { loading, popup } from "../Redux/Actions";
+import { loading, popup,alert } from "../Redux/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -60,11 +60,23 @@ const ForgotPassword = (props) => {
               emailId: "",
             });
             setProgress(0);
+            dispatch(alert({
+              status : true,
+              severity : "success",
+              message : "Email sent successfully,please check your email..."
+            }))
           }
           clearInterval(timer);
           dispatch(loading(false));
         })
         .catch((error) => {
+          dispatch(alert({
+            status : true,
+            severity : "error",
+            message : "Email ID is not registered..."
+          }))
+          setProgress(0);
+          clearInterval(timer);
           dispatch(loading(false));
           console.log("Error in forgot password", error);
         });

@@ -5,6 +5,8 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { alert } from '../Redux/Actions/';
+import { AlertTitle } from '@material-ui/lab';
+
 
 
 function Alert(props) {
@@ -50,6 +52,7 @@ const AlertSuccess = () => {
       {
         alertState.status && <Snackbar open={alertState.status} autoHideDuration={3000} onClose={handleClose} className="alert-message">
           <Alert onClose={handleClose} severity={alertState.severity}>
+            <AlertTitle>{(alertState.severity).charAt(0).toUpperCase() + (alertState.severity).slice(1)}</AlertTitle>
             {alertState.message}
           </Alert>
         </Snackbar>

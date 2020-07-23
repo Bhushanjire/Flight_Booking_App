@@ -9,6 +9,10 @@ import {
   FORGOTPOPUP,
   ALERT_MESSAGE
 } from "../../Constants/index";
+import { useDispatch } from "react-redux";
+
+import { getSeacrhFlight } from "../../Services/PostLoginApi";
+
 import axios from "axios";
 
 export const addUser = (data) => {
@@ -35,12 +39,30 @@ export const loginUser = (data) => {
   };
 };
 
-export const flightSearch = (data) => {
+export const flightSearch = (searchData) => {
+  return function fetchData(dispatch){
+    getSeacrhFlight(searchData.filter).then((result)=>{
+      let apiResponce = result.data;
+      dispatch(setFlightSearch({
+        filter : searchData.filter,
+        data : apiResponce.data,
+        other :searchData.other
+      }))
+    }).catch((error)=>{
+      console.log('Error in floght search',error);
+    })
+  }
+  
+};
+
+export const setFlightSearch = (data)=>{
+  console.log('Payload Data',data);
+  
   return {
     type: FLIGHT_SEARCH,
-    payload: data,
+    payload: data
   };
-};
+}
 
 export const getFlightScheduleList = (data) => {
   return {

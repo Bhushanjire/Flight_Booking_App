@@ -1,12 +1,16 @@
-import { FILTER } from "../../Constants";
+import { FLIGHT_SEARCH } from "../../Constants";
 const initial = {
-    price : '',
-    company : []
+  filter: {},
+  data: [],
+  other: {}
 }
-const filterReducer = (state=initial , action) => {
+const filterReducer = (state = initial, action) => {
+
+  console.log('state in reducer',state);
+  
   switch (action.type) {
-    case FILTER:
-      return action.payload;
+    case FLIGHT_SEARCH:
+      return {...state,...action.payload };
     default:
       return state;
   }

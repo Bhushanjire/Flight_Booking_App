@@ -237,14 +237,7 @@ class User {
               to: emailId,
               subject: subject,
               //  text: body //for text email
-              html: body1, //for html email,
-              attachments: [
-                {
-                  // file on disk as an attachment
-                  filename: "businesscard.pdf",
-                  path: "./assets/files/businesscard.pdf", // stream this file
-                },
-              ],
+              html: body1 //for html email,
             };
 
             transporter.sendMail(mailOptions, (error, info) => {

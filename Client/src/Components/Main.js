@@ -82,7 +82,11 @@ const Main = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(flightSearch(flight));
+    let filterData = {
+      filter : flight,
+      data : []
+    }
+    dispatch(flightSearch(filterData));
     dispatch(loading(true));
     loadData();
   };
@@ -97,7 +101,7 @@ const Main = () => {
         let apiResponce = result.data;
         if(apiResponce.isSuccess){
           setFlightList(apiResponce.data);
-          dispatch(getFlightScheduleList(apiResponce.data));
+         // dispatch(getFlightScheduleList(apiResponce.data));
         }
         dispatch(loading(false));
       })
