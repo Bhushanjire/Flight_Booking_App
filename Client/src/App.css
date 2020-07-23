@@ -51,3 +51,12 @@
 .hand-cursor{
   cursor: pointer;
 }
+
+.alert-message{
+  position: absolute;
+  left: 20%;
+  margin-left: 30%;
+  top: -60%;
+  z-index: 1;
+  width: 30%;
+}

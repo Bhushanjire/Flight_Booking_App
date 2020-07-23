@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Auth from "../Services/Auth";
 import {useDispatch } from "react-redux";
-import {loading } from "../Redux/Actions/";
+import {loading,alert } from "../Redux/Actions/";
 import { signUp } from "../Services/PreloginApi";
 
 const SignIn = () => {
@@ -57,18 +57,33 @@ const SignIn = () => {
             password: "",
           });
           setValidation({ ...validation, isSuccess: true });
+          dispatch(alert({
+            status : true,
+            severity : "success",
+            message : "Signup successfull...."
+          }))
           setTimeout(() => {
             history.push("/login");
           }, 2000);
         } else {
           dispatch(loading(false));
-          setValidation({ ...validation, isEmailExist: true });
+          dispatch(alert({
+            status : true,
+            severity : "error",
+            message : "Email ID already exists..."
+          }))
+          // setValidation({ ...validation, isEmailExist: true });
           console.log("Error in signup");
         }
       })
       .catch((error) => {
         dispatch(loading(false));
-        setValidation({ ...validation, isEmailExist: true });
+        dispatch(alert({
+          status : true,
+          severity : "error",
+          message : "Email ID already exists..."
+        }))
+        // setValidation({ ...validation, isEmailExist: true });
         console.log("Error in signup");
       });
     // Auth.checkEmailExist(emailId)

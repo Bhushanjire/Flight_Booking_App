@@ -6,7 +6,8 @@ import {
   GET_MY_BOOKING,
   LOADING,
   FILTER,
-  FORGOTPOPUP
+  FORGOTPOPUP,
+  ALERT_MESSAGE
 } from "../../Constants/index";
 import axios from "axios";
 
@@ -86,6 +87,13 @@ export const filter = (data) => {
 export const popup=(data)=>{
   return {
     type : FORGOTPOPUP,
+    payload : data
+  }
+}
+
+export const alert=(data)=>{
+  return {
+    type : ALERT_MESSAGE,
     payload : data
   }
 }

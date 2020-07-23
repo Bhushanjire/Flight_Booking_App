@@ -5,11 +5,10 @@ import Auth from "../Services/Auth";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../Redux/Actions";
+import { loginUser,alert } from "../Redux/Actions";
 import { loading,popup } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
 import ForgotPassword from '../Components/ForgotPassword';
-import AlertSuccess from '../Components/AlertSuccess';
 
 let Login = (props) => {
   const {pristine, submitting } = props;
@@ -64,6 +63,11 @@ let Login = (props) => {
               JSON.stringify(apiResponce.data)
             );
             dispatch(loginUser(apiResponce.data));
+            dispatch(alert({
+              status : true,
+              severity : "success",
+              message : 'Login successfull...'
+            }))
             setIsValid({ isValid: false });
             history.push("/");
           }else{
@@ -74,6 +78,11 @@ let Login = (props) => {
         .catch((error) => {
           dispatch(loading(false));
           setIsValid({ isValid: true });
+          dispatch(alert({
+            status : true,
+            severity : "error",
+            message : 'Wrong username/password'
+          }))
           console.log("Error in login", error);
         });
 
@@ -120,7 +129,6 @@ let Login = (props) => {
   return (
     <React.Fragment>
       <ForgotPassword/>
-      <AlertSuccess/>
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">
@@ -171,11 +179,11 @@ let Login = (props) => {
                       type="password"
                     /> */}
                   </div>
-                  {isValid && (
+                  {/* {isValid && (
                     <div className="alert alert-danger" role="alert">
                       Wrong Username/password
                     </div>
-                  )}
+                  )} */}
                   <div className="form-group">
                     <center>
                       <button
