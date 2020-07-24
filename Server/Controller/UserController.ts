@@ -179,9 +179,9 @@ class User {
   clientToken(request: express.request, responce: express.request) {
     this.gateway.clientToken.generate({}, function (error, clientResponse) {
       if (error) {
-        responce.status(400).send(ResponceFormat.setResponce(400,false,"Error in client token",error));
+        responce.status(400).send(ResponceFormat.setResponce(400, false, "Error in client token", error));
       } else {
-        responce.status(200).send(200,true,"Client token generated successfully",clientResponse.clientToken);
+        responce.status(200).send(200, true, "Client token generated successfully", clientResponse.clientToken);
       }
     });
   }
@@ -193,6 +193,17 @@ class User {
         responce.status(400).send(ResponceFormat.setResponce(400, false, 'Error in get user data', error));
       } else {
         responce.status(200).send(ResponceFormat.setResponce(200, true, 'User Data', result));
+      }
+    })
+  }
+
+  updateById(request: express.request, responce: express.request) {
+    let { userId, user } = request.body;
+    UserSchema.update({ _id: userId }, { $set: { user } },{new : true}, (error, result) => {
+      if (error) {
+        responce.status(400).send(ResponceFormat.setResponce(400, false, 'Error in update user data', error));
+      } else {
+        responce.status(200).send(ResponceFormat.setResponce(200, true, 'User data updated successfully', result));
       }
     })
   }

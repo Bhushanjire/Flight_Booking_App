@@ -6,31 +6,35 @@ const UserSchema = new Mongoose(
   {
     firstName: {
       type: String,
-      require: [true,'First name is required'],
+      require: [true, 'First name is required'],
     },
     lastName: {
       type: String,
-      require: [true,'Last name is required'],
+      require: [true, 'Last name is required'],
     },
     emailId: {
       type: String,
-      require: [true,'Email id is required'],
+      require: [true, 'Email id is required'],
       unique: true,
-      trim : true
+      trim: true
     },
     mobileNo: {
       type: String,
-      require: [true,'Mobile No. is required'],
+      require: [true, 'Mobile No. is required'],
       unique: true,
     },
-    password : {
-      type : String,
-      trim : true,
+    photo: {
+      type: String,
+      default: null
     },
-    gender : {
-      type : String
+    password: {
+      type: String,
+      trim: true,
     },
-    salt : String,
+    gender: {
+      type: String
+    },
+    salt: String,
     token: {
       type: String,
     },

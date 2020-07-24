@@ -26,4 +26,7 @@ export const updateBooking = (data)=>{
 export const getUserData =(data)=>{
   return httpMethod.POST("/user/get-by-id", data);
 }
+export const updateUser =(data)=>{
+  return httpMethod.POST("/user/update", data);
+}
 

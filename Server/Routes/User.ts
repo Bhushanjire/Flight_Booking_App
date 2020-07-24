@@ -20,6 +20,8 @@ class UserRoutes {
     router.post("/user/forgot-password",controller.forgotPassword);
     router.post("/user/reset-password",controller.resetPassword);
     router.post("/user/get-by-id",controller.retriveById);
+    router.post("/user/update",controller.updateById);
+
 
 
     // router.post("/user/create-pdf",controller.createPDF);
