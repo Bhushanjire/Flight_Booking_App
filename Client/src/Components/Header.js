@@ -84,13 +84,22 @@ const Header = (props) => {
               &nbsp;&nbsp;
               <span>
                 {Auth.authenticated() && (
+                  <>
                   <Link
                     to={`/my-booking/${_id}`}
                     className={`mr-2 ${route == "/my-booking" ? "active" : ""}`}
                     onClick={(e) => selectedLink(e, "/my-booking")}
                   >
                     <Button style={{ color: "white" }}>My Bookings</Button>
+                  </Link> &nbsp;
+                  <Link
+                    to={`/profile/${_id}`}
+                    className={`mr-2 ${route == "/profile" ? "active" : ""}`}
+                    onClick={(e) => selectedLink(e, "/profile")}
+                  >
+                    <Button style={{ color: "white" }}>My Profile</Button>
                   </Link>
+                  </>
                 )}
               </span>
             </Typography>

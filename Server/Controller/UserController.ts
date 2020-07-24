@@ -18,65 +18,27 @@ class User {
     let { emailId, password } = request.body;
     UserSchema.findOne({ emailId: emailId }, (error, result) => {
       if (error) {
-        responce
-          .status(401)
-          .send(ResponceFormat.setResponce(401, false, "Login Error", error));
+        responce.status(401).send(ResponceFormat.setResponce(401, false, "Login Error", error));
       } else {
         if (result) {
           bcrypt.compare(password, result.password, function (err, hashResult) {
             if (err) {
-              responce
-                .status(201)
-                .send(
-                  ResponceFormat.setResponce(
-                    201,
-                    false,
-                    "Error in password compare",
-                    err
-                  )
-                );
+              responce.status(201).send(ResponceFormat.setResponce(201, false, "Error in password compare", err));
             } else {
               if (hashResult) {
-                jwt.sign(
-                  {
-                    data: result.emailId,
-                  },
-                  "flightBooking",
-                  { expiresIn: "1h" },
-                  (err, token) => {
-                    result.token = token;
-                    responce
-                      .status(200)
-                      .send(
-                        ResponceFormat.setResponce(
-                          200,
-                          true,
-                          "Login Successfull",
-                          result
-                        )
-                      );
-                  }
+                jwt.sign({ data: result.emailId }, "flightBooking", { expiresIn: "1h" }, (err, token) => {
+                  result.token = token;
+                  responce.status(200).send(ResponceFormat.setResponce(200, true, "Login Successfull", result));
+                }
                 );
               } else {
-                responce
-                  .status(401)
-                  .send(
-                    ResponceFormat.setResponce(
-                      401,
-                      false,
-                      "Wrong Password",
-                      null
-                    )
-                  );
+                responce.status(401).send(ResponceFormat.setResponce(401, false, "Wrong Password", null));
               }
             }
           });
         } else {
-          responce
-            .status(401)
-            .send(
-              ResponceFormat.setResponce(401, false, "Wrong Email", result)
-            );
+          responce.status(401).send(
+            ResponceFormat.setResponce(401, false, "Wrong Email", result));
         }
       }
     });
@@ -86,68 +48,23 @@ class User {
     let userData = request.body;
     UserSchema.findOne({ emailId: userData.emailId }, (error, emailResult) => {
       if (error) {
-        responce
-          .status(401)
-          .send(
-            ResponceFormat.setResponce(
-              401,
-              false,
-              "Error in email checking",
-              null
-            )
-          );
+        responce.status(401).send(ResponceFormat.setResponce(401, false, "Error in email checking", null));
       } else {
         if (emailResult) {
-          responce
-            .status(200)
-            .send(
-              ResponceFormat.setResponce(
-                200,
-                false,
-                "EmailID is already exist",
-                null
-              )
-            );
+          responce.status(200).send(ResponceFormat.setResponce(200, false, "EmailID is already exist", null));
         } else {
           let saltRounds = 10;
-
           bcrypt.hash(userData.password, saltRounds, function (err, hash) {
             if (err) {
-              responce
-                .status(400)
-                .send(
-                  ResponceFormat.setResponce(
-                    400,
-                    false,
-                    "error in password hashing",
-                    null
-                  )
-                );
+              responce.status(400).send(ResponceFormat.setResponce(400, false, "error in password hashing", null));
             } else {
               userData.password = hash;
               UserSchema.create(userData, (error, result) => {
                 if (error) {
-                  responce
-                    .status(400)
-                    .send(
-                      ResponceFormat.setResponce(
-                        400,
-                        false,
-                        "User signup error",
-                        error
-                      )
-                    );
+                  responce.status(400).send(ResponceFormat.setResponce(400, false, "User signup error", error));
                 } else {
-                  responce
-                    .status(200)
-                    .send(
-                      ResponceFormat.setResponce(
-                        200,
-                        true,
-                        "Signup successfully",
-                        result
-                      )
-                    );
+                  responce.status(200).send(
+                    ResponceFormat.setResponce(200, true, "Signup successfully", result));
                 }
               });
             }
@@ -160,17 +77,9 @@ class User {
   getAllUsers(request: express.request, responce: express.request) {
     UserSchema.find({}, (error, result) => {
       if (error) {
-        responce
-          .status(400)
-          .send(
-            ResponceFormat.setResponce(400, false, "Error in user list", null)
-          );
+        responce.status(400).send(ResponceFormat.setResponce(400, false, "Error in user list", null));
       } else {
-        responce
-          .status(200)
-          .send(
-            ResponceFormat.setResponce(200, true, "All users list", result)
-          );
+        responce.status(200).send(ResponceFormat.setResponce(200, true, "All users list", result));
       }
     });
   }
@@ -181,8 +90,6 @@ class User {
 
   forgotPassword(request: express.request, responce: express.request) {
     let { emailId } = request.body;
-    console.log("emailId", emailId);
-
     waterfall(
       [
         function (callback) {
@@ -193,16 +100,7 @@ class User {
               if (result) {
                 callback(null, result);
               } else {
-                responce
-                  .status(400)
-                  .send(
-                    ResponceFormat.setResponce(
-                      400,
-                      false,
-                      "Email ID is not exist",
-                      null
-                    )
-                  );
+                responce.status(400).send(ResponceFormat.setResponce(400, false, "Email ID is not exist", null));
               }
             }
           });
@@ -252,29 +150,10 @@ class User {
       ],
       function (error, info) {
         if (error) {
-          responce
-            .status(400)
-            .send(
-              ResponceFormat.setResponce(
-                400,
-                false,
-                "Error in send forgot password mail",
-                error
-              )
-            );
+          responce.status(400).send(ResponceFormat.setResponce(400, false, "Error in send forgot password mail", error));
         } else {
-          responce
-            .status(200)
-            .send(
-              ResponceFormat.setResponce(
-                200,
-                true,
-                "Forgot password email send successfully",
-                info
-              )
-            );
+          responce.status(200).send(ResponceFormat.setResponce(200, true, "Forgot password email send successfully", info));
         }
-        // result now equals 'done'
       }
     );
   }
@@ -283,44 +162,14 @@ class User {
     let saltRounds = 10;
     bcrypt.hash(newPassword, saltRounds, function (error, hash) {
       if (error) {
-        responce
-          .status(400)
-          .send(
-            ResponceFormat.setResponce(
-              400,
-              false,
-              "error in password hashing",
-              error
-            )
-          );
+        responce.status(400).send(ResponceFormat.setResponce(400, false, "error in password hashing", error));
       } else {
-        UserSchema.update(
-          { emailId: emailId },
-          { $set: { password: hash } },
-          { new: true },
+        UserSchema.update({ emailId: emailId }, { $set: { password: hash } }, { new: true },
           (error, result) => {
             if (error) {
-              responce
-                .status(400)
-                .send(
-                  ResponceFormat.setResponce(
-                    400,
-                    false,
-                    "Error in update password",
-                    error
-                  )
-                );
+              responce.status(400).send(ResponceFormat.setResponce(400, false, "Error in update password", error));
             } else {
-              responce
-                .status(200)
-                .send(
-                  ResponceFormat.setResponce(
-                    200,
-                    true,
-                    "Password reset successfully",
-                    result
-                  )
-                );
+              responce.status(200).send(ResponceFormat.setResponce(200, true, "Password reset successfully", result));
             }
           }
         );
@@ -330,27 +179,22 @@ class User {
   clientToken(request: express.request, responce: express.request) {
     this.gateway.clientToken.generate({}, function (error, clientResponse) {
       if (error) {
-        responce
-          .status(400)
-          .send(
-            ResponceFormat.setResponce(
-              400,
-              false,
-              "Error in client token",
-              error
-            )
-          );
+        responce.status(400).send(ResponceFormat.setResponce(400,false,"Error in client token",error));
       } else {
-        responce
-          .status(200)
-          .send(
-            200,
-            true,
-            "Client token generated successfully",
-            clientResponse.clientToken
-          );
+        responce.status(200).send(200,true,"Client token generated successfully",clientResponse.clientToken);
       }
     });
+  }
+
+  retriveById(request: express.request, responce: express.request) {
+    let { userId } = request.body;
+    UserSchema.findOne({ _id: userId }, (error, result) => {
+      if (error) {
+        responce.status(400).send(ResponceFormat.setResponce(400, false, 'Error in get user data', error));
+      } else {
+        responce.status(200).send(ResponceFormat.setResponce(200, true, 'User Data', result));
+      }
+    })
   }
 }
 export = User;

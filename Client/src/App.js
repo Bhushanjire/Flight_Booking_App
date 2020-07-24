@@ -12,6 +12,7 @@ import Protected from "./Components/Protected";
 import ForgotPassword from './Components/ForgotPassword';
 import ResetPassword from './Components/ResetPassword';
 import Alert from './Components/Alert';
+import Profile from './Components/Profile';
 
 import "./App.css";
 
@@ -61,6 +62,13 @@ function App() {
           component={ViewBooking}
         ></Protected>
         {/* <Route exact path="/view-booking/:id" component={ViewBooking} /> */}
+
+        <Protected
+          exact
+          path="/profile/:id"
+          component={Profile}
+        ></Protected>
+        
 
         <Route component={NotFound} />
       </Switch>
