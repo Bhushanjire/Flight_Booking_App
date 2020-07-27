@@ -13,6 +13,7 @@ import ForgotPassword from './Components/ForgotPassword';
 import ResetPassword from './Components/ResetPassword';
 import Alert from './Components/Alert';
 import Profile from './Components/Profile';
+import Dashboard from './Components/Dashboard';
 
 import "./App.css";
 
@@ -25,6 +26,7 @@ function App() {
   return (
     <React.Fragment>
       <Header />
+      {/* <Dashboard/> */}
       <Loading />
       <Alert/>
 
