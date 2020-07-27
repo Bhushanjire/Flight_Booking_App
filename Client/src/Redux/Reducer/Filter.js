@@ -10,7 +10,7 @@ const filterReducer = (state = initial, action) => {
   
   switch (action.type) {
     case FLIGHT_SEARCH:
-      return {...state,...action.payload };
+      return {...state, ...action.payload };
     default:
       return state;
   }

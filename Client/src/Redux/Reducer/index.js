@@ -5,6 +5,8 @@ import loadingReducer from "../Reducer/Loading";
 import filterReducer from '../Reducer/Filter';
 import popupReducer from '../Reducer/Popup';
 import alertReducer from '../Reducer/Alert';
+import { reducer as formReducer } from 'redux-form';
+
 
 const allReducer = combineReducers({
   userReducer,
@@ -12,7 +14,8 @@ const allReducer = combineReducers({
   loadingReducer,
   filterReducer,
   popupReducer,
-  alertReducer
+  alertReducer,
+  form: formReducer
 });
 
 export default allReducer;

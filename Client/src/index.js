@@ -6,8 +6,8 @@ import { createStore,applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import allReducers from "./Redux/Reducer/";
 import { BrowserRouter as Router } from "react-router-dom";
-import thunk from 'redux-thunk'
-import { logger } from 'redux-logger'
+import thunk from 'redux-thunk';
+import { logger } from 'redux-logger';
 
 const store = createStore(
   allReducers,

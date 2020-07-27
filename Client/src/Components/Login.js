@@ -5,13 +5,14 @@ import Auth from "../Services/Auth";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser,alert } from "../Redux/Actions";
-import { loading,popup } from "../Redux/Actions";
+import { loginUser, alert } from "../Redux/Actions";
+import { loading, popup } from "../Redux/Actions";
 import { login } from "../Services/PreloginApi";
 import ForgotPassword from '../Components/ForgotPassword';
+import ReduxForm from './ReduxForm';
 
 let Login = (props) => {
-  const {pristine, submitting } = props;
+  const { pristine, submitting } = props;
 
   let history = useHistory();
 
@@ -34,10 +35,10 @@ let Login = (props) => {
     emailRequired: false,
     passwordRequired: false,
     isValidEmail: false,
-    isOpen : false
+    isOpen: false
   });
 
-  useEffect(() => {}, [loginData.emailId, loginData.password]);
+  useEffect(() => { }, [loginData.emailId, loginData.password]);
 
   const onInputChange = (event) => {
     setLogin({ ...loginData, [event.target.name]: event.target.value });
@@ -64,13 +65,13 @@ let Login = (props) => {
             );
             dispatch(loginUser(apiResponce.data));
             dispatch(alert({
-              status : true,
-              severity : "success",
-              message : 'Login successfull...'
+              status: true,
+              severity: "success",
+              message: 'Login successfull...'
             }))
             setIsValid({ isValid: false });
             history.push("/");
-          }else{
+          } else {
             dispatch(loading(false));
             setIsValid({ isValid: true });
           }
@@ -79,9 +80,9 @@ let Login = (props) => {
           dispatch(loading(false));
           setIsValid({ isValid: true });
           dispatch(alert({
-            status : true,
-            severity : "error",
-            message : 'Wrong username/password'
+            status: true,
+            severity: "error",
+            message: 'Wrong username/password'
           }))
           console.log("Error in login", error);
         });
@@ -118,9 +119,9 @@ let Login = (props) => {
     });
   };
 
-  const openPopup =()=>{
-    let popupData={
-      forgotPassword : true
+  const openPopup = () => {
+    let popupData = {
+      forgotPassword: true
     }
     dispatch(popup(popupData));
 
@@ -128,7 +129,8 @@ let Login = (props) => {
 
   return (
     <React.Fragment>
-      <ForgotPassword/>
+      <ForgotPassword />
+      {/* <ReduxForm/> */}
       <div className="row">
         <div className="col-md-12">
           <div className="login-block">
@@ -195,8 +197,8 @@ let Login = (props) => {
                       </button>
                       &nbsp;&nbsp;
                       {/* <Link  to="/forgot-password" className="ml-2"> */}
-                        <button type="button" onClick={openPopup} className="btn btn-danger"> 
-                          Forgot Password
+                      <button type="button" onClick={openPopup} className="btn btn-danger">
+                        Forgot Password
                          </button>
                       {/* </Link> */}
                     </center>
@@ -204,7 +206,7 @@ let Login = (props) => {
                 </form>
                 <div>
                   <center>
-                    <Link  to="/sign-up" className="ml-2">
+                    <Link to="/sign-up" className="ml-2">
                       Sign Up
                     </Link>
                   </center>
